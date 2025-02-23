@@ -14,6 +14,8 @@ import { TestFavoritesModule } from './test-favorites/test-favorites.module';
 import { RatingModule } from './ratings/rating.module';
 import { TestSessionsModule } from './test-sessions/test-sessions.module';
 import { ProblemsModule } from './problems/problems.module';
+import { AnswersModule } from './answers/answers.module';
+import { UserAnswersModule } from './user-answers/user-answers.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -31,6 +33,8 @@ import { ProblemsModule } from './problems/problems.module';
   TestFavoritesModule,
   RatingModule,
   TestSessionsModule,
-  ProblemsModule],
+  ProblemsModule,
+  AnswersModule,
+  UserAnswersModule],
 })
 export class AppModule {}
