@@ -16,12 +16,12 @@ export class ProblemsController {
 
     @Get()
     getTags(){
-        return this.SubjectsService.getTags();
+        return this.SubjectsService.getProblem();
     }
 
     @Post()
     createTag(@Body() dto: CreateProblemDto){
-        return this.SubjectsService.createTag(dto);
+        return this.SubjectsService.createProblem(dto);
     }
 
 }
