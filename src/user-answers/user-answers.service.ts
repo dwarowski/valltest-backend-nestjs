@@ -12,11 +12,11 @@ export class UserAnswersService {
         private repository: Repository<UserAnswersEntity>
     ) {}
 
-    getTags(){
+    getUserAnswersByUser(){
             return this.repository.find()
         }
     
-    createTag(dto: CreateUserAnswerDto){
+    createUserAnswer(dto: CreateUserAnswerDto){
         return this.repository.save(dto)
     }
 
