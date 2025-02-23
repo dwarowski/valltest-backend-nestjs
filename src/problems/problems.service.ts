@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateProblemDto } from './dto/create-problem.dto';
 
 @Injectable()
-export class TagsService {
+export class ProblemsService {
     constructor(
             @InjectRepository(TagsEntity)
             private repository: Repository<TagsEntity>,

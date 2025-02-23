@@ -6,13 +6,13 @@ import {
     Body,
     Controller 
 } from '@nestjs/common';
-import { TagsService } from './problems.service';
+import { ProblemsService } from './problems.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
 
 @Controller('tags')
 @ApiTags('tags')
-export class TagsController {
-    constructor(private readonly SubjectsService: TagsService) {}
+export class ProblemsController {
+    constructor(private readonly SubjectsService: ProblemsService) {}
 
     @Get()
     getTags(){
