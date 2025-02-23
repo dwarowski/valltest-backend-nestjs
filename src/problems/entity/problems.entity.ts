@@ -10,7 +10,7 @@ import {
 import { TestsEntity } from 'src/tests/entity/test.entity';
 
 @Entity('problems')
-export class TagsEntity {
+export class ProblemsEntity {
     
     @ApiHideProperty()
     @PrimaryGeneratedColumn()
