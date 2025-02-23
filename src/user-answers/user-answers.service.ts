@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
-import { UserAnswersEntity } from './dto/user-answer.entity';
+import { UserAnswersEntity } from './entity/user-answer.entity';
+import { CreateUserAnswerDto } from './dto/create-user-answer.dto';
 
 @Injectable()
 export class UserAnswersService {
@@ -15,7 +16,8 @@ export class UserAnswersService {
             return this.repository.find()
         }
     
-    createTag(dto: CreateProblemDto){
+    createTag(dto: CreateUserAnswerDto){
         return this.repository.save(dto)
+    }
 
 }
