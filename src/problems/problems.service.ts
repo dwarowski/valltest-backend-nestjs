@@ -11,11 +11,11 @@ export class ProblemsService {
             private repository: Repository<ProblemsEntity>,
           ) {}
           
-    getTags(){
+    getProblem(){
         return this.repository.find()
     }
 
-    createTag(dto: CreateProblemDto){
+    createProblem(dto: CreateProblemDto){
         return this.repository.save(dto)
     }
 }
