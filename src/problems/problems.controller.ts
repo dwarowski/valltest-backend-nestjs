@@ -12,16 +12,16 @@ import { CreateProblemDto } from './dto/create-problem.dto';
 @Controller('tags')
 @ApiTags('tags')
 export class ProblemsController {
-    constructor(private readonly SubjectsService: ProblemsService) {}
+    constructor(private readonly ProblemService: ProblemsService) {}
 
     @Get()
     getProblem(){
-        return this.SubjectsService.getProblem();
+        return this.ProblemService.getProblem();
     }
 
     @Post()
     createProblem(@Body() dto: CreateProblemDto){
-        return this.SubjectsService.createProblem(dto);
+        return this.ProblemService.createProblem(dto);
     }
 
 }
