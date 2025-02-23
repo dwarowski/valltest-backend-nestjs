@@ -12,8 +12,8 @@ export class UserAnswersService {
         private repository: Repository<UserAnswersEntity>
     ) {}
 
-    getUserAnswersByUser(){
-            return this.repository.find()
+    getUserAnswersByUser(id: number){
+            return this.repository.findBy({ id })
         }
     
     createUserAnswer(dto: CreateUserAnswerDto){

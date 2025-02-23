@@ -4,7 +4,8 @@ import {
     Get,
     Post,
     Body,
-    Controller 
+    Controller, 
+    Param
 } from '@nestjs/common';
 import { UserAnswersService } from './user-answers.service';
 import { CreateUserAnswerDto } from './dto/create-user-answer.dto';
@@ -14,9 +15,9 @@ import { CreateUserAnswerDto } from './dto/create-user-answer.dto';
 export class UserAnswersController {
     constructor(private readonly UserAnswersService: UserAnswersService) {}
 
-    @Get()
-    getUserAnswersByUser() {
-        return this.UserAnswersService.getUserAnswersByUser();
+    @Get(':id')
+    getUserAnswersByUser(@Param('id') id: string) {
+        return this.UserAnswersService.getUserAnswersByUser(+id);
     }
 
     @Post()
