@@ -11,7 +11,7 @@ import { UserAnswersService } from './user-answers.service';
 import { CreateUserAnswerDto } from './dto/create-user-answer.dto';
 
 @Controller('user-answers')
-@ApiTags('user-answwers')
+@ApiTags('user-answers')
 export class UserAnswersController {
     constructor(private readonly UserAnswersService: UserAnswersService) {}
 
