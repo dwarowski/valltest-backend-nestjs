@@ -1,4 +1,5 @@
 import { ApiHideProperty } from '@nestjs/swagger';
+import { AnswersEntity } from 'src/answers/entity/answers.entity';
 import { ProblemsEntity } from 'src/problems/entity/problems.entity';
 import { SessionTestEntity } from 'src/test-sessions/entity/session-test.entity';
 
@@ -6,11 +7,11 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     ManyToOne,
-    OneToMany
+    OneToOne
 } from 'typeorm';
 
 
-@Entity('problems')
+@Entity('user-answers')
 export class UserAnswersEntity {
     @ApiHideProperty()
     @PrimaryGeneratedColumn()
@@ -21,7 +22,7 @@ export class UserAnswersEntity {
     problem: number
     
     
-    @OneToMany(() => AnswerEntity, (answer) => answer.id)
+    @OneToOne(() => AnswersEntity, (answer) => answer.id)
     answer: number
     
 
