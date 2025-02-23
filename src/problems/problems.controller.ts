@@ -15,12 +15,12 @@ export class ProblemsController {
     constructor(private readonly SubjectsService: ProblemsService) {}
 
     @Get()
-    getTags(){
+    getProblem(){
         return this.SubjectsService.getProblem();
     }
 
     @Post()
-    createTag(@Body() dto: CreateProblemDto){
+    createProblem(@Body() dto: CreateProblemDto){
         return this.SubjectsService.createProblem(dto);
     }
 
