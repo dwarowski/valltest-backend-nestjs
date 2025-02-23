@@ -10,4 +10,4 @@ import { ProblemsService } from './problems.service';
   controllers: [ProblemsController],
   providers: [ProblemsService]
 })
-export class TagsModule {}
+export class ProblemsModule {}
