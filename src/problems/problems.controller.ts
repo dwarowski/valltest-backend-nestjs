@@ -20,7 +20,7 @@ export class TagsController {
     }
 
     @Post()
-    createTag(@Body() dto: CreateTagDto){
+    createTag(@Body() dto: CreateProblemDto){
         return this.SubjectsService.createTag(dto);
     }
 
