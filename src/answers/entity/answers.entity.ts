@@ -14,8 +14,8 @@ import {
 @Entity('answers')
 export class AnswersEntity{
     @ApiHideProperty()
-    @PrimaryGeneratedColumn()
     @OneToOne(() => UserAnswersEntity, (UserAnswer) => UserAnswer.answer)
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column()

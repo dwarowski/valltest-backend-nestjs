@@ -7,7 +7,9 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     ManyToOne,
-    OneToOne
+    OneToOne,
+    Column,
+    JoinColumn
 } from 'typeorm';
 
 
@@ -21,8 +23,9 @@ export class UserAnswersEntity {
     @ManyToOne(() => ProblemsEntity, (problem) => problem.id)
     problem: number
     
-    
+
     @OneToOne(() => AnswersEntity, (answer) => answer.id)
+    @JoinColumn()
     answer: number
     
 
