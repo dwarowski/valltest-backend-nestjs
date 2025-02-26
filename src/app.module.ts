@@ -16,6 +16,7 @@ import { TestSessionsModule } from './test-sessions/test-sessions.module';
 import { ProblemsModule } from './problems/problems.module';
 import { AnswersModule } from './answers/answers.module';
 import { UserAnswersModule } from './user-answers/user-answers.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -35,6 +36,7 @@ import { UserAnswersModule } from './user-answers/user-answers.module';
   TestSessionsModule,
   ProblemsModule,
   AnswersModule,
-  UserAnswersModule],
+  UserAnswersModule,
+  UserModule]
 })
 export class AppModule {}
