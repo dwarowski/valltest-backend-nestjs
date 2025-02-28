@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+
+export enum UserRole {
+  USER = 'user', 
+  TEACHER = 'teacher', 
+  ADMIN = 'admin', 
+}
 
 @Entity('users') 
 export class User {
@@ -8,24 +15,30 @@ export class User {
   @Column({ unique: true }) // Уникальный email
   email: string;
 
-  @Column()
-  password: string; // Пароль, будет храниться в зашифрованном виде (hash)[ё]
+  @Column() // Пароль, будет храниться в зашифрованном виде (hash)
+  password: string;
 
-  @Column({ default: 'user' }) // По умолчанию у всех "user"
-  role: string;
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER }) // Роль пользователя, по умолчанию 'user'
+  role: UserRole;
 
-  @Column({ nullable: true }) // Можно оставить пустым
-  name: string;
+  @Column({ nullable: true }) // Имя пользователя (может быть пустым)
+  firstName: string;
 
-  @Column({ nullable: true })
-  avatarUrl: string; // Фото профиля 
+  @Column({ nullable: true }) // Фамилия пользователя (может быть пустым)
+  lastName: string;
 
-  @CreateDateColumn()
-  createdAt: Date; // Дата создания пользователя
+  @Column({ default: 'https://example.com/default-avatar.png' }) // Ссылка на аватар, по умолчанию дефолтный аватар
+  avatarUrl: string;
 
-  @UpdateDateColumn()
-  updatedAt: Date; // Дата последнего обновления
+  @CreateDateColumn() // Дата создания пользователя, автоматически заполняется TypeORM
+  createdAt: Date;
 
-  @Column({ default: false }) 
-  isDeleted: boolean; // Логическое удаление пользователя (если не хотим физически удалять)
+  @UpdateDateColumn() // Дата последнего обновления, автоматически обновляется TypeORM
+  updatedAt: Date;
+
+  @DeleteDateColumn() // Дата удаления (для мягкого удаления), автоматически заполняется TypeORM
+  deletedAt: Date;
+
+  @Column("text", { nullable: true })
+  emailVerificationToken: string | null; // Токен для подтверждения email
 }
