@@ -12,8 +12,8 @@ export class TestsService {
         private repository: Repository<TestsEntity>,
       ) {}
 
-    getTests(){
-        return this.repository.find();  
+    getTestsMainPage(){
+        return this.repository.find({skip: 0, take: 10 });  
     }
 
     creatTest(dto: CreateTestDto){

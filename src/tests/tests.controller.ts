@@ -17,7 +17,7 @@ export class TestsController {
 
     @Get()
     getTests(){
-        return this.TestsService.getTests();
+        return this.TestsService.getTestsMainPage();
     }
 
     @Post()
