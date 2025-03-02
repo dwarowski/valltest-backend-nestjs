@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 
 import { TestsEntity } from './entity/test.entity';
 import { CreateTestDto } from './dto/create-test.dto';
-import { PageMetaDto } from './dto/get-page/page-meta.dto';
-import { PageDto } from './dto/get-page/page.dto';
+import { PageMetaDto } from '../global-dto/get-page/page-meta.dto';
+import { PageDto } from '../global-dto/get-page/page.dto';
 
 @Injectable()
 export class TestsService {
