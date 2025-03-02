@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 
 import { TestsEntity } from './entity/test.entity';
 import { CreateTestDto } from './dto/create-test.dto';
+import { PageMetaDto } from './dto/get-page/page-meta.dto';
+import { PageDto } from './dto/get-page/page.dto';
 
 @Injectable()
 export class TestsService {
@@ -12,8 +14,17 @@ export class TestsService {
         private repository: Repository<TestsEntity>,
       ) {}
 
-    getTestsMainPage(){
-        return this.repository.find({skip: 0, take: 10 });  
+    async getTestsMainPage(page: number, take: number): Promise<PageDto<TestsEntity>> {
+        const [tests, total] = await this.repository.createQueryBuilder('tests')
+        .skip((page - 1) * take)
+        .take(take)
+        .getManyAndCount();
+
+        const pageMetaDto = new PageMetaDto({ pageOptionsDto: { page, take }, itemCount: total});
+
+        const pageDto = new PageDto(tests, pageMetaDto);
+
+        return pageDto
     }
 
     creatTest(dto: CreateTestDto){
