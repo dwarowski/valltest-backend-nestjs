@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { TestsEntity } from 'src/tests/entity/test.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity('favorite-test')
 export class FavoriteTestEntity {
@@ -16,7 +17,7 @@ export class FavoriteTestEntity {
     @PrimaryGeneratedColumn()
     id: number;
     
-    //@ManyToOne(() => UserEntity, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id)
     @Column()
     user: number
 
