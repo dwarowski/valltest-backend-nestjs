@@ -37,6 +37,8 @@ import { AuthModule } from './auth/auth.module';
   TestSessionsModule,
   ProblemsModule,
   UserModule,
-  AuthModule],
+  AuthModule,
+  UserAnswersModule,
+  AnswersModule],
 })
 export class AppModule {}
