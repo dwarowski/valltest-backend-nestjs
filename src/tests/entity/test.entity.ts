@@ -10,13 +10,11 @@ import {
 } from 'typeorm';
 
 import { TopicEntity } from 'src/topics/entity/topic.entity';
-import { TagsEntity } from 'src/tags/entity/tags.entity';
 
 @Entity('tests')
 export class TestsEntity {
   
   @ApiHideProperty()
-  @OneToMany(()=>TagsEntity, (tag) => tag.test)
   @PrimaryGeneratedColumn()
   id: number;
 
