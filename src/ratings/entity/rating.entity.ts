@@ -18,11 +18,9 @@ export class RatingEntity {
     id: number;
     
     @ManyToOne(() => User, (user) => user.id)
-    @Column()
     user: number
 
     @ManyToOne(() => TestsEntity, (test) => test.id)
-    @Column()
     test: number
 
     @Column()
