@@ -4,13 +4,16 @@ import {
     Get,
     Post,
     Body,
-    Controller 
+    Controller, 
+    Param,
+    ParseIntPipe,
+    Query
 } from '@nestjs/common';
 import { ProblemsService } from './problems.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
 
-@Controller('tags')
-@ApiTags('tags')
+@Controller('problems')
+@ApiTags('problems')
 export class ProblemsController {
     constructor(private readonly ProblemService: ProblemsService) {}
 
@@ -20,8 +23,8 @@ export class ProblemsController {
     }
 
     @Post()
-    createProblem(@Body() dto: CreateProblemDto){
-        return this.ProblemService.createProblem(dto);
+    createProblem(@Query('testId') testId: string, @Body() dto: CreateProblemDto){
+        return this.ProblemService.createProblem(+testId, dto);
     }
 
 }
