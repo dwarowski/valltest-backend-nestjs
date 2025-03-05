@@ -9,8 +9,8 @@ import {
 import { ProblemsService } from './problems.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
 
-@Controller('tags')
-@ApiTags('tags')
+@Controller('problems')
+@ApiTags('problems')
 export class ProblemsController {
     constructor(private readonly ProblemService: ProblemsService) {}
 
