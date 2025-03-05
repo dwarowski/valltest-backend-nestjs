@@ -34,7 +34,6 @@ export class TestsService {
     async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsEntity[]> {
         return Promise.all(tests.map(async test => {
             let averageRating  = await this.ratingService.getRatingsByTestId(test.id);
-            console.log(averageRating)
             if (averageRating === 'NaN'){
                 averageRating = '0'
             }
