@@ -15,7 +15,7 @@ export class RatingService {
         return this.repository.findOneBy({ id })
     }
 
-    async getRatingsByTestId(id: number){
+    async getRatingsByTestId(id: number): Promise<string>{
         const [ratings, total] = await this.repository.createQueryBuilder('ratings')
         .where({ test: id })
         .getManyAndCount();
