@@ -22,9 +22,11 @@ export class TestsService {
         .take(take)
         .getManyAndCount();
 
+        const testsWithRating = this.addAverageRatingToTests(tests);
+
         const pageMetaDto = new PageMetaDto({ pageOptionsDto: { page, take }, itemCount: total});
 
-        const pageDto = new PageDto(tests, pageMetaDto);
+        const pageDto = new PageDto(await testsWithRating, pageMetaDto);
 
         return pageDto
     }
