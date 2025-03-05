@@ -14,4 +14,17 @@ export class RatingService {
     getRatingById(id: number){
         return this.repository.findOneBy({ id })
     }
+
+    async getRatingsByTestId(id: number){
+        const [ratings, total] = await this.repository.createQueryBuilder('ratings')
+        .where({ test: id })
+        .getManyAndCount();
+
+        let averageTestRating: number = 0;
+        ratings.forEach(ratingElement => {
+            averageTestRating += ratingElement.rating
+        });
+
+        return (averageTestRating / total).toFixed(1)
+    }
 }
