@@ -16,6 +16,13 @@ export class TestsService {
         private repository: Repository<TestsEntity>,
       ) {}
 
+    async getTestById(id: number){
+        console.log(id);
+        return await this.repository.createQueryBuilder('test')
+        .where({id: id})
+        .getOne()
+    }
+
     async getTestsPage(page: number, take: number): Promise<PageDto<TestsEntity>> {
         const [tests, total] = await this.repository.createQueryBuilder('tests')
         .skip((page - 1) * take)

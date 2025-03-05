@@ -7,7 +7,8 @@ import {
     Body,
     Query,
     DefaultValuePipe,
-    ParseIntPipe
+    ParseIntPipe,
+    Param
 } from '@nestjs/common';
 
 import { TestsService } from './tests.service';
@@ -21,6 +22,11 @@ export class TestsController {
     @Get()
     getTests(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1, @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number = 1) {
         return this.TestsService.getTestsPage(page, take);
+    }
+
+    @Get(':testId')
+    getTestById(@Param('testId') testId: string){
+        return this.TestsService.getTestById(+testId)
     }
 
     @Post()
