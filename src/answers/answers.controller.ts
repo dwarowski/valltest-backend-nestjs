@@ -5,6 +5,7 @@ import {
     Post,
     Body,
     Controller,
+    Query,
 } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
@@ -20,7 +21,7 @@ export class AnswersController {
     }
 
     @Post()
-    createAnswer(@Body() dto: CreateAnswerDto) {
-        return this.AnswersService.createAnswer(dto);
+    createAnswer(@Query('problemId') problemId: string, @Body() dto: CreateAnswerDto) {
+        return this.AnswersService.createAnswer(+problemId, dto);
     }
 }

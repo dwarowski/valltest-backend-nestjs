@@ -14,7 +14,7 @@ export class AnswersService {
             return this.repository.find()
         }
     
-    createAnswer(dto: CreateAnswerDto){
-        return this.repository.save(dto)
+    createAnswer(id: number, dto: CreateAnswerDto){
+        return this.repository.save({...dto, problem: id})
     }
 }
