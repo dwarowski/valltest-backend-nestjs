@@ -2,9 +2,8 @@ import { IsString } from 'class-validator';
 
 export class CreateTestAiDto {
   
-  topicId: number
+  topic: number
   difficulty: number // Уровень учеников?
-  subjectId: number
   @IsString()
   description: string
   @IsString()
