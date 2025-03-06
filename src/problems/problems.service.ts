@@ -16,8 +16,6 @@ export class ProblemsService {
     }
 
     createProblem(id: number, dto: CreateProblemDto){
-
-
         return this.repository.save({...dto, test: id}
         )
     }
