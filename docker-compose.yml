@@ -11,10 +11,10 @@ services:
     env_file:
       - .env
     depends_on:
-      - localhost  # Указывает, что сервис app зависит от сервиса db
+      - db  # Указывает, что сервис app зависит от сервиса db
 
   # Сервис базы данных PostgreSQL
-  localhost:
+  db:
     image: postgres:13.3 # Использует образ PostgreSQL версии 14
     ports:
       - "5432:5432"  # Пробрасывает порт 5432 из контейнера на хост-машину (для отладки)
