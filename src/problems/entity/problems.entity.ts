@@ -16,7 +16,7 @@ export class ProblemsEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => TestsEntity, (test) => test.id)
+    @ManyToOne(() => TestsEntity, (test) => test.id, {onDelete: 'CASCADE'})
     test: number
     
     @Column()

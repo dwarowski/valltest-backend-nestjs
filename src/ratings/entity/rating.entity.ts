@@ -20,7 +20,7 @@ export class RatingEntity {
     @ManyToOne(() => User, (user) => user.id)
     user: number
 
-    @ManyToOne(() => TestsEntity, (test) => test.id)
+    @ManyToOne(() => TestsEntity, (test) => test.id, {onDelete: 'CASCADE'})
     test: number
 
     @Column()
