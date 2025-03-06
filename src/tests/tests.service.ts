@@ -55,4 +55,11 @@ export class TestsService {
     creatTest(dto: CreateTestDto){
         return this.repository.save(dto)
     }
+
+    async deleteTest(id: number){
+            return await this.repository.createQueryBuilder('test')
+            .delete()
+            .where({id: id})
+            .execute();
+    }
 }

@@ -8,7 +8,8 @@ import {
     Query,
     DefaultValuePipe,
     ParseIntPipe,
-    Param
+    Param,
+    Delete
 } from '@nestjs/common';
 
 import { TestsService } from './tests.service';
@@ -26,12 +27,17 @@ export class TestsController {
 
     @Get(':testId')
     getTestById(@Param('testId') testId: string){
-        return this.TestsService.getTestById(+testId)
+        return this.TestsService.getTestById(+testId);
     }
 
     @Post()
     createTest(@Body() dto: CreateTestDto){
         return this.TestsService.creatTest(dto);
+    }
+
+    @Delete(':id')
+    deleteTest(@Param('id') id: string){
+        return this.TestsService.deleteTest(+id);
     }
 
 }
