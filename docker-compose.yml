@@ -1,0 +1,28 @@
+version: "3.9"  # Используйте последнюю версию Docker Compose
+
+services:
+  # Сервис NestJS приложения
+  app:
+    build:
+      context: .  # Указывает на текущую директорию, где находится Dockerfile
+      dockerfile: dockerfile  # Путь к вашему Dockerfile
+    ports:
+      - "3000:3000"  # Пробрасывает порт 3000 из контейнера на хост-машину
+    env_file:
+      - .env
+    depends_on:
+      - localhost  # Указывает, что сервис app зависит от сервиса db
+
+  # Сервис базы данных PostgreSQL
+  localhost:
+    image: postgres:13.3 # Использует образ PostgreSQL версии 14
+    ports:
+      - "5432:5432"  # Пробрасывает порт 5432 из контейнера на хост-машину (для отладки)
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Монтирует том для хранения данных
+
+# Определяем том для хранения данных базы данных
+volumes:
+  db_data:
