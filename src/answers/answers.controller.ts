@@ -6,6 +6,9 @@ import {
     Body,
     Controller,
     Query,
+    Patch,
+    Param,
+    Delete,
 } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
@@ -23,5 +26,11 @@ export class AnswersController {
     @Post()
     createAnswer(@Query('problemId') problemId: string, @Body() dto: CreateAnswerDto) {
         return this.AnswersService.createAnswer(+problemId, dto);
+    }
+
+    @Delete()
+        deleteProblem(@Param('id') id: string){
+                return this.AnswersService.deleteAnswer(+id);
+    
     }
 }

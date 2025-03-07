@@ -17,4 +17,12 @@ export class AnswersService {
     createAnswer(id: number, dto: CreateAnswerDto){
         return this.repository.save({...dto, problem: id})
     }
+
+    async deleteAnswer(id: number){
+        return await this.repository.createQueryBuilder('answerDelete')
+        .delete()
+        .where({id: id})
+        .execute();
+
+    }
 }
