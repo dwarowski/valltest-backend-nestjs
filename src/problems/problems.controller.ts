@@ -4,13 +4,15 @@ import {
     Get,
     Post,
     Body,
-    Controller, 
-    Param,
-    ParseIntPipe,
-    Query
+    Controller,
+    Query,
+    Delete,
+    Patch,
+    Param
 } from '@nestjs/common';
 import { ProblemsService } from './problems.service';
 import { CreateProblemDto } from './dto/create-problem.dto';
+import { UpdateProblemDto } from './dto/update-problem.dto';
 
 @Controller('problems')
 @ApiTags('problems')
@@ -26,6 +28,13 @@ export class ProblemsController {
     createProblem(@Query('testId') testId: string, @Body() dto: CreateProblemDto){
         return this.ProblemService.createProblem(+testId, dto);
     }
+
+    @Delete()
+    deleteProblem(@Param('id') id: string){
+            return this.ProblemService.deleteProblem(+id);
+
+    }
+
 
 }
 
