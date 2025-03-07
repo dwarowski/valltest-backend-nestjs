@@ -22,7 +22,7 @@ export class ProblemsService {
     }
 
     async deleteProblem(id: number){
-        return await this.repository.createQueryBuilder('testDelete')
+        return await this.repository.createQueryBuilder('problemDelete')
         .delete()
         .where({id: id})
         .execute();
