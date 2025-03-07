@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { UpdateAnswerDto } from './dto/update-answer.dto';
 
 @Controller('answers')
 @ApiTags('answers')
@@ -31,6 +32,9 @@ export class AnswersController {
     @Delete()
         deleteProblem(@Param('id') id: string){
                 return this.AnswersService.deleteAnswer(+id);
-    
+    }
+    @Patch()
+        updateProblem(@Param('id') id: string, @Body() dto: UpdateAnswerDto){
+            return this.AnswersService.updateProblem(+id, dto);
     }
 }
