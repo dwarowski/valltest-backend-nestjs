@@ -35,6 +35,10 @@ export class ProblemsController {
 
     }
 
+    @Patch()
+    updateProblem(@Param('id') id: string, @Body() dto: UpdateProblemDto){
+        return this.ProblemService.updateProblem(+id, dto);
+    }
 
 }
 
