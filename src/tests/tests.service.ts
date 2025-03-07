@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -7,6 +7,7 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { PageMetaDto } from '../global-dto/get-page/page-meta.dto';
 import { PageDto } from '../global-dto/get-page/page.dto';
 import { RatingService } from 'src/ratings/rating.service';
+import { UpdateTestDto } from './dto/update-test.dto';
 
 @Injectable()
 export class TestsService {
@@ -57,9 +58,31 @@ export class TestsService {
     }
 
     async deleteTest(id: number){
-            return await this.repository.createQueryBuilder('test')
+            return await this.repository.createQueryBuilder('testDelete')
             .delete()
             .where({id: id})
             .execute();
+    }
+
+    async updateTest(id: number, dto: UpdateTestDto){
+        try {
+            const result = await this.repository.createQueryBuilder('testUpdate')
+            .update(TestsEntity)
+            .set(dto)
+            .where({id: id})
+            .execute()
+            if (result.affected === 0) {
+                throw new NotFoundException(`Запись с ID ${id} не найдена`);
+            }
+        } catch (error) {
+            if (error instanceof NotFoundException || error instanceof BadRequestException) {
+                throw error;
+              } else if (error.code === '23503') { // Специфичная проверка кода ошибки
+                  throw new BadRequestException(`Нарушение ограничения внешнего ключа: ${error.detail}`);
+              } else {
+                console.error('Ошибка при обновлении записи:', error);
+                throw new InternalServerErrorException('Ошибка сервера');
+              }
+        }
     }
 }

@@ -9,11 +9,13 @@ import {
     DefaultValuePipe,
     ParseIntPipe,
     Param,
-    Delete
+    Delete,
+    Patch
 } from '@nestjs/common';
 
 import { TestsService } from './tests.service';
 import { CreateTestDto } from './dto/create-test.dto';
+import { UpdateTestDto } from './dto/update-test.dto';
 
 @Controller('tests')
 @ApiTags('tests')
@@ -25,8 +27,8 @@ export class TestsController {
         return this.TestsService.getTestsPage(page, take);
     }
 
-    @Get(':testId')
-    getTestById(@Param('testId') testId: string){
+    @Get(':id')
+    getTestById(@Param('id') testId: string){
         return this.TestsService.getTestById(+testId);
     }
 
@@ -35,9 +37,14 @@ export class TestsController {
         return this.TestsService.creatTest(dto);
     }
 
-    @Delete(':id')
+    @Delete('delete/:id')
     deleteTest(@Param('id') id: string){
         return this.TestsService.deleteTest(+id);
+    }
+
+    @Patch('update/:id')
+    updateTest(@Param('id') id: string, @Body() dto: UpdateTestDto){
+        return this.TestsService.updateTest(+id, dto);
     }
 
 }
