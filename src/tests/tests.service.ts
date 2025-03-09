@@ -10,7 +10,6 @@ import { RatingService } from 'src/ratings/rating.service';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { TopicsService } from 'src/topics/topics.service';
-import { TopicEntity } from 'src/topics/entity/topic.entity';
 
 @Injectable()
 export class TestsService {
