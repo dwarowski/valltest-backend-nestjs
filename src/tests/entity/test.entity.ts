@@ -30,7 +30,7 @@ export class TestsEntity {
   @ManyToOne(() => TopicEntity, (topic) => topic.id, {
     eager: true,
   })
-  topic: number;
+  topic: TopicEntity;
 
   @Column()
   timeForTest:  number;
