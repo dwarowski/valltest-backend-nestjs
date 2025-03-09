@@ -13,7 +13,7 @@ import { TopicEntity } from 'src/topics/entity/topic.entity';
 
 @Entity('tests')
 export class TestsEntity {
-  
+
   @ApiHideProperty()
   @PrimaryGeneratedColumn()
   id: number;
@@ -34,7 +34,7 @@ export class TestsEntity {
   topic: TopicEntity;
 
   @Column()
-  timeForTest:  number;
+  timeForTest: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
