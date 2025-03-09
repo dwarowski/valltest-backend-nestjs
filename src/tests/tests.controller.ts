@@ -16,6 +16,7 @@ import {
 import { TestsService } from './tests.service';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
+import { TestFilterDto } from './dto/test-filter.dto';
 
 @Controller('tests')
 @ApiTags('tests')
@@ -23,9 +24,12 @@ export class TestsController {
     constructor(private readonly TestsService: TestsService) {}
 
     @Get()
-    getTests(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1, @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number = 1) {
-        return this.TestsService.getTestsByPage(page, take);
-    }
+    getTests(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number = 1,
+        @Query() filterDto: TestFilterDto) {
+            return this.TestsService.getTestsByPage(page, take, filterDto);
+        }
 
     @Get(':id')
     getTestById(@Param('id') testId: string){
