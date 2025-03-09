@@ -16,6 +16,12 @@ export class TopicsService {
         return this.repository.find();  
     }
 
+    async getTopicById(id: number){
+        return await this.repository.createQueryBuilder('topic')
+        .where({id: id})
+        .getOne()
+    }
+
     createTopic(dto: CreateTopicDto){
         return this.repository.save(dto)
     }
