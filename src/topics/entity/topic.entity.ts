@@ -26,6 +26,6 @@ export class TopicEntity {
     @ManyToOne(() => SubjectEntity, (subject) => subject.id, {
         eager: true,
     })
-    subject: number;
+    subject: SubjectEntity;
 
 }
