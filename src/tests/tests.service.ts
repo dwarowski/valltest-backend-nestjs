@@ -15,57 +15,57 @@ import { TopicEntity } from 'src/topics/entity/topic.entity';
 @Injectable()
 export class TestsService {
     constructor(
-        @Inject(RatingService) 
+        @Inject(RatingService)
         private readonly ratingService: RatingService,
         @InjectRepository(TestsEntity)
         private repository: Repository<TestsEntity>,
         @Inject(TopicsService)
         private readonly topicService: TopicsService
-      ) {}
+    ) { }
 
-    async getTestById(id: number){
+    async getTestById(id: number) {
         return await this.repository.createQueryBuilder('test')
-        .where({id: id})
-        .getOne()
+            .where({ id: id })
+            .getOne()
     }
 
     async getTestsByPage(page: number, take: number, filterDto: TestFilterDto): Promise<PageDto<TestsEntity>> {
         if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
-            throw new BadRequestException('Invalid pagination params')   
+            throw new BadRequestException('Invalid pagination params')
         }
 
         const testsQuery = this.repository.createQueryBuilder('tests')
-        .skip((page - 1) * take)
-        .take(take)
-        .leftJoinAndSelect('tests.topic', 'topic');
+            .skip((page - 1) * take)
+            .take(take)
+            .leftJoinAndSelect('tests.topic', 'topic');
 
         const { subject, topic } = filterDto;
 
 
         console.log(await this.repository.createQueryBuilder('tests')
-        .skip((page - 1) * take)
-        .take(take)
-        .leftJoinAndSelect('tests.topic', 'topic')
-        .leftJoinAndSelect('topic.subject', 'subject')
-        .getMany())
+            .skip((page - 1) * take)
+            .take(take)
+            .leftJoinAndSelect('tests.topic', 'topic')
+            .leftJoinAndSelect('topic.subject', 'subject')
+            .getMany())
 
-        if (topic){
+        if (topic) {
             testsQuery
-            .andWhere("topic.topicName  = :topic", { topic })
+                .andWhere("topic.topicName  = :topic", { topic })
         }
 
-        if (subject){
+        if (subject) {
             testsQuery
-            .andWhere("subject.subjectName  = :subject", { subject })
-            
-        }
-        
+                .andWhere("subject.subjectName  = :subject", { subject })
 
-        const [tests, total]  = await testsQuery.getManyAndCount();
+        }
+
+
+        const [tests, total] = await testsQuery.getManyAndCount();
 
         const testsWithRating = this.addAverageRatingToTests(tests);
 
-        const pageMetaDto = new PageMetaDto({ pageOptionsDto: { page, take }, itemCount: total});
+        const pageMetaDto = new PageMetaDto({ pageOptionsDto: { page, take }, itemCount: total });
 
         const pageDto = new PageDto(await testsWithRating, pageMetaDto);
 
@@ -74,47 +74,47 @@ export class TestsService {
 
     async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsEntity[]> {
         return Promise.all(tests.map(async test => {
-            let averageRating  = await this.ratingService.getRatingsByTestId(test.id);
-            if (averageRating === 'NaN'){
+            let averageRating = await this.ratingService.getRatingsByTestId(test.id);
+            if (averageRating === 'NaN') {
                 averageRating = '0'
             }
 
             return {
-              ...test,
-              averageRating: averageRating,
+                ...test,
+                averageRating: averageRating,
             };
-          }));
+        }));
     }
 
-    async creatTest(dto: CreateTestDto){
+    async creatTest(dto: CreateTestDto) {
         const { testName, userAuthorId, difficulty, topicId, timeForTest } = dto;
-        
+
         const topic = await this.topicService.getTopicById(topicId);
-        
+
         if (!topic) {
             throw new Error(`Topic with ID ${topicId} not found`);
         }
         return await this.repository.save({
             testName,
             userAuthorId,
-            difficulty, 
+            difficulty,
             topic: topic,
             timeForTest
         })
     }
 
-    async deleteTest(id: number){
-            return await this.repository.createQueryBuilder('testDelete')
+    async deleteTest(id: number) {
+        return await this.repository.createQueryBuilder('testDelete')
             .delete()
-            .where({id: id})
+            .where({ id: id })
             .execute();
     }
 
-    async updateTest(id: number, dto: UpdateTestDto){
+    async updateTest(id: number, dto: UpdateTestDto) {
         try {
             const { testName, userAuthorId, difficulty, topicId, timeForTest } = dto;
 
-            if (!topicId){
+            if (!topicId) {
                 throw new BadRequestException('topicId is required');
             }
 
@@ -125,28 +125,28 @@ export class TestsService {
             }
 
             const result = await this.repository.createQueryBuilder('testUpdate')
-            .update(TestsEntity)
-            .set({
-                testName,
-                userAuthorId,
-                difficulty, 
-                topic: topic,
-                timeForTest
-            })
-            .where({id: id})
-            .execute()
+                .update(TestsEntity)
+                .set({
+                    testName,
+                    userAuthorId,
+                    difficulty,
+                    topic: topic,
+                    timeForTest
+                })
+                .where({ id: id })
+                .execute()
             if (result.affected === 0) {
                 throw new NotFoundException(`Запись с ID ${id} не найдена`);
             }
         } catch (error) {
             if (error instanceof NotFoundException || error instanceof BadRequestException) {
                 throw error;
-              } else if (error.code === '23503') { // Специфичная проверка кода ошибки
-                  throw new BadRequestException(`Нарушение ограничения внешнего ключа: ${error.detail}`);
-              } else {
+            } else if (error.code === '23503') { // Специфичная проверка кода ошибки
+                throw new BadRequestException(`Нарушение ограничения внешнего ключа: ${error.detail}`);
+            } else {
                 console.error('Ошибка при обновлении записи:', error);
                 throw new InternalServerErrorException('Ошибка сервера');
-              }
+            }
         }
     }
 }
