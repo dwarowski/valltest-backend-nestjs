@@ -24,7 +24,7 @@ export class TestsService {
         .getOne()
     }
 
-    async getTestsPage(page: number, take: number): Promise<PageDto<TestsEntity>> {
+    async getTestsByPage(page: number, take: number): Promise<PageDto<TestsEntity>> {
         if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
             throw new BadRequestException('Invalid pagination params')   
         }

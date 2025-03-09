@@ -24,7 +24,7 @@ export class TestsController {
 
     @Get()
     getTests(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1, @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number = 1) {
-        return this.TestsService.getTestsPage(page, take);
+        return this.TestsService.getTestsByPage(page, take);
     }
 
     @Get(':id')
