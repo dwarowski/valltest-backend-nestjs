@@ -36,17 +36,10 @@ export class TestsService {
         const testsQuery = this.repository.createQueryBuilder('tests')
             .skip((page - 1) * take)
             .take(take)
-            .leftJoinAndSelect('tests.topic', 'topic');
+            .leftJoinAndSelect('tests.topic', 'topic')
+            .leftJoinAndSelect('topic.subject', 'subject');
 
         const { subject, topic } = filterDto;
-
-
-        console.log(await this.repository.createQueryBuilder('tests')
-            .skip((page - 1) * take)
-            .take(take)
-            .leftJoinAndSelect('tests.topic', 'topic')
-            .leftJoinAndSelect('topic.subject', 'subject')
-            .getMany())
 
         if (topic) {
             testsQuery
@@ -56,9 +49,7 @@ export class TestsService {
         if (subject) {
             testsQuery
                 .andWhere("subject.subjectName  = :subject", { subject })
-
         }
-
 
         const [tests, total] = await testsQuery.getManyAndCount();
 
