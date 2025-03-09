@@ -10,6 +10,7 @@ import { RatingService } from 'src/ratings/rating.service';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { TopicsService } from 'src/topics/topics.service';
+import { TopicEntity } from 'src/topics/entity/topic.entity';
 
 @Injectable()
 export class TestsService {
@@ -111,9 +112,27 @@ export class TestsService {
 
     async updateTest(id: number, dto: UpdateTestDto){
         try {
+            const { testName, userAuthorId, difficulty, topicId, timeForTest } = dto;
+
+            if (!topicId){
+                throw new BadRequestException('topicId is required');
+            }
+
+            const topic = await this.topicService.getTopicById(topicId)
+
+            if (!topic) {
+                throw new Error(`Topic with ID ${topicId} not found`);
+            }
+
             const result = await this.repository.createQueryBuilder('testUpdate')
             .update(TestsEntity)
-            .set(dto)
+            .set({
+                testName,
+                userAuthorId,
+                difficulty, 
+                topic: topic,
+                timeForTest
+            })
             .where({id: id})
             .execute()
             if (result.affected === 0) {
