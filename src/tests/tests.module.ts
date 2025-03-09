@@ -16,4 +16,4 @@ import { TopicsService } from 'src/topics/topics.service';
   controllers: [TestsController],
   providers: [TestsService, RatingService, TopicsService]
 })
-export class TestsModule {}
+export class TestsModule { }
