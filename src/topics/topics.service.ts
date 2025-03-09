@@ -10,25 +10,25 @@ import { SubjectsService } from 'src/subjects/subjects.service';
 export class TopicsService {
     constructor(
         @Inject(SubjectsService)
-        private subjectService: SubjectsService, 
+        private subjectService: SubjectsService,
         @InjectRepository(TopicEntity)
         private repository: Repository<TopicEntity>,
-      ) {}
+    ) { }
 
-    getTopic(){
-        return this.repository.find();  
+    getTopic() {
+        return this.repository.find();
     }
 
-    async getTopicById(id: number){
+    async getTopicById(id: number) {
         return await this.repository.createQueryBuilder('topic')
-        .where({id: id})
-        .getOne()
+            .where({ id: id })
+            .getOne()
     }
 
-    async createTopic(dto: CreateTopicDto){
+    async createTopic(dto: CreateTopicDto) {
         const { topicName, subjectId } = dto;
         const subject = await this.subjectService.getSubjectById(subjectId)
-        if (!subject){
+        if (!subject) {
             throw new BadRequestException(`Subject with ID ${subjectId} not found`)
         }
 
@@ -39,5 +39,5 @@ export class TopicsService {
             }
         )
     }
-    
+
 }
