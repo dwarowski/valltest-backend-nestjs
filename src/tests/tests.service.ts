@@ -25,6 +25,9 @@ export class TestsService {
     }
 
     async getTestsPage(page: number, take: number): Promise<PageDto<TestsEntity>> {
+        if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
+            throw new BadRequestException('Invalid pagination params')   
+        }
         const [tests, total] = await this.repository.createQueryBuilder('tests')
         .skip((page - 1) * take)
         .take(take)
