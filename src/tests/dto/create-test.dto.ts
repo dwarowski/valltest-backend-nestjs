@@ -6,5 +6,5 @@ export class CreateTestDto {
   testName: string
   timeForTest: number
   userAuthorId: number
-  topic: number
+  topicId: number
 }
