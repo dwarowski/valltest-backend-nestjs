@@ -29,6 +29,7 @@ export class TestsEntity {
 
   @ManyToOne(() => TopicEntity, (topic) => topic.id, {
     eager: true,
+    nullable: false
   })
   topic: TopicEntity;
 
