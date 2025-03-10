@@ -21,7 +21,7 @@ export class AnswersEntity{
     @Column()
     value: string
 
-    @ManyToOne(() => ProblemsEntity, (problem) => problem.id)
+    @ManyToOne(() => ProblemsEntity, (problem) => problem.id, {onDelete: 'CASCADE'})
     problem: number
 
     @Column()

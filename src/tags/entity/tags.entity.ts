@@ -17,7 +17,7 @@ export class TagsEntity {
     id: number;
 
     @ManyToOne(() => TestsEntity, (test) => test.id)
-    test: number
+    test: TestsEntity
     
     @Column()
     tag: string

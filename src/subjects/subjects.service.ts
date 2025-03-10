@@ -10,13 +10,20 @@ export class SubjectsService {
     constructor(
         @InjectRepository(SubjectEntity)
         private repository: Repository<SubjectEntity>,
-      ) {}
+    ) { }
 
-    getSubject(){
-        return this.repository.find();  
+
+    async getSubjectById(id: number) {
+        return await this.repository.createQueryBuilder('subjectId')
+            .where({ id: id })
+            .getOne()
     }
 
-    createSubject(dto: CreateSubjectDto){
+    getSubject() {
+        return this.repository.find();
+    }
+
+    createSubject(dto: CreateSubjectDto) {
         return this.repository.save(dto)
     }
 }

@@ -11,14 +11,14 @@ import { TestsEntity } from 'src/tests/entity/test.entity';
 
 @Entity('problems')
 export class ProblemsEntity {
-    
+
     @ApiHideProperty()
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => TestsEntity, (test) => test.id)
+    @ManyToOne(() => TestsEntity, (test) => test.id, { onDelete: 'CASCADE' })
     test: number
-    
+
     @Column()
     question: string
 
