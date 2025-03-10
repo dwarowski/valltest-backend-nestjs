@@ -139,4 +139,7 @@ export class TestsService {
             }
         }
     }
+
+    async deleteTagByTestId(testId: number, tag: string){
+    }
 }
