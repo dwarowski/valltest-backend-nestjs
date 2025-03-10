@@ -46,6 +46,13 @@ export class TestsController {
         return this.TestsService.deleteTest(+id);
     }
 
+    @Delete('tests/:id/tag/:tag')
+    deleteTagByTestId(
+        @Param('id') id: string,
+        @Param('tag') tag: string) {
+            return this.TestsService.deleteTagByTestId(+id, tag)
+    }
+
     @Patch('update/:id')
     updateTest(@Param('id') id: string, @Body() dto: UpdateTestDto) {
         return this.TestsService.updateTest(+id, dto);
