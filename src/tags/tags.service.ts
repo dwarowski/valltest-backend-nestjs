@@ -31,4 +31,11 @@ export class TagsService {
         }
         )
     }
+
+    async deleteTest(id: number){
+        return await this.repository.createQueryBuilder('deleteTag')
+        .delete()
+        .where({id: id})
+        .execute();
+    }
 }
