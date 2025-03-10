@@ -9,7 +9,6 @@ export class TestTagEntity {
     id: number;
 
     @ManyToOne(() => TestsEntity, (test) => test.id, {
-        eager: true,
         onDelete: 'CASCADE'
     })
     test: TestsEntity
