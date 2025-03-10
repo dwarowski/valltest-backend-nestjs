@@ -10,6 +10,8 @@ import {
 } from 'typeorm';
 
 import { TopicEntity } from 'src/topics/entity/topic.entity';
+import { TestTagEntity } from 'src/tags/entity/test-tag.entity';
+import { TagsEntity } from 'src/tags/entity/tags.entity';
 
 @Entity('tests')
 export class TestsEntity {
@@ -38,5 +40,10 @@ export class TestsEntity {
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
+
+  @OneToMany(()=> TestTagEntity, (testTag) => testTag.test, {
+    eager: true
+  })
+  tag: TagsEntity[]
 
 }
