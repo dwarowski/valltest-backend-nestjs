@@ -28,7 +28,7 @@ export class TagsController {
 
     @Delete(':id')
     deleteTag(@Param('id') id: string) {
-        return this.tagsService.deleteTest(+id);
+        return this.tagsService.deleteTagById(+id);
     }
 
 }
