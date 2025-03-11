@@ -4,7 +4,7 @@ import { TagsEntity } from './entity/tags.entity';
 import { Repository } from 'typeorm';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { TestsService } from 'src/tests/tests.service';
-import { TestTagEntity } from './entity/test-tag.entity';
+import { TestTagService } from 'src/test-tag/test-tag.service';
 
 @Injectable()
 export class TagsService {
@@ -13,12 +13,18 @@ export class TagsService {
         private testsService: TestsService,
         @InjectRepository(TagsEntity)
         private repository: Repository<TagsEntity>,
-        @InjectRepository(TestTagEntity)
-        private testTagRepository: Repository<TestTagEntity>,
+        @Inject(TestTagService)
+        private testTagService: TestTagService,
     ) { }
 
     getTags() {
         return this.repository.find()
+    }
+
+    async getTagByName(name: string) {
+        return await this.repository.createQueryBuilder('tag')
+            .where({ tag: name })
+            .getOne()
     }
 
     async createTag(dto: CreateTagDto) {
@@ -30,10 +36,7 @@ export class TagsService {
         const tags = await this.repository.save({
             tag
         })
-        return await this.testTagRepository.save({
-          test,
-          tag: tags
-        })
+        return await this.testTagService.createRelationTestTag(test, tags)
 
         
     }
