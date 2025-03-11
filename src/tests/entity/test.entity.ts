@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import { TopicEntity } from 'src/topics/entity/topic.entity';
+import { RatingEntity } from '../../ratings/entity/rating.entity';
 
 @Entity('tests')
 export class TestsEntity {
@@ -38,4 +39,6 @@ export class TestsEntity {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
+  @OneToMany(() => RatingEntity, (rating) => rating.user)
+  ratings: RatingEntity[];
 }
