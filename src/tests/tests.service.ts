@@ -10,16 +10,19 @@ import { RatingService } from 'src/ratings/rating.service';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { TopicsService } from 'src/topics/topics.service';
+import { TestTagService } from 'src/test-tag/test-tag.service';
 
 @Injectable()
 export class TestsService {
     constructor(
         @Inject(RatingService)
         private readonly ratingService: RatingService,
+        @Inject(TopicsService)
+        private readonly topicService: TopicsService,        
+        @Inject(TestTagService)
+        private readonly testTagService: TestTagService,
         @InjectRepository(TestsEntity)
         private repository: Repository<TestsEntity>,
-        @Inject(TopicsService)
-        private readonly topicService: TopicsService
     ) { }
 
     async getTestById(id: number) {
@@ -141,12 +144,16 @@ export class TestsService {
     }
 
     async deleteTagByTestId(testId: number, tag: string){
-        return await this.repository.createQueryBuilder('test')
-        .where({id: testId})
-        .leftJoinAndSelect('test.tag', 'tags')
-        .leftJoinAndSelect('tags.tag', 'tag')
-        .andWhere('tag.tag = :tag', { tag: tag })
-        .delete()
-        .execute()
+
+        const tagEntity = await this.testTagService.getTagByName(tag)
+        
+        if (!tagEntity){
+            throw new Error(`tag with name "${tag}" not found`)
+        }
+
+        const tagId = tagEntity.tag.id;
+
+        return await this.testTagService.deleteRelationByTestAndTag(testId, tagId)
+        
     }
 }
