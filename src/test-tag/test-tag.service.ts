@@ -22,7 +22,7 @@ export class TestTagService {
 
     }
 
-    async deleteRelation(testId: number, tagId: number){
+    async deleteRelationByTestAndTag(testId: number, tagId: number){
         return this.repository.createQueryBuilder()
         .delete()
         .where({test: testId})
