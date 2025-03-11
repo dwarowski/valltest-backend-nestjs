@@ -30,12 +30,11 @@ export class TestTagService {
         .execute()
     }
 
-    async getTagIdByName(tagName: string) {
+    async getTagByName(tagName: string) {
         return await this.repository.createQueryBuilder('tags')
         .leftJoinAndSelect('tags.tag', 'tag' )
         .where('tag.tag = :tagName', { tagName })
-        .select('tag.id as id')
-        .getRawOne();
+        .getOne();
     }
 
 }
