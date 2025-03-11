@@ -141,5 +141,12 @@ export class TestsService {
     }
 
     async deleteTagByTestId(testId: number, tag: string){
+        return await this.repository.createQueryBuilder('test')
+        .where({id: testId})
+        .leftJoinAndSelect('test.tag', 'tags')
+        .leftJoinAndSelect('tags.tag', 'tag')
+        .andWhere('tag.tag = :tag', { tag: tag })
+        .delete()
+        .execute()
     }
 }

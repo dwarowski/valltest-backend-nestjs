@@ -46,7 +46,7 @@ export class TestsController {
         return this.TestsService.deleteTest(+id);
     }
 
-    @Delete('tests/:id/tag/:tag')
+    @Delete(':id/tag/:tag')
     deleteTagByTestId(
         @Param('id') id: string,
         @Param('tag') tag: string) {
