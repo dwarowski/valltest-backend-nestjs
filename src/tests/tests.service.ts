@@ -31,7 +31,7 @@ export class TestsService {
             .getOne()
     }
 
-    async getTestsByPage(page: number, take: number, filterDto: TestFilterDto): Promise<PageDto<TestsEntity>> {
+    async getTestsByPage(page: number, take: number, filterDto?: TestFilterDto): Promise<PageDto<TestsEntity>> {
         if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
             throw new BadRequestException('Invalid pagination params')
         }
@@ -42,17 +42,14 @@ export class TestsService {
             .leftJoinAndSelect('tests.topic', 'topic')
             .leftJoinAndSelect('topic.subject', 'subject');
 
-        const { subject, topic } = filterDto;
-
-        if (topic) {
+        if (filterDto){
+            const { subject, topic } = filterDto;
             testsQuery
-                .andWhere("topic.topicName  = :topic", { topic })
+            .andWhere("topic.topicName  = :topic", { topic })
+            testsQuery
+            .andWhere("subject.subjectName  = :subject", { subject })
         }
 
-        if (subject) {
-            testsQuery
-                .andWhere("subject.subjectName  = :subject", { subject })
-        }
 
         const [tests, total] = await testsQuery.getManyAndCount();
 
