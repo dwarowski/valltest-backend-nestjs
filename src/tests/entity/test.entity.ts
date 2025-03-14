@@ -11,6 +11,8 @@ import {
 
 import { TopicEntity } from 'src/topics/entity/topic.entity';
 import { RatingEntity } from '../../ratings/entity/rating.entity';
+import { TagsEntity } from 'src/tags/entity/tags.entity';
+import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
 
 @Entity('tests')
 export class TestsEntity {
@@ -42,4 +44,7 @@ export class TestsEntity {
 
   @OneToMany(() => RatingEntity, (rating) => rating.user)
   ratings: RatingEntity[];
+  @OneToMany(()=> TestTagEntity, (testTag) => testTag.test)
+  testTag: TagsEntity[]
+
 }

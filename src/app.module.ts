@@ -18,6 +18,7 @@ import { AnswersModule } from './answers/answers.module';
 import { UserAnswersModule } from './user-answers/user-answers.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { TestTagModule } from './test-tag/test-tag.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -39,6 +40,7 @@ import { AuthModule } from './auth/auth.module';
   UserModule,
   AuthModule,
   UserAnswersModule,
-  AnswersModule],
+  AnswersModule,
+  TestTagModule],
 })
 export class AppModule {}

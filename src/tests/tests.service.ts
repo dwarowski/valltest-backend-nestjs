@@ -10,16 +10,19 @@ import { RatingService } from 'src/ratings/rating.service';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { TopicService } from 'src/topics/topics.service';
+import { TestTagService } from 'src/test-tag/test-tag.service';
 
 @Injectable()
 export class TestsService {
     constructor(
         @Inject(RatingService)
         private readonly ratingService: RatingService,
+        @Inject(TopicService)
+        private readonly topicService: TopicService,        
+        @Inject(TestTagService)
+        private readonly testTagService: TestTagService,
         @InjectRepository(TestsEntity)
         private repository: Repository<TestsEntity>,
-        @Inject(TopicService)
-        private readonly topicService: TopicService
     ) { }
 
     async getTestById(id: number) {
@@ -28,7 +31,7 @@ export class TestsService {
             .getOne()
     }
 
-    async getTestsByPage(page: number, take: number, filterDto: TestFilterDto): Promise<PageDto<TestsEntity>> {
+    async getTestsByPage(page: number, take: number, filterDto?: TestFilterDto): Promise<PageDto<TestsEntity>> {
         if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
             throw new BadRequestException('Invalid pagination params')
         }
@@ -39,17 +42,14 @@ export class TestsService {
             .leftJoinAndSelect('tests.topic', 'topic')
             .leftJoinAndSelect('topic.subject', 'subject');
 
-        const { subject, topic } = filterDto;
-
-        if (topic) {
+        if (filterDto){
+            const { subject, topic } = filterDto;
             testsQuery
-                .andWhere("topic.topicName  = :topic", { topic })
+            .andWhere("topic.topicName  = :topic", { topic })
+            testsQuery
+            .andWhere("subject.subjectName  = :subject", { subject })
         }
 
-        if (subject) {
-            testsQuery
-                .andWhere("subject.subjectName  = :subject", { subject })
-        }
 
         const [tests, total] = await testsQuery.getManyAndCount();
 
@@ -135,5 +135,33 @@ export class TestsService {
                 throw new InternalServerErrorException('Ошибка сервера');
             }
         }
+    }
+
+    async deleteTagByTestId(testId: number, tag: string){
+
+        const tagEntity = await this.testTagService.getTagByName(tag)
+        
+        if (!tagEntity){
+            throw new Error(`tag with name "${tag}" not found`)
+        }
+
+        const tagId = tagEntity.tag.id;
+
+        return await this.testTagService.deleteRelationByTestAndTag(testId, tagId)
+        
+    }
+
+    async addTagToTest(testId: number, tag: string){
+        const tagEntity = await this.testTagService.getTagByName(tag)
+        const testEntity = await this.getTestById(testId)
+
+        if (!tagEntity) {
+            throw new BadRequestException('Not found')
+        }
+
+        if (!testEntity) {
+            throw new BadRequestException('Not found')
+        }
+        return this.testTagService.createRelationTestTag(testEntity, tagEntity.tag)
     }
 }

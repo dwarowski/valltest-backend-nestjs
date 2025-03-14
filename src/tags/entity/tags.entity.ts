@@ -1,25 +1,21 @@
-import { ApiHideProperty } from '@nestjs/swagger';
-
 import {
     Column,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
-    ManyToOne
 } from 'typeorm';
-
-import { TestsEntity } from 'src/tests/entity/test.entity';
+import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
 
 @Entity('tags')
 export class TagsEntity {
-    
-    @ApiHideProperty()
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => TestsEntity, (test) => test.id)
-    test: TestsEntity
-    
     @Column()
     tag: string
+
+    @OneToMany(()=> TestTagEntity, (testTag) => testTag.tag)
+    tagTest: TagsEntity[]
+    
 
 }

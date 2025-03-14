@@ -11,12 +11,14 @@ import { TopicEntity } from 'src/topics/entity/topic.entity';
 import { TopicService } from 'src/topics/topics.service';
 import { SubjectEntity } from 'src/subjects/entity/subject.entity';
 import { SubjectService } from 'src/subjects/subjects.service';
+import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
+import { TestTagService } from 'src/test-tag/test-tag.service';
 import { User } from 'src/user/entities/user.entity';
 
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([TestsEntity, RatingEntity, TopicEntity, SubjectEntity, User])],
+  imports: [ConfigModule, TypeOrmModule.forFeature([TestsEntity, RatingEntity, TopicEntity, SubjectEntity, TestTagEntity, User])],
   controllers: [TestsController],
-  providers: [TestsService, RatingService, TopicService, SubjectService]
+  providers: [TestsService, RatingService, TopicService, SubjectService, TestTagService]
 })
 export class TestsModule { }

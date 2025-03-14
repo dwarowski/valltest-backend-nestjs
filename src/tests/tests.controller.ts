@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import {
     Get,
@@ -23,11 +23,12 @@ import { TestFilterDto } from './dto/test-filter.dto';
 export class TestsController {
     constructor(private readonly TestsService: TestsService) { }
 
+    @ApiQuery({ name: 'filter', required: false })
     @Get()
     getTests(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
         @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number = 1,
-        @Query() filterDto: TestFilterDto) {
+        @Query('filter') filterDto?: TestFilterDto) {
         return this.TestsService.getTestsByPage(page, take, filterDto);
     }
 
@@ -44,6 +45,21 @@ export class TestsController {
     @Delete('delete/:id')
     deleteTest(@Param('id') id: string) {
         return this.TestsService.deleteTest(+id);
+    }
+
+
+    @Post(':id/tag/:tag')
+    addTagToTest(@Param('id') id: string,
+    @Param('tag') tag: string ){
+        return this.TestsService.addTagToTest(+id, tag)
+
+    }
+
+    @Delete(':id/tag/:tag')
+    deleteTagByTestId(
+        @Param('id') id: string,
+        @Param('tag') tag: string) {
+            return this.TestsService.deleteTagByTestId(+id, tag)
     }
 
     @Patch('update/:id')
