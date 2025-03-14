@@ -14,4 +14,8 @@ export class TestFavoritesService {
     getFavTestById(id: number){
         return this.repository.findOneBy({ id })
     }
+
+    async addTestToFavorite(userId: string, testId: string){
+        return 
+    }
 }
