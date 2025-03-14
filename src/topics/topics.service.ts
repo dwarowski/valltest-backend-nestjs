@@ -72,4 +72,10 @@ export class TopicService {
       throw new NotFoundException(`Topic with ID ${id} not found`);
     }
   }
+
+  async getTopicById(id: number) {
+      return await this.topicRepository.createQueryBuilder('topicId')
+          .where({ id: id })
+          .getOne()
+    }
 }
