@@ -8,14 +8,15 @@ import { TestsEntity } from './entity/test.entity';
 import { RatingService } from 'src/ratings/rating.service';
 import { RatingEntity } from 'src/ratings/entity/rating.entity';
 import { TopicEntity } from 'src/topics/entity/topic.entity';
-import { TopicsService } from 'src/topics/topics.service';
+import { TopicService } from 'src/topics/topics.service';
 import { SubjectEntity } from 'src/subjects/entity/subject.entity';
-import { SubjectsService } from 'src/subjects/subjects.service';
+import { SubjectService } from 'src/subjects/subjects.service';
+import { User } from 'src/user/entities/user.entity';
 
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([TestsEntity, RatingEntity, TopicEntity, SubjectEntity])],
+  imports: [ConfigModule, TypeOrmModule.forFeature([TestsEntity, RatingEntity, TopicEntity, SubjectEntity, User])],
   controllers: [TestsController],
-  providers: [TestsService, RatingService, TopicsService, SubjectsService]
+  providers: [TestsService, RatingService, TopicService, SubjectService]
 })
 export class TestsModule { }

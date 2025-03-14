@@ -9,7 +9,7 @@ import { PageDto } from '../global-dto/get-page/page.dto';
 import { RatingService } from 'src/ratings/rating.service';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
-import { TopicsService } from 'src/topics/topics.service';
+import { TopicService } from 'src/topics/topics.service';
 
 @Injectable()
 export class TestsService {
@@ -18,8 +18,8 @@ export class TestsService {
         private readonly ratingService: RatingService,
         @InjectRepository(TestsEntity)
         private repository: Repository<TestsEntity>,
-        @Inject(TopicsService)
-        private readonly topicService: TopicsService
+        @Inject(TopicService)
+        private readonly topicService: TopicService
     ) { }
 
     async getTestById(id: number) {
@@ -64,10 +64,7 @@ export class TestsService {
 
     async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsEntity[]> {
         return Promise.all(tests.map(async test => {
-            let averageRating = await this.ratingService.getRatingsByTestId(test.id);
-            if (averageRating === 'NaN') {
-                averageRating = '0'
-            }
+            const averageRating = await this.ratingService.getAverageRating(test.id);
 
             return {
                 ...test,

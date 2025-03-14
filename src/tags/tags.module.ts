@@ -7,15 +7,16 @@ import { TagsService } from './tags.service';
 import { TestsEntity } from 'src/tests/entity/test.entity';
 import { TestsService } from 'src/tests/tests.service';
 import { RatingService } from 'src/ratings/rating.service';
-import { TopicsService } from 'src/topics/topics.service';
+import { TopicService } from 'src/topics/topics.service';
 import { RatingEntity } from 'src/ratings/entity/rating.entity';
 import { TopicEntity } from 'src/topics/entity/topic.entity';
-import { SubjectsService } from 'src/subjects/subjects.service';
+import { SubjectService } from 'src/subjects/subjects.service';
 import { SubjectEntity } from 'src/subjects/entity/subject.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([TagsEntity, TestsEntity, RatingEntity, TopicEntity, SubjectEntity])],
+  imports: [ConfigModule, TypeOrmModule.forFeature([TagsEntity, TestsEntity, RatingEntity, TopicEntity, SubjectEntity, User])],
   controllers: [TagsController],
-  providers: [TagsService, TestsService, RatingService, TopicsService, SubjectsService]
+  providers: [TagsService, TestsService, RatingService, TopicService, SubjectService]
 })
 export class TagsModule { }
