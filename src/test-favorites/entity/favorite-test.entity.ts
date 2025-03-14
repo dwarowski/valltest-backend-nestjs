@@ -18,10 +18,8 @@ export class FavoriteTestEntity {
     id: number;
     
     @ManyToOne(() => User, (user) => user.id)
-    @Column()
-    user: number
+    user: User
 
     @ManyToOne(() => TestsEntity, (test) => test.id)
-    @Column()
-    test: number
+    test: TestsEntity
 }
