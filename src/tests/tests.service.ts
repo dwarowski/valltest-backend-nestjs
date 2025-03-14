@@ -153,4 +153,18 @@ export class TestsService {
         return await this.testTagService.deleteRelationByTestAndTag(testId, tagId)
         
     }
+
+    async addTagToTest(testId: number, tag: string){
+        const tagEntity = await this.testTagService.getTagByName(tag)
+        const testEntity = await this.getTestById(testId)
+
+        if (!tagEntity) {
+            throw new BadRequestException('Not found')
+        }
+
+        if (!testEntity) {
+            throw new BadRequestException('Not found')
+        }
+        return this.testTagService.createRelationTestTag(testEntity, tagEntity.tag)
+    }
 }
