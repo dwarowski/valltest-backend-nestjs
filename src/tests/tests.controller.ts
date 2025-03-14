@@ -47,6 +47,14 @@ export class TestsController {
         return this.TestsService.deleteTest(+id);
     }
 
+
+    @Post(':id/tag/:tag')
+    addTagToTest(@Param('id') id: string,
+    @Param('tag') tag: string ){
+        return this.TestsService.addTagToTest(+id, tag)
+
+    }
+
     @Delete(':id/tag/:tag')
     deleteTagByTestId(
         @Param('id') id: string,
