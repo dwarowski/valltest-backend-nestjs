@@ -1,43 +1,75 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { TopicEntity } from './entity/topic.entity';
+import { SubjectEntity } from '../subjects/entity/subject.entity';
 import { CreateTopicDto } from './dto/create-topic.dto';
-import { SubjectsService } from 'src/subjects/subjects.service';
+import { UpdateTopicDto } from './dto/update-topic.dto';
 
 @Injectable()
-export class TopicsService {
-    constructor(
-        @Inject(SubjectsService)
-        private subjectService: SubjectsService,
-        @InjectRepository(TopicEntity)
-        private repository: Repository<TopicEntity>,
-    ) { }
+export class TopicService {
+  constructor(
+    @InjectRepository(TopicEntity)
+    private readonly topicRepository: Repository<TopicEntity>,
+    @InjectRepository(SubjectEntity)
+    private readonly subjectRepository: Repository<SubjectEntity>,
+  ) {}
 
-    getTopic() {
-        return this.repository.find();
+  // Получить все темы по ID предмета
+  async findAllBySubject(subjectId: number): Promise<TopicEntity[]> {
+    return this.topicRepository.find({ where: { subject: { id: subjectId } } });
+  }
+
+  // Создание темы
+  async create(createTopicDto: CreateTopicDto): Promise<TopicEntity> {
+    const subject = await this.subjectRepository.findOne({
+      where: { id: createTopicDto.subjectId },
+    });
+    if (!subject) {
+      throw new NotFoundException(
+        `Subject with ID ${createTopicDto.subjectId} not found`,
+      );
     }
 
-    async getTopicById(id: number) {
-        return await this.repository.createQueryBuilder('topic')
-            .where({ id: id })
-            .getOne()
+    const topic = this.topicRepository.create({
+      topicName: createTopicDto.topicName,
+      subject,
+    });
+
+    return this.topicRepository.save(topic);
+  }
+
+  // Обновление темы
+  async update(id: number, updateTopicDto: UpdateTopicDto): Promise<TopicEntity> {
+    const topic = await this.topicRepository.findOne({ where: { id } });
+    if (!topic) {
+      throw new NotFoundException(`Topic with ID ${id} not found`);
     }
 
-    async createTopic(dto: CreateTopicDto) {
-        const { topicName, subjectId } = dto;
-        const subject = await this.subjectService.getSubjectById(subjectId)
-        if (!subject) {
-            throw new BadRequestException(`Subject with ID ${subjectId} not found`)
-        }
-
-        return await this.repository.save(
-            {
-                topicName,
-                subject: subject
-            }
-        )
+    if (updateTopicDto.topicName) {
+      topic.topicName = updateTopicDto.topicName;
     }
 
+    if (updateTopicDto.subjectId) {
+      const subject = await this.subjectRepository.findOne({
+        where: { id: updateTopicDto.subjectId },
+      });
+      if (!subject) {
+        throw new NotFoundException(
+          `Subject with ID ${updateTopicDto.subjectId} not found`,
+        );
+      }
+      topic.subject = subject;
+    }
+
+    return this.topicRepository.save(topic);
+  }
+
+  // Удалить тему
+  async delete(id: number): Promise<void> {
+    const result = await this.topicRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Topic with ID ${id} not found`);
+    }
+  }
 }

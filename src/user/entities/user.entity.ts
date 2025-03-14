@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { RatingEntity } from '../../ratings/entity/rating.entity';
 
 @Entity('users')
 export class User {
@@ -16,4 +17,7 @@ export class User {
 
   @Column({ nullable: true })
   avatar_location: string;
+
+  @OneToMany(() => RatingEntity, (rating) => rating.user)
+  ratings: RatingEntity[];
 }

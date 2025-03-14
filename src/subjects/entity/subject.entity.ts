@@ -1,23 +1,16 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-
-import {
-    Column,
-    OneToMany,
-    Entity,
-    PrimaryGeneratedColumn
-} from 'typeorm';
-
-import { TopicEntity } from "src/topics/entity/topic.entity"
+import { Column, OneToMany, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { TopicEntity } from 'src/topics/entity/topic.entity';
 
 @Entity('subject')
 export class SubjectEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ApiHideProperty()
-    @OneToMany(() => TopicEntity, (test) => test.subject)
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ unique: true })
+  subjectName: string;
 
-    @Column({ unique: true })
-    subjectName: string
-
+  @ApiHideProperty()
+  @OneToMany(() => TopicEntity, (topic) => topic.subject)
+  topics: TopicEntity[];
 }

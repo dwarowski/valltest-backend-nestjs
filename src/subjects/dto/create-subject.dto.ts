@@ -1,6 +1,7 @@
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateSubjectDto {
+  @IsNotEmpty()
   @IsString()
-  subjectName: string
+  subjectName: string;
 }
