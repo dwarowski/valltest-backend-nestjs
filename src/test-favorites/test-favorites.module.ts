@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TestFavoritesController } from './test-favorites.controller';
 import { TestFavoritesService } from './test-favorites.service';
 import { FavoriteTestEntity } from './entity/favorite-test.entity';
-import { User } from 'src/user/entities/user.entity';
+import { UserModule } from 'src/user/user.module';
+import { TestsModule } from 'src/tests/tests.module';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([FavoriteTestEntity, User])],
+  imports: [ConfigModule, UserModule, TestsModule, TypeOrmModule.forFeature([FavoriteTestEntity])],
   controllers: [TestFavoritesController],
-  providers: [TestFavoritesService]
+  providers: [TestFavoritesService],
+  exports: [TestFavoritesModule]
 })
 export class TestFavoritesModule {}
