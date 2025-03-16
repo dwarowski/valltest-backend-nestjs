@@ -6,6 +6,7 @@ import { TestTagEntity } from './entity/test-tag.entity';
 
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([TestTagEntity])],
-  providers: [TestTagService]
+  providers: [TestTagService],
+  exports: [TestTagService]
 })
 export class TestTagModule {}
