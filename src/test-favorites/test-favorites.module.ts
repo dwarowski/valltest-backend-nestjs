@@ -12,6 +12,6 @@ import { TestsModule } from 'src/tests/tests.module';
   imports: [ConfigModule, UserModule, TestsModule, TypeOrmModule.forFeature([FavoriteTestEntity])],
   controllers: [TestFavoritesController],
   providers: [TestFavoritesService],
-  exports: [TestFavoritesModule]
+  exports: [TestFavoritesService]
 })
 export class TestFavoritesModule {}
