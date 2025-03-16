@@ -11,5 +11,6 @@ import { SubjectEntity } from '../subjects/entity/subject.entity'; // Импор
   ],
   providers: [TopicService],
   controllers: [TopicController],
+  exports: [TopicService]
 })
 export class TopicsModule {}
