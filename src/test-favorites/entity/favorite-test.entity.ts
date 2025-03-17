@@ -17,9 +17,13 @@ export class FavoriteTestEntity {
     @PrimaryGeneratedColumn()
     id: number;
     
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        eager: true
+    })
     user: User
 
-    @ManyToOne(() => TestsEntity, (test) => test.id)
+    @ManyToOne(() => TestsEntity, (test) => test.id, {
+        eager: true
+    })
     test: TestsEntity
 }
