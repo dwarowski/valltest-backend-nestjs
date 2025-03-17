@@ -79,4 +79,14 @@ export class TestFavoritesService {
         })
         .execute()
     }
+
+    async getFavoriteTestsByUser(userId: string) {
+        const userEntity = await this.userService.findOneById(userId)
+
+        if (!userEntity) {
+            throw new BadRequestException('User not found')
+        }
+
+        return await this.repository.find({where: {user: userEntity}})
+    }
 }
