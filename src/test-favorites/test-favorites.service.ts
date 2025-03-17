@@ -49,4 +49,34 @@ export class TestFavoritesService {
             test: testEntity
         })
     }
+
+    async removeTestFromFavorite(userId: string, testId: string) {
+        const [userEntity, testEntity] = await Promise.all([
+            this.userService.findOneById(userId),
+            this.testsService.getTestById(+testId)
+        ]);
+
+        if (!userEntity) {
+            throw new BadRequestException('User not found')
+        }
+
+        if (!testEntity) {
+            throw new BadRequestException('Test not found')
+        }
+        
+        if(!await this.repository.findOne({where: {
+            user: { id: userId },
+            test: { id: +testId },
+        }})) {
+            return new BadRequestException('not in favorite')
+        }
+
+        return await this.repository.createQueryBuilder('favTest')
+        .delete()
+        .where({
+            user: { id: userId },
+            test: { id: +testId },
+        })
+        .execute()
+    }
 }

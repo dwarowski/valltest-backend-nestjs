@@ -2,6 +2,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import {
     Controller,
+    Delete,
     Get,
     Param, 
     Post
@@ -21,6 +22,11 @@ export class TestFavoritesController {
     @Post(':testId')
     addToFavorite(@Param('testId') testId: string) { // TODO Добавить получение uuid через request пользователя
         return this.testFavService.addTestToFavorite('9a730553-2eeb-4602-8021-f1e5aa978b0a', testId)
+    }
+
+    @Delete(':testId')
+    removeTestFromFavorite(@Param('testId') testId: string) { // TODO Добавить получение uuid через request пользователя
+        return this.testFavService.removeTestFromFavorite('9a730553-2eeb-4602-8021-f1e5aa978b0a', testId)
     }
 
 }
