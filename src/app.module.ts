@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { 
-  ConfigModule, 
-  ConfigService 
-} from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { getPostgresConfig } from './configs/postgres.config';
 import { TestsModule } from './tests/tests.module';
@@ -21,26 +18,28 @@ import { AuthModule } from './auth/auth.module';
 import { TestTagModule } from './test-tag/test-tag.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    envFilePath: '.env',
-  }),
-  TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: getPostgresConfig,
-  }),
-  TestsModule,
-  TopicsModule,
-  SubjectsModule,
-  TagsModule,
-  TestFavoritesModule,
-  RatingModule,
-  TestSessionsModule,
-  ProblemsModule,
-  UserModule,
-  AuthModule,
-  UserAnswersModule,
-  AnswersModule,
-  TestTagModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getPostgresConfig,
+    }),
+    TestsModule,
+    TopicsModule,
+    SubjectsModule,
+    TagsModule,
+    TestFavoritesModule,
+    RatingModule,
+    TestSessionsModule,
+    ProblemsModule,
+    UserModule,
+    AuthModule,
+    UserAnswersModule,
+    AnswersModule,
+    TestTagModule,
+  ],
 })
 export class AppModule {}

@@ -7,34 +7,32 @@ import { TagsEntity } from 'src/tags/entity/tags.entity';
 
 @Injectable()
 export class TestTagService {
-    constructor(
-        @InjectRepository(TestTagEntity)
-        private repository: Repository<TestTagEntity>,
-    ) { }
+  constructor(
+    @InjectRepository(TestTagEntity)
+    private repository: Repository<TestTagEntity>,
+  ) {}
 
-    async createRelationTestTag(test: TestsEntity, tag: TagsEntity){
-        return await this.repository.save(
-            {
-                test: test,
-                tag: tag
-            }
-        )
+  async createRelationTestTag(test: TestsEntity, tag: TagsEntity) {
+    return await this.repository.save({
+      test: test,
+      tag: tag,
+    });
+  }
 
-    }
+  async deleteRelationByTestAndTag(testId: number, tagId: number) {
+    return this.repository
+      .createQueryBuilder()
+      .delete()
+      .where({ test: testId })
+      .andWhere({ tag: tagId })
+      .execute();
+  }
 
-    async deleteRelationByTestAndTag(testId: number, tagId: number){
-        return this.repository.createQueryBuilder()
-        .delete()
-        .where({test: testId})
-        .andWhere({tag: tagId})
-        .execute()
-    }
-
-    async getTagByName(tagName: string) {
-        return await this.repository.createQueryBuilder('tags')
-        .leftJoinAndSelect('tags.tag', 'tag' )
-        .where('tag.tag = :tagName', { tagName })
-        .getOne();
-    }
-
+  async getTagByName(tagName: string) {
+    return await this.repository
+      .createQueryBuilder('tags')
+      .leftJoinAndSelect('tags.tag', 'tag')
+      .where('tag.tag = :tagName', { tagName })
+      .getOne();
+  }
 }

@@ -9,9 +9,14 @@ import { UserModule } from 'src/user/user.module';
 import { TestsModule } from 'src/tests/tests.module';
 
 @Module({
-  imports: [ConfigModule, UserModule, TestsModule, TypeOrmModule.forFeature([FavoriteTestEntity])],
+  imports: [
+    ConfigModule,
+    UserModule,
+    TestsModule,
+    TypeOrmModule.forFeature([FavoriteTestEntity]),
+  ],
   controllers: [TestFavoritesController],
   providers: [TestFavoritesService],
-  exports: [TestFavoritesService]
+  exports: [TestFavoritesService],
 })
 export class TestFavoritesModule {}

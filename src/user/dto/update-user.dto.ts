@@ -1,5 +1,11 @@
 // src/user/dto/update-user.dto.ts
-import { IsEmail, IsOptional, IsString, MinLength, MaxLength } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 
 export class UpdateUserDto {
   @IsOptional() // Поле необязательное

@@ -1,15 +1,15 @@
 // src/users/users.controller.ts
-import { 
-    Controller, 
-    Get, 
-    Param, 
-    Patch,
-    Post,
-    Body,
-    Delete,
-    NotFoundException,
-    UsePipes,
-    ValidationPipe,
+import {
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Body,
+  Delete,
+  NotFoundException,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
@@ -47,7 +47,6 @@ export class UserController {
   ): Promise<void> {
     return this.usersService.changePassword(id, changePasswordDto);
   }
-
 
   @Get()
   async getAllUsers(): Promise<User[]> {

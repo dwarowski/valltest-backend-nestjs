@@ -1,2 +1,1 @@
-export class CreateUserAnswerDto {
-}
+export class CreateUserAnswerDto {}

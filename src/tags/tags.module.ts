@@ -8,9 +8,14 @@ import { TestsModule } from 'src/tests/tests.module';
 import { TestTagModule } from 'src/test-tag/test-tag.module';
 
 @Module({
-  imports: [ConfigModule, TestsModule, TestTagModule, TypeOrmModule.forFeature([TagsEntity])],
+  imports: [
+    ConfigModule,
+    TestsModule,
+    TestTagModule,
+    TypeOrmModule.forFeature([TagsEntity]),
+  ],
   controllers: [TagsController],
   providers: [TagsService],
-  exports: [TagsService]
+  exports: [TagsService],
 })
-export class TagsModule { }
+export class TagsModule {}

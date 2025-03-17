@@ -9,84 +9,92 @@ import { CreateFavoriteTestDto } from './dto/create-favorite-test.dto';
 
 @Injectable()
 export class TestFavoritesService {
-    constructor(
-            @Inject(TestsService)
-            private readonly testsService: TestsService,
-            @Inject(UserService)
-            private readonly userService: UserService,
-            @InjectRepository(FavoriteTestEntity)
-            private repository: Repository<FavoriteTestEntity>,
-          ) {}
+  constructor(
+    @Inject(TestsService)
+    private readonly testsService: TestsService,
+    @Inject(UserService)
+    private readonly userService: UserService,
+    @InjectRepository(FavoriteTestEntity)
+    private repository: Repository<FavoriteTestEntity>,
+  ) {}
 
-    getFavTestById(id: number){
-        return this.repository.findOneBy({ id })
+  getFavTestById(id: number) {
+    return this.repository.findOneBy({ id });
+  }
+
+  async addTestToFavorite(userId: string, testId: string) {
+    const [userEntity, testEntity] = await Promise.all([
+      this.userService.findOneById(userId),
+      this.testsService.getTestById(+testId),
+    ]);
+
+    if (!userEntity) {
+      throw new BadRequestException('User not found');
     }
 
-    async addTestToFavorite(userId: string, testId: string){
-
-        const [userEntity, testEntity] = await Promise.all([
-            this.userService.findOneById(userId),
-            this.testsService.getTestById(+testId)
-        ]);
-
-        if (!userEntity) {
-            throw new BadRequestException('User not found')
-        }
-
-        if (!testEntity) {
-            throw new BadRequestException('Test not found')
-        }
-
-        if(await this.repository.findOne({where: {
-                user: { id: userId },
-                test: { id: +testId },
-            }})) {
-                return new BadRequestException('already in favorite')
-            }
-
-        return this.repository.save({
-            user: userEntity,
-            test: testEntity
-        })
+    if (!testEntity) {
+      throw new BadRequestException('Test not found');
     }
 
-    async removeTestFromFavorite(userId: string, testId: string) {
-        const [userEntity, testEntity] = await Promise.all([
-            this.userService.findOneById(userId),
-            this.testsService.getTestById(+testId)
-        ]);
-
-        if (!userEntity) {
-            throw new BadRequestException('User not found')
-        }
-
-        if (!testEntity) {
-            throw new BadRequestException('Test not found')
-        }
-        
-        if(!await this.repository.findOne({where: {
-            user: { id: userId },
-            test: { id: +testId },
-        }})) {
-            return new BadRequestException('not in favorite')
-        }
-
-        return await this.repository.createQueryBuilder('favTest')
-        .delete()
-        .where({
-            user: { id: userId },
-            test: { id: +testId },
-        })
-        .execute()
+    if (
+      await this.repository.findOne({
+        where: {
+          user: { id: userId },
+          test: { id: +testId },
+        },
+      })
+    ) {
+      return new BadRequestException('already in favorite');
     }
 
-    async getFavoriteTestsByUser(userId: string) {
-        const userEntity = await this.userService.findOneById(userId)
+    return this.repository.save({
+      user: userEntity,
+      test: testEntity,
+    });
+  }
 
-        if (!userEntity) {
-            throw new BadRequestException('User not found')
-        }
+  async removeTestFromFavorite(userId: string, testId: string) {
+    const [userEntity, testEntity] = await Promise.all([
+      this.userService.findOneById(userId),
+      this.testsService.getTestById(+testId),
+    ]);
 
-        return await this.repository.find({where: {user: userEntity}})
+    if (!userEntity) {
+      throw new BadRequestException('User not found');
     }
+
+    if (!testEntity) {
+      throw new BadRequestException('Test not found');
+    }
+
+    if (
+      !(await this.repository.findOne({
+        where: {
+          user: { id: userId },
+          test: { id: +testId },
+        },
+      }))
+    ) {
+      return new BadRequestException('not in favorite');
+    }
+
+    return await this.repository
+      .createQueryBuilder('favTest')
+      .delete()
+      .where({
+        user: { id: userId },
+        test: { id: +testId },
+      })
+      .execute();
+  }
+
+  async getFavoriteTestsByUser(userId: string) {
+    const userEntity = await this.userService.findOneById(userId);
+
+    if (!userEntity) {
+      throw new BadRequestException('User not found');
+    }
+
+    return await this.repository.find({ where: { user: userEntity } });
+  }
 }

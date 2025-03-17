@@ -1,10 +1,14 @@
 // src/users/users.service.ts
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
-import * as bcrypt from 'bcrypt'; 
+import * as bcrypt from 'bcrypt';
 import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
@@ -49,20 +53,29 @@ export class UserService {
   }
 
   // Метод для смены пароля
-  async changePassword(id: string, changePasswordDto: ChangePasswordDto): Promise<void> {
+  async changePassword(
+    id: string,
+    changePasswordDto: ChangePasswordDto,
+  ): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
     // Проверяем, совпадает ли старый пароль
-    const isOldPasswordValid = await bcrypt.compare(changePasswordDto.oldPassword, user.hashed_password);
+    const isOldPasswordValid = await bcrypt.compare(
+      changePasswordDto.oldPassword,
+      user.hashed_password,
+    );
     if (!isOldPasswordValid) {
       throw new UnauthorizedException('Old password is incorrect');
     }
 
     // Хешируем новый пароль
-    const newHashedPassword = await bcrypt.hash(changePasswordDto.newPassword, 10);
+    const newHashedPassword = await bcrypt.hash(
+      changePasswordDto.newPassword,
+      10,
+    );
 
     // Обновляем пароль
     user.hashed_password = newHashedPassword;

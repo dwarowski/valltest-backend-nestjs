@@ -6,7 +6,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 
 import { TopicEntity } from 'src/topics/entity/topic.entity';
@@ -16,7 +16,6 @@ import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
 
 @Entity('tests')
 export class TestsEntity {
-
   @ApiHideProperty()
   @PrimaryGeneratedColumn()
   id: number;
@@ -32,7 +31,7 @@ export class TestsEntity {
 
   @ManyToOne(() => TopicEntity, (topic) => topic.id, {
     eager: true,
-    nullable: false
+    nullable: false,
   })
   topic: TopicEntity;
 
@@ -47,5 +46,4 @@ export class TestsEntity {
 
   @OneToMany(() => TestTagEntity, (testTag) => testTag.test)
   testTag: TagsEntity[];
-
 }

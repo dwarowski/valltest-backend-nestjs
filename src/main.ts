@@ -1,4 +1,3 @@
-
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
 
@@ -9,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('dstu');
   app.useGlobalPipes(new ValidationPipe());
-  
+
   // Включаем CORS
   app.enableCors({
     origin: '*', // Разрешаем доступ с любого домена (лучше указать конкретный)
@@ -19,9 +18,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Система тестрования ДГТУ')
-    .setDescription(
-      ``,
-    )
+    .setDescription(``)
     .setVersion('1.0')
     .addBearerAuth()
     .build();
@@ -36,7 +33,7 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3000;
   console.log('port = ', port);
-  const server = process.env.SERVER ?? "localhost";
+  const server = process.env.SERVER ?? 'localhost';
   await app.listen(port, server);
 
   console.log(`Application is running on: ${await app.getUrl()}`);

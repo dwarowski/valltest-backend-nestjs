@@ -1,4 +1,4 @@
 export class CreateSessionTestDto {
-  user: number
-  test: number
+  user: number;
+  test: number;
 }
