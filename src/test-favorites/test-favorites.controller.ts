@@ -14,8 +14,8 @@ import { TestFavoritesService } from './test-favorites.service';
 export class TestFavoritesController {
 
     constructor(private readonly testFavService: TestFavoritesService ) {}
-    @Get(':id')
-    getFavTestById(@Param('id') id: string){
+    @Get(':testId')
+    getFavTestById(@Param('testId') id: string){
         return this.testFavService.getFavTestById(+id);
     }
 
@@ -27,6 +27,11 @@ export class TestFavoritesController {
     @Delete(':testId')
     removeTestFromFavorite(@Param('testId') testId: string) { // TODO Добавить получение uuid через request пользователя
         return this.testFavService.removeTestFromFavorite('9a730553-2eeb-4602-8021-f1e5aa978b0a', testId)
+    }
+
+    @Get('users/:userId')
+    getFavoriteTestByUser(@Param('userId') userId: string) { // TODO Добавить получение uuid через request пользователя
+        return this.testFavService.getFavoriteTestsByUser(userId)        
     }
 
 }
