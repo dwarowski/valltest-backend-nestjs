@@ -8,4 +8,10 @@ export class TestFilterDto {
     @IsOptional()
     @IsString()
     topic: string;
+
+    @IsOptional()
+    @IsString()
+    tag: string;
+
+
 }
