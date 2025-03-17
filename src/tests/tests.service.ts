@@ -36,18 +36,16 @@ export class TestsService {
             throw new BadRequestException('Invalid pagination params')
         }
 
-        const testsQuery = this.repository.createQueryBuilder('tests')
+        const testsQuery = await this.repository.createQueryBuilder('tests')
             .skip((page - 1) * take)
             .take(take)
             .leftJoinAndSelect('tests.topic', 'topic')
-            .leftJoinAndSelect('topic.subject', 'subject');
-
-        if (filterDto){
-            const { subject, topic } = filterDto;
-            testsQuery
-            .andWhere("topic.topicName  = :topic", { topic })
-            testsQuery
-            .andWhere("subject.subjectName  = :subject", { subject })
+            .leftJoinAndSelect('topic.subject', 'subject')
+            .leftJoinAndSelect('tests.testTag', 'testTag')
+            .leftJoinAndSelect('testTag.tag', 'tags');
+        
+        if (filterDto) {
+            this.applyFilters(testsQuery, filterDto);
         }
 
 
@@ -163,5 +161,21 @@ export class TestsService {
             throw new BadRequestException('Not found')
         }
         return this.testTagService.createRelationTestTag(testEntity, tagEntity.tag)
+    }
+
+    private applyFilters(queryBuilder, filterDto: TestFilterDto): void {
+        const { subject, topic, tag } = filterDto;
+
+        if (subject) {
+            queryBuilder.andWhere('subject.subjectName = :subject', { subject });
+        }
+
+        if (topic) {
+            queryBuilder.andWhere('topic.topicName = :topic', { topic });
+        }
+
+        if (tag) {
+            queryBuilder.andWhere('tags.tag = :tag', { tag });
+        }
     }
 }
