@@ -44,7 +44,8 @@ export class TestsEntity {
 
   @OneToMany(() => RatingEntity, (rating) => rating.user)
   ratings: RatingEntity[];
-  @OneToMany(()=> TestTagEntity, (testTag) => testTag.test)
-  testTag: TagsEntity[]
+
+  @OneToMany(() => TestTagEntity, (testTag) => testTag.test)
+  testTag: TagsEntity[];
 
 }
