@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { FavoriteTestEntity } from './entity/favorite-test.entity';
 import { UserService } from 'src/user/user.service';
 import { TestsService } from 'src/tests/tests.service';
+import { CreateFavoriteTestDto } from './dto/create-favorite-test.dto';
 
 @Injectable()
 export class TestFavoritesService {
@@ -22,14 +23,30 @@ export class TestFavoritesService {
     }
 
     async addTestToFavorite(userId: string, testId: string){
-        const userEntity = this.userService.findOneById(userId)
+
+        const [userEntity, testEntity] = await Promise.all([
+            this.userService.findOneById(userId),
+            this.testsService.getTestById(+testId)
+        ]);
+
         if (!userEntity) {
             throw new BadRequestException('User not found')
         }
 
-        const testEntity = this.testsService.getTestById(+testId)
         if (!testEntity) {
             throw new BadRequestException('Test not found')
         }
+
+        if(await this.repository.findOne({where: {
+                user: { id: userId },
+                test: { id: +testId },
+            }})) {
+                return new BadRequestException('already in favorite')
+            }
+
+        return this.repository.save({
+            user: userEntity,
+            test: testEntity
+        })
     }
 }

@@ -19,8 +19,8 @@ export class TestFavoritesController {
     }
 
     @Post(':testId')
-    addToFavorite(@Param('testId') testId: string){
-        return this.testFavService.addTestToFavorite('1', testId)
+    addToFavorite(@Param('testId') testId: string) { // TODO Добавить получение uuid через request пользователя
+        return this.testFavService.addTestToFavorite('9a730553-2eeb-4602-8021-f1e5aa978b0a', testId)
     }
 
 }
