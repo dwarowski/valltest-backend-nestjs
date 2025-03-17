@@ -36,7 +36,7 @@ export class TestsService {
             throw new BadRequestException('Invalid pagination params')
         }
 
-        const testsQuery = await this.repository.createQueryBuilder('tests')
+        const testsQuery = this.repository.createQueryBuilder('tests')
             .skip((page - 1) * take)
             .take(take)
             .leftJoinAndSelect('tests.topic', 'topic')
