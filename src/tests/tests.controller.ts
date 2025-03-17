@@ -23,12 +23,14 @@ import { TestFilterDto } from './dto/test-filter.dto';
 export class TestsController {
     constructor(private readonly TestsService: TestsService) { }
 
-    @ApiQuery({ name: 'filter', required: false })
+    @ApiQuery({ name: 'subject', required: false })
+    @ApiQuery({ name: 'topic', required: false })
+    @ApiQuery({ name: 'tag', required: false })
     @Get()
     getTests(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
         @Query('take', new DefaultValuePipe(10), ParseIntPipe) take: number = 1,
-        @Query('filter') filterDto?: TestFilterDto) {
+        @Query() filterDto?: TestFilterDto) {
         return this.TestsService.getTestsByPage(page, take, filterDto);
     }
 
