@@ -1,5 +1,3 @@
-version: "3.9"  # Используйте последнюю версию Docker Compose
-
 services:
   # Сервис NestJS приложения
   app:
