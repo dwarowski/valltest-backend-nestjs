@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { RolesUsersService } from './roles-users.service';
 
-@Module({})
+@Module({
+  providers: [RolesUsersService]
+})
 export class RolesUsersModule {}
