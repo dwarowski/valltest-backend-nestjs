@@ -1,7 +1,7 @@
-import { IsString } from "class-validator";
+import { IsString } from 'class-validator';
 
-export class CreateAnswerDto{
-    @IsString()
-    value: string
-    is_correct: boolean
+export class CreateAnswerDto {
+  @IsString()
+  value: string;
+  is_correct: boolean;
 }

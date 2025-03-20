@@ -8,6 +8,6 @@ import { SessionTestEntity } from './entity/session-test.entity';
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([SessionTestEntity])],
   controllers: [TestSessionsController],
-  providers: [TestSessionsService]
+  providers: [TestSessionsService],
 })
 export class TestSessionsModule {}

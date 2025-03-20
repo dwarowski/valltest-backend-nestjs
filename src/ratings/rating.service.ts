@@ -23,14 +23,18 @@ export class RatingService {
       where: { id: createRatingDto.userId },
     });
     if (!user) {
-      throw new NotFoundException(`User with ID ${createRatingDto.userId} not found`);
+      throw new NotFoundException(
+        `User with ID ${createRatingDto.userId} not found`,
+      );
     }
 
     const test = await this.testRepository.findOne({
       where: { id: createRatingDto.testId },
     });
     if (!test) {
-      throw new NotFoundException(`Test with ID ${createRatingDto.testId} not found`);
+      throw new NotFoundException(
+        `Test with ID ${createRatingDto.testId} not found`,
+      );
     }
 
     const newRating = this.ratingRepository.create({

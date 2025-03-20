@@ -24,7 +24,10 @@ export class SubjectService {
   }
 
   // Обновить предмет
-  async update(id: number, updateData: UpdateSubjectDto): Promise<SubjectEntity> {
+  async update(
+    id: number,
+    updateData: UpdateSubjectDto,
+  ): Promise<SubjectEntity> {
     const subject = await this.subjectRepository.findOne({ where: { id } });
     if (!subject) {
       throw new NotFoundException(`Subject with ID ${id} not found`);
@@ -46,5 +49,4 @@ export class SubjectService {
   //       .where({ id: id })
   //       .getOne()
   // }
-
 }

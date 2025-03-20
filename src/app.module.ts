@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { 
-  ConfigModule, 
-  ConfigService 
-} from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { getPostgresConfig } from './configs/postgres.config';
 import { TestsModule } from './tests/tests.module';

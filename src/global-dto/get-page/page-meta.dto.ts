@@ -1,24 +1,24 @@
-import { PageMetaDtoParams } from "./page-meta-params.dto";
+import { PageMetaDtoParams } from './page-meta-params.dto';
 
-export class PageMetaDto{
-    page: number;
+export class PageMetaDto {
+  page: number;
 
-    take: number;
+  take: number;
 
-    itemCount: number;
+  itemCount: number;
 
-    pageCount: number;
+  pageCount: number;
 
-    hasPreviousPage: boolean;
+  hasPreviousPage: boolean;
 
-    hasNextPage: boolean;
+  hasNextPage: boolean;
 
-    constructor({ pageOptionsDto, itemCount }: PageMetaDtoParams) {
-        this.page = pageOptionsDto.page;
-        this.take = pageOptionsDto.take;
-        this.itemCount = itemCount;
-        this.pageCount = Math.ceil(this.itemCount / this.take);
-        this.hasPreviousPage = this.page > 1;
-        this.hasNextPage = this.page < this.pageCount;
-    }
+  constructor({ pageOptionsDto, itemCount }: PageMetaDtoParams) {
+    this.page = pageOptionsDto.page;
+    this.take = pageOptionsDto.take;
+    this.itemCount = itemCount;
+    this.pageCount = Math.ceil(this.itemCount / this.take);
+    this.hasPreviousPage = this.page > 1;
+    this.hasNextPage = this.page < this.pageCount;
+  }
 }

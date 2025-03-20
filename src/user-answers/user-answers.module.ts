@@ -8,6 +8,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [ConfigModule, TypeOrmModule.forFeature([UserAnswersEntity])],
   controllers: [UserAnswersController],
-  providers: [UserAnswersService]
+  providers: [UserAnswersService],
 })
 export class UserAnswersModule {}

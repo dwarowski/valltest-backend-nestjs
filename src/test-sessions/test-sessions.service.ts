@@ -5,12 +5,12 @@ import { SessionTestEntity } from './entity/session-test.entity';
 
 @Injectable()
 export class TestSessionsService {
-    constructor(
-                @InjectRepository(SessionTestEntity)
-                private repository: Repository<SessionTestEntity>,
-              ) {}
-              
-    getSessionTestById(id: number){
-        return this.repository.findOneBy({ id })
-    }
+  constructor(
+    @InjectRepository(SessionTestEntity)
+    private repository: Repository<SessionTestEntity>,
+  ) {}
+
+  getSessionTestById(id: number) {
+    return this.repository.findOneBy({ id });
+  }
 }

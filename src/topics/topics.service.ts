@@ -40,7 +40,10 @@ export class TopicService {
   }
 
   // Обновление темы
-  async update(id: number, updateTopicDto: UpdateTopicDto): Promise<TopicEntity> {
+  async update(
+    id: number,
+    updateTopicDto: UpdateTopicDto,
+  ): Promise<TopicEntity> {
     const topic = await this.topicRepository.findOne({ where: { id } });
     if (!topic) {
       throw new NotFoundException(`Topic with ID ${id} not found`);
@@ -74,8 +77,9 @@ export class TopicService {
   }
 
   async getTopicById(id: number) {
-      return await this.topicRepository.createQueryBuilder('topicId')
-          .where({ id: id })
-          .getOne()
-    }
+    return await this.topicRepository
+      .createQueryBuilder('topicId')
+      .where({ id: id })
+      .getOne();
+  }
 }

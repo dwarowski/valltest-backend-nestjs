@@ -1,4 +1,8 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user/entities/user.entity';
@@ -13,13 +17,17 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<Omit<User, 'hashed_password'>> {
+  async register(
+    registerDto: RegisterDto,
+  ): Promise<Omit<User, 'hashed_password'>> {
     // Проверяем, что пользователь с таким email уже не существует
     const existingUser = await this.userRepository.findOne({
       where: { email: registerDto.email },
     });
     if (existingUser) {
-      throw new ConflictException('Пользователь с таким email уже зарегистрирован');
+      throw new ConflictException(
+        'Пользователь с таким email уже зарегистрирован',
+      );
     }
 
     // Хешируем пароль
@@ -49,7 +57,10 @@ export class AuthService {
     }
 
     // Сравниваем пароль
-    const isPasswordValid = await bcrypt.compare(loginDto.password, user.hashed_password);
+    const isPasswordValid = await bcrypt.compare(
+      loginDto.password,
+      user.hashed_password,
+    );
     if (!isPasswordValid) {
       throw new UnauthorizedException('Неверный email или пароль');
     }

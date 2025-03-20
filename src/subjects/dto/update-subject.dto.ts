@@ -1,8 +1,8 @@
 import { IsOptional, IsString, IsNotEmpty } from 'class-validator';
 
 export class UpdateSubjectDto {
-  @IsOptional() 
+  @IsOptional()
   @IsString()
-  @IsNotEmpty() 
+  @IsNotEmpty()
   subjectName?: string;
 }

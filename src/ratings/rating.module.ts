@@ -12,6 +12,6 @@ import { TestsEntity } from '../tests/entity/test.entity'; // Импортиру
   ],
   providers: [RatingService],
   controllers: [RatingController],
-  exports: [RatingService]
+  exports: [RatingService],
 })
 export class RatingModule {}

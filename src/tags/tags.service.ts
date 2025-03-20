@@ -8,43 +8,43 @@ import { TestTagService } from 'src/test-tag/test-tag.service';
 
 @Injectable()
 export class TagsService {
-    constructor(
-        @Inject(TestsService)
-        private testsService: TestsService,
-        @InjectRepository(TagsEntity)
-        private repository: Repository<TagsEntity>,
-        @Inject(TestTagService)
-        private testTagService: TestTagService,
-    ) { }
+  constructor(
+    @Inject(TestsService)
+    private testsService: TestsService,
+    @InjectRepository(TagsEntity)
+    private repository: Repository<TagsEntity>,
+    @Inject(TestTagService)
+    private testTagService: TestTagService,
+  ) {}
 
-    getTags() {
-        return this.repository.find()
+  getTags() {
+    return this.repository.find();
+  }
+
+  async getTagByName(name: string) {
+    return await this.repository
+      .createQueryBuilder('tag')
+      .where({ tag: name })
+      .getOne();
+  }
+
+  async createTag(dto: CreateTagDto) {
+    const { tag, testId } = dto;
+    const test = await this.testsService.getTestById(testId);
+    if (!test) {
+      throw new BadRequestException();
     }
+    const tags = await this.repository.save({
+      tag,
+    });
+    return await this.testTagService.createRelationTestTag(test, tags);
+  }
 
-    async getTagByName(name: string) {
-        return await this.repository.createQueryBuilder('tag')
-            .where({ tag: name })
-            .getOne()
-    }
-
-    async createTag(dto: CreateTagDto) {
-        const { tag, testId } = dto;
-        const test = await this.testsService.getTestById(testId)
-        if (!test) {
-            throw new BadRequestException()
-        }
-        const tags = await this.repository.save({
-            tag
-        })
-        return await this.testTagService.createRelationTestTag(test, tags)
-
-        
-    }
-
-    async deleteTagById(id: number) {
-        return await this.repository.createQueryBuilder('deleteTag')
-            .delete()
-            .where({ id: id })
-            .execute();
-    }
+  async deleteTagById(id: number) {
+    return await this.repository
+      .createQueryBuilder('deleteTag')
+      .delete()
+      .where({ id: id })
+      .execute();
+  }
 }

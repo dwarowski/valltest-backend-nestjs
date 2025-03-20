@@ -3,27 +3,28 @@ import { ProblemsEntity } from 'src/problems/entity/problems.entity';
 import { UserAnswersEntity } from 'src/user-answers/entity/user-answer.entity';
 
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    ManyToOne,
-    OneToOne,
-    Column
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+  Column,
 } from 'typeorm';
 
-
 @Entity('answers')
-export class AnswersEntity{
-    @ApiHideProperty()
-    @OneToOne(() => UserAnswersEntity, (UserAnswer) => UserAnswer.answer)
-    @PrimaryGeneratedColumn()
-    id: number;
+export class AnswersEntity {
+  @ApiHideProperty()
+  @OneToOne(() => UserAnswersEntity, (UserAnswer) => UserAnswer.answer)
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    value: string
+  @Column()
+  value: string;
 
-    @ManyToOne(() => ProblemsEntity, (problem) => problem.id, {onDelete: 'CASCADE'})
-    problem: number
+  @ManyToOne(() => ProblemsEntity, (problem) => problem.id, {
+    onDelete: 'CASCADE',
+  })
+  problem: number;
 
-    @Column()
-    is_correct: boolean
+  @Column()
+  is_correct: boolean;
 }
