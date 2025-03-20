@@ -19,28 +19,32 @@ import { UserAnswersModule } from './user-answers/user-answers.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TestTagModule } from './test-tag/test-tag.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    envFilePath: '.env',
-  }),
-  TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: getPostgresConfig,
-  }),
-  TestsModule,
-  TopicsModule,
-  SubjectsModule,
-  TagsModule,
-  TestFavoritesModule,
-  RatingModule,
-  TestSessionsModule,
-  ProblemsModule,
-  UserModule,
-  AuthModule,
-  UserAnswersModule,
-  AnswersModule,
-  TestTagModule],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getPostgresConfig,
+    }),
+    TestsModule,
+    TopicsModule,
+    SubjectsModule,
+    TagsModule,
+    TestFavoritesModule,
+    RatingModule,
+    TestSessionsModule,
+    ProblemsModule,
+    UserModule,
+    AuthModule,
+    UserAnswersModule,
+    AnswersModule,
+    TestTagModule,
+    RolesModule,
+  ],
 })
 export class AppModule {}
