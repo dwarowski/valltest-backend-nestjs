@@ -20,6 +20,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { TestTagModule } from './test-tag/test-tag.module';
 import { RolesModule } from './roles/roles.module';
+import { RolesUsersModule } from './roles-users/roles-users.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { RolesModule } from './roles/roles.module';
     AnswersModule,
     TestTagModule,
     RolesModule,
+    RolesUsersModule,
   ],
 })
 export class AppModule {}
