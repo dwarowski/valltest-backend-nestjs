@@ -13,7 +13,7 @@ export class RolesService {
 
 
     async getRole(name: string) {
-        return await this.repository.findBy({role: name})
+        return await this.repository.findOneBy({role: name})
     } 
 
     async createRole(dto: createRoleDto) {
