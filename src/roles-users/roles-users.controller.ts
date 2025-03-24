@@ -1,6 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Post } from '@nestjs/common';
 import { RolesUsersService } from './roles-users.service';
 import { assignRoleDto } from './dto/assign-role.dto';
+import { removeRelationDto } from './dto/remove-relation.dto';
 
 @Controller('roles-users')
 export class RolesUsersController {
@@ -8,7 +9,11 @@ export class RolesUsersController {
 
     @Post()
     addRoleToUser(@Body() dto: assignRoleDto) {
-        const {role, user} = dto
-        return this.rolesUsersService.addRoleToUser(role, user)
+        return this.rolesUsersService.addRoleToUser(dto)
+    }
+
+    @Delete()
+    removeRole(@Body() dto: removeRelationDto) {
+        return this.rolesUsersService.deleteRoleRelation(dto)
     }
 }
