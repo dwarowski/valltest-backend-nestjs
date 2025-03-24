@@ -23,12 +23,8 @@ export class RolesUsersService {
             throw new BadRequestException('role doesn`t exist')
         }
 
-        const userEntity = await this.userService.findOneById(user)
+        const userEntity = await this.userService.getUserByName(user)
 
-        if (!userEntity) {
-            throw new BadRequestException('user doesn`t exist');
-        }
-
-        return await this.repository.save({ roleEntity, user: userEntity })
+        return await this.repository.save({ user: userEntity, role: roleEntity })
     }
 }
