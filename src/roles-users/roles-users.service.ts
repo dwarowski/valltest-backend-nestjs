@@ -32,7 +32,7 @@ export class RolesUsersService {
     }
 
     async deleteRoleRelation(dto: removeRelationDto) {
-        const {user, role } = dto 
+        const { user, role } = dto
 
         const roleRelation = await this.repository.findOne({
             where: {
