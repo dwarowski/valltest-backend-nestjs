@@ -4,8 +4,7 @@ import { RolesUsersEntity } from './entity/roles-users.entity';
 import { Repository } from 'typeorm';
 import { RolesService } from 'src/roles/roles.service';
 import { UserService } from 'src/user/user.service';
-import { assignRoleDto } from './dto/assign-role.dto';
-import { removeRelationDto } from './dto/remove-relation.dto';
+import { roleDto } from './dto/role.dto';
 
 @Injectable()
 export class RolesUsersService {
@@ -18,7 +17,7 @@ export class RolesUsersService {
         private repository: Repository<RolesUsersEntity>,
     ) { }
 
-    async addRoleToUser(dto: assignRoleDto) {
+    async addRoleToUser(dto: roleDto) {
         const { role, user } = dto
         const roleEntity = await this.rolesService.getRole(role);
 
@@ -31,7 +30,7 @@ export class RolesUsersService {
         return await this.repository.save({ user: userEntity, role: roleEntity })
     }
 
-    async deleteRoleRelation(dto: removeRelationDto) {
+    async deleteRoleRelation(dto: roleDto) {
         const { user, role } = dto
 
         const roleRelation = await this.repository.findOne({
