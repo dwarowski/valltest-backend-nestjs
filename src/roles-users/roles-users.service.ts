@@ -60,6 +60,6 @@ export class RolesUsersService {
         }
 
         const userRoles: string[] = userRoleEntity.map(userRoleEntity => userRoleEntity.role.role);
-        return userRoles 
+        return userRoles
     }
 }
