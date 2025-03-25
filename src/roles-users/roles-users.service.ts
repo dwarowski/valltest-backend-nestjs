@@ -45,4 +45,21 @@ export class RolesUsersService {
 
         return this.repository.delete(roleRelation)
     }
+
+    async getUserRoles(username: string) {
+        const userRoleEntity = await this.repository.find({
+            where: {
+                user: {
+                    username: username
+                }
+            },
+            relations: ['user', 'role']
+        })
+        if (!userRoleEntity) {
+            throw new BadRequestException('user doesn`t exist')
+        }
+
+        const userRoles: string[] = userRoleEntity.map(userRoleEntity => userRoleEntity.role.role);
+        return userRoles 
+    }
 }
