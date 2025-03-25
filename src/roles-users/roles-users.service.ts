@@ -20,13 +20,7 @@ export class RolesUsersService {
     async addRoleToUser(dto: roleDto) {
         const { role, user } = dto
         const roleEntity = await this.rolesService.getRole(role);
-
-        if (!roleEntity) {
-            throw new BadRequestException('role doesn`t exist')
-        }
-
         const userEntity = await this.userService.getUserByName(user)
-
         return await this.repository.save({ user: userEntity, role: roleEntity })
     }
 
