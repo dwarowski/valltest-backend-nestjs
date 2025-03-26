@@ -1,6 +1,6 @@
+import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { TestFavoritesService } from './test-favorites.service';
 
 @ApiTags('test-favorites')

@@ -1,8 +1,8 @@
+import { Get, Post, Body, Controller, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { Get, Post, Body, Controller, Param } from '@nestjs/common';
-import { UserAnswersService } from './user-answers.service';
 import { CreateUserAnswerDto } from './dto/create-user-answer.dto';
+import { UserAnswersService } from './user-answers.service';
 
 @Controller('user-answers')
 @ApiTags('user-answers')

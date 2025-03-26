@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Post } from '@nestjs/common';
-import { RolesUsersService } from './roles-users.service';
+
 import { roleDto } from './dto/role.dto';
+import { RolesUsersService } from './roles-users.service';
 
 @Controller('roles-users')
 export class RolesUsersController {

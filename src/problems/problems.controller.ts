@@ -1,5 +1,3 @@
-import { ApiTags } from '@nestjs/swagger';
-
 import {
   Get,
   Post,
@@ -10,9 +8,11 @@ import {
   Patch,
   Param,
 } from '@nestjs/common';
-import { ProblemsService } from './problems.service';
+import { ApiTags } from '@nestjs/swagger';
+
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
+import { ProblemsService } from './problems.service';
 
 @Controller('problems')
 @ApiTags('problems')

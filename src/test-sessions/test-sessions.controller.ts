@@ -1,6 +1,6 @@
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { Controller, Get, Param } from '@nestjs/common';
 import { TestSessionsService } from './test-sessions.service';
 
 @ApiTags('test-sessions')

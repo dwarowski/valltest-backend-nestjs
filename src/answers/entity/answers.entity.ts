@@ -1,7 +1,6 @@
 import { ApiHideProperty } from '@nestjs/swagger';
 import { ProblemsEntity } from 'src/problems/entity/problems.entity';
 import { UserAnswersEntity } from 'src/user-answers/entity/user-answer.entity';
-
 import {
   Entity,
   PrimaryGeneratedColumn,

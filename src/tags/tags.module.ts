@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { TagsEntity } from './entity/tags.entity';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestTagModule } from 'src/test-tag/test-tag.module';
+import { TestsModule } from 'src/tests/tests.module';
+
+import { TagsEntity } from './entity/tags.entity';
 import { TagsController } from './tags.controller';
 import { TagsService } from './tags.service';
-import { TestsModule } from 'src/tests/tests.module';
-import { TestTagModule } from 'src/test-tag/test-tag.module';
 
 @Module({
   imports: [

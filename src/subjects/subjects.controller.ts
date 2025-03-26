@@ -7,10 +7,11 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import { SubjectService } from './subjects.service';
-import { SubjectEntity } from './entity/subject.entity';
+
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { SubjectEntity } from './entity/subject.entity';
+import { SubjectService } from './subjects.service';
 
 @Controller('subjects')
 export class SubjectController {

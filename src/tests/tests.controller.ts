@@ -1,5 +1,3 @@
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
-
 import {
   Get,
   Post,
@@ -12,11 +10,12 @@ import {
   Delete,
   Patch,
 } from '@nestjs/common';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { TestsService } from './tests.service';
 import { CreateTestDto } from './dto/create-test.dto';
-import { UpdateTestDto } from './dto/update-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
+import { UpdateTestDto } from './dto/update-test.dto';
+import { TestsService } from './tests.service';
 
 @Controller('tests')
 @ApiTags('tests')

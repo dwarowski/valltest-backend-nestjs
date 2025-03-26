@@ -1,5 +1,3 @@
-import { ApiTags } from '@nestjs/swagger';
-
 import {
   Get,
   Post,
@@ -10,6 +8,8 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';

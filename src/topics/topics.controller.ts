@@ -7,10 +7,11 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import { TopicService } from './topics.service';
-import { TopicEntity } from './entity/topic.entity';
+
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
+import { TopicEntity } from './entity/topic.entity';
+import { TopicService } from './topics.service';
 
 @Controller('topics')
 export class TopicController {

@@ -1,11 +1,11 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TestsService } from 'src/tests/tests.service';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 
-import { FavoriteTestEntity } from './entity/favorite-test.entity';
-import { UserService } from 'src/user/user.service';
-import { TestsService } from 'src/tests/tests.service';
 import { CreateFavoriteTestDto } from './dto/create-favorite-test.dto';
+import { FavoriteTestEntity } from './entity/favorite-test.entity';
 
 @Injectable()
 export class TestFavoritesService {

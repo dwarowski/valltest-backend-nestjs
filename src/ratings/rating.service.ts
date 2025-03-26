@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RatingEntity } from './entity/rating.entity';
-import { User } from '../user/entities/user.entity';
+
 import { TestsEntity } from '../tests/entity/test.entity';
+import { User } from '../user/entities/user.entity';
+
 import { CreateRatingDto } from './dto/create-rating.dto';
+import { RatingEntity } from './entity/rating.entity';
 
 @Injectable()
 export class RatingService {

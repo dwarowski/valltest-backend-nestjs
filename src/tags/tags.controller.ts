@@ -1,8 +1,8 @@
+import { Get, Post, Body, Controller, Delete, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { Get, Post, Body, Controller, Delete, Param } from '@nestjs/common';
-import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
+import { TagsService } from './tags.service';
 
 @Controller('tags')
 @ApiTags('tags')

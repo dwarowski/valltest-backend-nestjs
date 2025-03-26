@@ -1,6 +1,6 @@
+import { TagsEntity } from 'src/tags/entity/tags.entity';
 import { TestsEntity } from 'src/tests/entity/test.entity';
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { TagsEntity } from 'src/tags/entity/tags.entity';
 
 @Entity('test-tags')
 export class TestTagEntity {

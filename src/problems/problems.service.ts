@@ -5,10 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProblemsEntity } from './entity/problems.entity';
 import { Repository } from 'typeorm';
+
 import { CreateProblemDto } from './dto/create-problem.dto';
 import { UpdateProblemDto } from './dto/update-problem.dto';
+import { ProblemsEntity } from './entity/problems.entity';
 
 @Injectable()
 export class ProblemsService {
