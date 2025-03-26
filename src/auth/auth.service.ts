@@ -22,7 +22,7 @@ export class AuthService {
   async register(
     registerDto: RegisterDto,
   ): Promise<{ access_token: string }> {
-    // Проверяем, что пользователь с таким email уже не существует
+    // Проверяем, что пользователь с таким email еще не существует
     const existingUser = await this.userRepository.findOne({
       where: { email: registerDto.email },
     });
@@ -35,14 +35,11 @@ export class AuthService {
     // Хешируем пароль
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
 
-    // Создаем нового пользователя
-    const user = this.userRepository.create({
+    // Сохраняем пользователя в базе данных
+    await this.userRepository.save({
       email: registerDto.email,
       hashed_password: hashedPassword,
     });
-
-    // Сохраняем пользователя в базе данных
-    const savedUser = await this.userRepository.save(user);
 
     const loginDto: LoginDto = { email: registerDto.email, password: registerDto.password };
 
