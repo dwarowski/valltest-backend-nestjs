@@ -1,60 +1,59 @@
+import eslint from '@eslint/js';
+import typescriptEslintParser from '@typescript-eslint/parser';
+import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';
+import eslintPluginImport from 'eslint-plugin-import';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
-import js from '@eslint/js';
-import ts from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
-import * as importPlugin from 'eslint-plugin-import';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const config = [
-    {
-        files: ['**/*.ts', '**/*.tsx'], // Применяем правила к TypeScript файлам
-        ignores: ['dist/**/*'], // Игнорируем скомпилированные файлы
-        languageOptions: {
-            parser: typescriptParser, // Используем TypeScript парсер
-            project: ['./tsconfig.json'],
-            sourceType: 'module', // Указываем тип модуля
-        },
-        plugins: {
-            '@typescript-eslint': ts,
-            'import': importPlugin
-        },
-        extends: [
-            js.configs.recommended, // Рекомендованные правила ESLint
-            ts.configs['recommended-type-checked'], // Рекомендованные правила TypeScript с проверкой типов
-        ],
-        rules: {
-            ...ts.configs['stylistic-type-checked'].rules, // Добавляем стилистические правила TypeScript с проверкой типов
-            'no-unused-vars': 'off', // Отключаем стандартное правило для неиспользуемых переменных
-            '@typescript-eslint/no-unused-vars': 'warn', // Включаем правило TypeScript для неиспользуемых переменных
-            '@typescript-eslint/explicit-function-return-type': 'off',
-            '@typescript-eslint/explicit-module-boundary-types': 'off',
-            '@typescript-eslint/no-explicit-any': 'off',
-            '@typescript-eslint/no-unused-vars': 'off',  // redundant but explicit
-            '@typescript-eslint/no-explicit-any': 'off',
-            '@typescript-eslint/consistent-type-imports': 'warn', // Suggest consistent type imports
-            'import/order': [
-                'warn',
-                {
-                    groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-                    'newlines-between': 'always',
-                    alphabetize: { order: 'asc', caseInsensitive: true },
-                },
-            ],
-        },
+export default [
+  {
+    ignores: ['.eslintrc.js', '.eslintrc.cjs', 'node_modules/', 'dist/', 'coverage/'],
+  },
+  eslint.configs.recommended,
+  {
+    languageOptions: {
+      parser: typescriptEslintParser,
+      parserOptions: {
+        project: 'tsconfig.json',
+        sourceType: 'module',
+      },
+      globals: {
+        node: true,
+        jest: true,
+      },
     },
-    {
-        files: ['**/*.ts', '**/*.tsx'],
-        plugins: {
-            prettier: eslintPluginPrettier,
-        },
-        rules: {
-            ...eslintPluginPrettier.configs.recommended.rules,
-        },
+    plugins: {
+      '@typescript-eslint': typescriptEslintPlugin,
+      import: eslintPluginImport,
+      prettier: eslintPluginPrettier,
     },
+    settings: {
+      'import/resolver': {
+        typescript: true, // Для корректной работы import/resolver с TypeScript
+      },
+    },
+    rules: {
+      '@typescript-eslint/interface-name-prefix': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'import/order': [ // Настройка порядка импортов (по желанию)
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+        },
+      ],
+      'prettier/prettier': 'error', // Включаем правила Prettier как ошибки ESLint
+    },
+  },
+  {
+    // Отключаем правила ESLint, которые конфликтуют с Prettier
+    files: ['**/*.ts', '**/*.tsx'],
+    ...eslintConfigPrettier,
+  },
 ];
-
-export default config;
