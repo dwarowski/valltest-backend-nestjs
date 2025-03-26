@@ -25,6 +25,7 @@ import { RolesGuards } from './guards/roles.guard';
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
