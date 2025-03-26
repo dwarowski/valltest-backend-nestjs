@@ -7,9 +7,13 @@ import { UserModule } from 'src/user/user.module';
 import { RolesUsersController } from './roles-users.controller';
 
 @Module({
-  imports: [RolesModule, UserModule, TypeOrmModule.forFeature([RolesUsersEntity])],
+  imports: [
+    RolesModule,
+    UserModule,
+    TypeOrmModule.forFeature([RolesUsersEntity]),
+  ],
   providers: [RolesUsersService],
   exports: [RolesUsersService],
-  controllers: [RolesUsersController]
+  controllers: [RolesUsersController],
 })
 export class RolesUsersModule {}

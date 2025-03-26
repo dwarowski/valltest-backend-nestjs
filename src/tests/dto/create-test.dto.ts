@@ -8,10 +8,3 @@ export class CreateTestDto {
   userAuthorId: number;
   topicId: number;
 }
-
-
-
-
-
-
-

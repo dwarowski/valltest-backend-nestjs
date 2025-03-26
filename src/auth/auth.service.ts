@@ -17,11 +17,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
-  async register(
-    registerDto: RegisterDto,
-  ): Promise<{ access_token: string }> {
+  async register(registerDto: RegisterDto): Promise<{ access_token: string }> {
     // Проверяем, что пользователь с таким email еще не существует
     const existingUser = await this.userRepository.findOne({
       where: { email: registerDto.email },
@@ -41,7 +39,10 @@ export class AuthService {
       hashed_password: hashedPassword,
     });
 
-    const loginDto: LoginDto = { email: registerDto.email, password: registerDto.password };
+    const loginDto: LoginDto = {
+      email: registerDto.email,
+      password: registerDto.password,
+    };
 
     return this.login(loginDto);
   }
@@ -50,7 +51,7 @@ export class AuthService {
     // Ищем пользователя по email
     const user = await this.userRepository.findOne({
       where: { email: loginDto.email },
-      relations: ['role', 'role.role']
+      relations: ['role', 'role.role'],
     });
     if (!user) {
       throw new UnauthorizedException('Неверный email или пароль');
@@ -71,8 +72,7 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(userWithoutPassword, {
         secret: process.env.JWT_SECRET,
         expiresIn: process.env.JWT_EXPIRES_IN,
-      })
-    }
-
+      }),
+    };
   }
 }
