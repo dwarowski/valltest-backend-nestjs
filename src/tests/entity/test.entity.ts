@@ -1,7 +1,4 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-import { TagsEntity } from 'src/tags/entity/tags.entity';
-import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
-import { TopicEntity } from 'src/topics/entity/topic.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +7,10 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
+
+import { TagsEntity } from 'src/tags/entity/tags.entity';
+import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
+import { TopicEntity } from 'src/topics/entity/topic.entity';
 
 import { RatingEntity } from '../../ratings/entity/rating.entity';
 

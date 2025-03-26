@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { TagsEntity } from 'src/tags/entity/tags.entity';
 import { TestsEntity } from 'src/tests/entity/test.entity';
-import { Repository } from 'typeorm';
 
 import { TestTagEntity } from './entity/test-tag.entity';
 

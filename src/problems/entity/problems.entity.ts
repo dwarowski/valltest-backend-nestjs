@@ -1,6 +1,7 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-import { TestsEntity } from 'src/tests/entity/test.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+
+import { TestsEntity } from 'src/tests/entity/test.entity';
 
 @Entity('problems')
 export class ProblemsEntity {

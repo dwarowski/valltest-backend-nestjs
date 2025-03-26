@@ -1,8 +1,9 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { RolesService } from 'src/roles/roles.service';
 import { UserService } from 'src/user/user.service';
-import { Repository } from 'typeorm';
 
 import { roleDto } from './dto/role.dto';
 import { RolesUsersEntity } from './entity/roles-users.entity';

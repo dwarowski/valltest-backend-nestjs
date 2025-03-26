@@ -1,6 +1,4 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-import { SubjectEntity } from 'src/subjects/entity/subject.entity';
-import { TestsEntity } from 'src/tests/entity/test.entity';
 import {
   Column,
   OneToMany,
@@ -8,6 +6,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { SubjectEntity } from 'src/subjects/entity/subject.entity';
+import { TestsEntity } from 'src/tests/entity/test.entity';
 
 @Entity('topic')
 export class TopicEntity {

@@ -1,5 +1,6 @@
-import { RolesUsersEntity } from 'src/roles-users/entity/roles-users.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+
+import { RolesUsersEntity } from 'src/roles-users/entity/roles-users.entity';
 
 import { RatingEntity } from '../../ratings/entity/rating.entity';
 
