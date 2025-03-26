@@ -18,6 +18,8 @@ import { AuthModule } from './auth/auth.module';
 import { TestTagModule } from './test-tag/test-tag.module';
 import { RolesModule } from './roles/roles.module';
 import { RolesUsersModule } from './roles-users/roles-users.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuards } from './guards/roles.guard';
 
 @Module({
   imports: [
@@ -45,5 +47,9 @@ import { RolesUsersModule } from './roles-users/roles-users.module';
     RolesModule,
     RolesUsersModule,
   ],
+  providers: [ {
+    provide: APP_GUARD,
+    useClass: RolesGuards,
+  },]
 })
 export class AppModule {}
