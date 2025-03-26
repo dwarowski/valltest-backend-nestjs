@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { RatingEntity } from '../../ratings/entity/rating.entity';
+import { RolesUsersEntity } from 'src/roles-users/entity/roles-users.entity';
 
 @Entity('users')
 export class User {
@@ -20,4 +21,7 @@ export class User {
 
   @OneToMany(() => RatingEntity, (rating) => rating.user)
   ratings: RatingEntity[];
+
+  @OneToMany(() => RolesUsersEntity, (rolesUsers) => rolesUsers.user)
+  role: RolesUsersEntity;
 }
