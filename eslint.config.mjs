@@ -29,7 +29,9 @@ export default [
     },
     settings: {
       'import/resolver': {
-        typescript: true, // Для корректной работы import/resolver с TypeScript
+        typescript: {
+          alwaysTryTypes: true, // always look for Type definitions even if we don't find something that looks like source
+        },
       },
     },
     rules: {
