@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
+import { Request } from "express";
 import { ROLES_KEY } from "src/decorators/roles-decorator";
 import { RolesUsersService } from "src/roles-users/roles-users.service";
 
@@ -23,18 +24,10 @@ export class RolesGuards implements CanActivate {
         }
 
         const request = context.switchToHttp().getRequest();
-        const token = request.headers.authorization
-
-        if (!token || !token.startsWith('Bearer ')) {
-            throw new UnauthorizedException('Invalid authorization header');
-        }
-        const jwt = token.split(' ')[1]
-
-        if (!jwt) {
-            throw new UnauthorizedException('No token provided');
-        }
-
-        try {
+        
+        const jwt = this.extractTokenFromCookies(request)
+        
+        try {        
             const payload = await this.jwtService.verifyAsync(jwt, {
                 secret: process.env.JWT_SECRET
             });
@@ -53,5 +46,22 @@ export class RolesGuards implements CanActivate {
             console.log(error)
             throw new UnauthorizedException('Invalid token');
         }
+    }
+
+    private extractTokenFromCookies(request: Request): string {
+        const cookieHeader = request.headers.cookie
+
+        if (!cookieHeader) {
+            throw new UnauthorizedException('Invalid authorization header');
+        }
+
+        const cookies = cookieHeader.split(';');
+        for (const cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'access_token') {
+                return value;
+            }
+        }
+        throw new UnauthorizedException('No token provided');
     }
 }
