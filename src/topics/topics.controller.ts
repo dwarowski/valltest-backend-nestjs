@@ -14,7 +14,7 @@ import { UpdateTopicDto } from './dto/update-topic.dto';
 
 @Controller('topics')
 export class TopicController {
-  constructor(private readonly topicService: TopicService) {}
+  constructor(private readonly topicService: TopicService) { }
 
   // Получить все темы по ID предмета
   @Get('/subject/:subjectId')
