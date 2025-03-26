@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
-import { Request } from "express";
+import { IncomingMessage } from "http";
 import { ROLES_KEY } from "src/decorators/roles-decorator";
 import { RolesUsersService } from "src/roles-users/roles-users.service";
 
@@ -48,7 +48,7 @@ export class RolesGuards implements CanActivate {
         }
     }
 
-    private extractTokenFromCookies(request: Request): string {
+    private extractTokenFromCookies(request: IncomingMessage): string {
         const cookieHeader = request.headers.cookie
 
         if (!cookieHeader) {
