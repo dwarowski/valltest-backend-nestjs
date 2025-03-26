@@ -9,7 +9,6 @@ export class RatingController {
 
   // Добавить оценку к тесту
   @Post()
-  @Post()
   async addRating(
     @Body() createRatingDto: CreateRatingDto,
   ): Promise<RatingEntity> {
