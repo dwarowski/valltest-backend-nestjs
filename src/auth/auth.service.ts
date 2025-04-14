@@ -68,10 +68,10 @@ export class AuthService {
       throw new UnauthorizedException('Неверный email или пароль');
     }
     // Убираем пароль из ответа
-    const { hashed_password, ...userWithoutPassword } = user;
+    const userPayload = { id: user.id, role: user.role }
 
     return {
-      access_token: await this.jwtService.signAsync(userWithoutPassword, {
+      access_token: await this.jwtService.signAsync(userPayload, {
         secret: process.env.JWT_SECRET,
         expiresIn: process.env.JWT_EXPIRES_IN,
       }),
