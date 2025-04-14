@@ -9,6 +9,7 @@ import { TopicsModule } from 'src/topics/topics.module';
 import { TestsEntity } from './entity/test.entity';
 import { TestsController } from './tests.controller';
 import { TestsService } from './tests.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -17,6 +18,10 @@ import { TestsService } from './tests.service';
     TopicsModule,
     TestTagModule,
     TypeOrmModule.forFeature([TestsEntity]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
   ],
   controllers: [TestsController],
   providers: [TestsService],
