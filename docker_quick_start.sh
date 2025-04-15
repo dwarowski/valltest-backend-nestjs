@@ -26,6 +26,10 @@ generate_password() {
     printf "%06d" $RANDOM
 }
 
+generate_jwt_secret() {
+    openssl rand -base64 32
+}
+
 # Step 1: Read configuration from prod.env
 echo -e "${YELLOW}Reading configuration from prod.env...${NC}"
 if [ ! -f prod.env ]; then
@@ -43,6 +47,16 @@ if [ -z "$POSTGRES_PASSWORD" ]; then
         echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >>prod.env
     fi
     echo -e "${GREEN}Generated PostgreSQL password: ${POSTGRES_PASSWORD}${NC}"
+fi
+
+if [ -z "$JWT_SECRET" ]; then
+    JWT_SECRET=$(generate_jwt_secret)
+    if grep -q "^JWT_SECRET=" prod.env; then
+        sed "${SED_INPLACE[@]}" "s#^JWT_SECRET=.*#JWT_SECRET=${JWT_SECRET}#" prod.env
+    else
+        echo "JWT_SECRET=${JWT_SECRET}" >> prod.env
+    fi
+    echo -e "${GREEN}Generated JWT Secret:: ${JWT_SECRET}${NC}"
 fi
 
 # Step 3: Remove conflicting containers if they exist
@@ -70,9 +84,10 @@ for i in {1..10}; do
     if [ "$STATUS" == "200" ]; then
         echo -e "${GREEN}Application is running!${NC}"
         echo -e "${GREEN}Database parameters:${NC}"
-        echo "postgresql: PORT: 5432 ${POSTGRES_DATABASE}"
         echo "Username: ${POSTGRES_USER}"
         echo "Password: ${POSTGRES_PASSWORD}"
+        echo "Port: 5432"
+        echo "JWT Secret: ${JWT_SECRET}"
         echo -e "${GREEN}Useful links:${NC}"
         echo "- Swagger: http://localhost:7777/api"
         exit 0
