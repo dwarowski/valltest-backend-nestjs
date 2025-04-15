@@ -9,6 +9,7 @@ import {
   Param,
   Delete,
   Patch,
+  Req,
 } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
@@ -16,11 +17,13 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsService } from './tests.service';
+import { Roles } from 'src/decorators/roles-decorator';
+import { Request } from 'express';
 
 @Controller('tests')
 @ApiTags('tests')
 export class TestsController {
-  constructor(private readonly TestsService: TestsService) {}
+  constructor(private readonly TestsService: TestsService) { }
 
   @ApiQuery({ name: 'subject', required: false })
   @ApiQuery({ name: 'topic', required: false })
@@ -34,7 +37,7 @@ export class TestsController {
     return this.TestsService.getTestsByPage(page, take, filterDto);
   }
 
-  @Get(':id')
+  @Get('test/:id')
   getTestById(@Param('id') testId: string) {
     return this.TestsService.getTestById(+testId);
   }
@@ -63,4 +66,11 @@ export class TestsController {
   updateTest(@Param('id') id: string, @Body() dto: UpdateTestDto) {
     return this.TestsService.updateTest(+id, dto);
   }
+
+  @Roles('teacher')
+  @Get('userTests')
+  getUserTests(@Req() req: Request) {
+    return this.TestsService.getTestByUser(req)
+  }
+
 }
