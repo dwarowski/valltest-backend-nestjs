@@ -17,11 +17,11 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 @Controller('answers')
 @ApiTags('answers')
 export class AnswersController {
-  constructor(private readonly AnswersService: AnswersService) {}
+  constructor(private readonly answersService: AnswersService) {}
 
   @Get()
   getAnswers() {
-    return this.AnswersService.getAnswers();
+    return this.answersService.getAnswers();
   }
 
   @Post()
@@ -29,15 +29,15 @@ export class AnswersController {
     @Query('problemId') problemId: string,
     @Body() dto: CreateAnswerDto,
   ) {
-    return this.AnswersService.createAnswer(+problemId, dto);
+    return this.answersService.createAnswer(+problemId, dto);
   }
 
   @Delete()
   deleteProblem(@Param('id') id: string) {
-    return this.AnswersService.deleteAnswer(+id);
+    return this.answersService.deleteAnswer(+id);
   }
   @Patch()
   updateProblem(@Param('id') id: string, @Body() dto: UpdateAnswerDto) {
-    return this.AnswersService.updateProblem(+id, dto);
+    return this.answersService.updateProblem(+id, dto);
   }
 }
