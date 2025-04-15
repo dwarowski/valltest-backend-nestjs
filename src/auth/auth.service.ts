@@ -12,6 +12,7 @@ import { User } from '../user/entities/user.entity';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { tokenPayload } from 'src/cookie-token/token-payload';
 
 @Injectable()
 export class AuthService {
@@ -67,8 +68,8 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('Неверный email или пароль');
     }
-    // Убираем пароль из ответа
-    const userPayload = { id: user.id, role: user.role }
+
+    const userPayload: tokenPayload = { id: user.id }
 
     return {
       access_token: await this.jwtService.signAsync(userPayload, {
