@@ -14,7 +14,7 @@ export class RolesGuards implements CanActivate {
   constructor(
     private reflector: Reflector,
     private RolesUserService: RolesUsersService,
-  ) {}
+  ) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredRoles = this.reflector.getAllAndOverride<string[]>(
