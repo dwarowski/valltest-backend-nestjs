@@ -1,3 +1,4 @@
+name: valtest-backend
 services:
   # Сервис NestJS приложения
   app:
@@ -6,18 +7,26 @@ services:
       dockerfile: dockerfile  # Путь к вашему Dockerfile
     ports:
       - "7777:7777"  # Пробрасывает порт 7777 из контейнера на хост-машину
-    env_file:
-      - .env
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_SYNCHRONIZE: ${DATABASE_SYNCHRONIZE}
     depends_on:
       - db  # Указывает, что сервис app зависит от сервиса db
 
   # Сервис базы данных PostgreSQL
   db:
-    image: postgres:16.6-alpine # Использует образ PostgreSQL версии 13
+    image: postgres:${POSTGRES_VERSION} # Использует образ PostgreSQL версии 16
     ports:
-      - "5432:5432"  # Пробрасывает порт 5432 из контейнера на хост-машину (для отладки)
-    env_file:
-      - .env
+      - "5432:${DATABASE_PORT}"  # Пробрасывает порт 5432 из контейнера на хост-машину (для отладки)
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: on-failure
     volumes:
       - db_data:/var/lib/postgresql/data  # Монтирует том для хранения данных
 

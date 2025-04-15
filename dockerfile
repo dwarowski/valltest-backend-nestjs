@@ -5,8 +5,10 @@ FROM node:22-alpine AS builder
 # Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
 
+COPY ../package*.json ./
+RUN ls -la && exit 1
 # Копируем package.json и package-lock.json (или yarn.lock)
-COPY package*.json ./
+COPY ../package*.json ./
 
 # Устанавливаем зависимости
 RUN npm install --omit-dev
