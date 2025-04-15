@@ -18,7 +18,7 @@ export async function extractTokenFromCookie(
       secret: process.env.JWT_SECRET,
     });
     return payload;
-  } catch (error) {
+  } catch {
     throw new UnauthorizedException('Invalid or expired access token.');
   }
 }

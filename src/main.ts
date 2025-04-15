@@ -34,7 +34,6 @@ async function bootstrap() {
   });
 
   const port = process.env.PORT ?? 3000;
-  console.log('port = ', port);
   const server = process.env.SERVER ?? 'localhost';
   await app.listen(port, server);
 

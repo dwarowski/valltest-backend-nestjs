@@ -57,7 +57,6 @@ export class ProblemsService {
           `Нарушение ограничения внешнего ключа: ${error.detail}`,
         );
       } else {
-        console.error('Ошибка при обновлении записи:', error);
         throw new InternalServerErrorException('Ошибка сервера');
       }
     }
