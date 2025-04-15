@@ -8,9 +8,9 @@ export const getPostgresConfig = async (
     type: 'postgres',
     host: configService.get('DATABASE_HOST'),
     port: configService.get('DATABASE_PORT'),
-    username: configService.get('DATABASE_USERNAME'),
-    password: configService.get('DATABASE_PASSWORD'),
-    database: configService.get('DATABASE_NAME'),
+    username: configService.get('POSTGRES_USER'),
+    password: configService.get('POSTGRES_PASSWORD'),
+    database: configService.get('POSTGRES_DB'),
     synchronize: configService.get('DATABASE_SYNCHRONIZE') === 'true',
     autoLoadEntities: true,
   };
