@@ -1,32 +1,37 @@
-import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 import unusedImports from "eslint-plugin-unused-imports";
+import prettier from "eslint-plugin-prettier";
 
 export default defineConfig([
   {
-    files: ["/*.{js,mjs,cjs,ts}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-  },
-  {
-    files: ["/*.{js,mjs,cjs,ts}"],
+    files: ["**/*.{js,ts}"],
     languageOptions: {
-      globals: globals.node,
+      parser: tseslint.parser,
+      parserOptions: {
+        project: "./tsconfig.json",
+        sourceType: "module",
+      },
+      globals: {
+        ...globals.node,
+      },
     },
-  },
-  tseslint.configs.recommended,
-  {
     plugins: {
+      "@typescript-eslint": tseslint.plugin,
       "unused-imports": unusedImports,
+      "prettier": prettier,
     },
     rules: {
-      // Убираем предупреждения от стандартного правила
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "off",
+      
+      "prettier/prettier": "error",
 
-      // Используем правило из плагина
+      "no-console": "warn",
+
+      // Базовые правила для TypeScript
+      "@typescript-eslint/no-unused-vars": "off",
+      "no-unused-vars": "off",
+
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": [
         "warn",
@@ -39,4 +44,5 @@ export default defineConfig([
       ],
     },
   },
+  ...tseslint.configs.recommended, // включает recommended от typescript-eslint
 ]);
