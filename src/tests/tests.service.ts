@@ -4,7 +4,9 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -19,10 +21,14 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsEntity } from './entity/test.entity';
+import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+import { extractTokenFromCookie } from 'src/cookie-token/token-extract';
 
 @Injectable()
 export class TestsService {
   constructor(
+    private readonly jwtService: JwtService,
     @Inject(RatingService)
     private readonly ratingService: RatingService,
     @Inject(TopicService)
@@ -31,13 +37,22 @@ export class TestsService {
     private readonly testTagService: TestTagService,
     @InjectRepository(TestsEntity)
     private repository: Repository<TestsEntity>,
-  ) {}
+  ) { }
 
   async getTestById(id: number) {
     return await this.repository
       .createQueryBuilder('test')
       .where({ id: id })
       .getOne();
+  }
+
+  async getTestByUser(req: Request) {
+    const payload = await extractTokenFromCookie(req)
+    const userId = payload.id
+    return await this.repository
+    .createQueryBuilder('userTests')
+    .where('userTests.userAuthorId = :userId', { userId })
+    .getMany();
   }
 
   async getTestsByPage(
