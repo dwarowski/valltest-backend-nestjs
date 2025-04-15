@@ -4,3 +4,4 @@ dockerfile
 docker-compose
 .dockerignore
 .env
+empty.env
