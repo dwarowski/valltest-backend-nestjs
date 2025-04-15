@@ -23,8 +23,8 @@ export class TestsEntity {
   @Column()
   testName: string;
 
-  @Column()
-  userAuthorId: number;
+  @Column('uuid')
+  userAuthorId: string;
 
   @Column()
   difficulty: number;
