@@ -9,5 +9,5 @@ export class CreateTestAiDto {
   testName: string;
   questionsAmount: number;
   timeForTest: number;
-  userAuthorId: number;
+  userAuthorId: string;
 }

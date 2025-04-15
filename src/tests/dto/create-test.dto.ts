@@ -5,6 +5,6 @@ export class CreateTestDto {
   @IsString()
   testName: string;
   timeForTest: number;
-  userAuthorId: number;
+  userAuthorId: string;
   topicId: number;
 }
