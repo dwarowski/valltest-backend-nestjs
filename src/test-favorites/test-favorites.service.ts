@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { TestsService } from 'src/tests/tests.service';
 import { UserService } from 'src/user/user.service';
 
-import { CreateFavoriteTestDto } from './dto/create-favorite-test.dto';
 import { FavoriteTestEntity } from './entity/favorite-test.entity';
 
 @Injectable()

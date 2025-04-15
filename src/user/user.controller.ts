@@ -7,7 +7,6 @@ import {
   Post,
   Body,
   Delete,
-  NotFoundException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
