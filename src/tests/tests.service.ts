@@ -37,7 +37,7 @@ export class TestsService {
     private readonly testTagService: TestTagService,
     @InjectRepository(TestsEntity)
     private repository: Repository<TestsEntity>,
-  ) { }
+  ) {}
 
   async getTestById(id: number) {
     return await this.repository
@@ -47,12 +47,12 @@ export class TestsService {
   }
 
   async getTestByUser(req: Request) {
-    const payload = await extractTokenFromCookie(req)
-    const userId = payload.id
+    const payload = await extractTokenFromCookie(req);
+    const userId = payload.id;
     return await this.repository
-    .createQueryBuilder('userTests')
-    .where('userTests.userAuthorId = :userId', { userId })
-    .getMany();
+      .createQueryBuilder('userTests')
+      .where('userTests.userAuthorId = :userId', { userId })
+      .getMany();
   }
 
   async getTestsByPage(

@@ -1,9 +1,11 @@
-import { UnauthorizedException } from "@nestjs/common";
-import { Request } from "express";
-import { tokenPayload } from "./token-payload";
-import { JwtService } from "@nestjs/jwt";
+import { UnauthorizedException } from '@nestjs/common';
+import { Request } from 'express';
+import { tokenPayload } from './token-payload';
+import { JwtService } from '@nestjs/jwt';
 
-export async function extractTokenFromCookie(req: Request): Promise<tokenPayload>{
+export async function extractTokenFromCookie(
+  req: Request,
+): Promise<tokenPayload> {
   const jwtService = new JwtService();
   const token = req.cookies['access_token'];
   if (!token) {

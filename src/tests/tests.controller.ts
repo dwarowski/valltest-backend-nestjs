@@ -23,7 +23,7 @@ import { Request } from 'express';
 @Controller('tests')
 @ApiTags('tests')
 export class TestsController {
-  constructor(private readonly TestsService: TestsService) { }
+  constructor(private readonly TestsService: TestsService) {}
 
   @ApiQuery({ name: 'subject', required: false })
   @ApiQuery({ name: 'topic', required: false })
@@ -70,7 +70,6 @@ export class TestsController {
   @Roles('teacher')
   @Get('userTests')
   getUserTests(@Req() req: Request) {
-    return this.TestsService.getTestByUser(req)
+    return this.TestsService.getTestByUser(req);
   }
-
 }
