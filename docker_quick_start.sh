@@ -70,7 +70,7 @@ for i in {1..10}; do
     if [ "$STATUS" == "200" ]; then
         echo -e "${GREEN}Application is running!${NC}"
         echo -e "${GREEN}Database parameters:${NC}"
-        echo "postgresql: PORT:5432 ${POSTGRES_DATABASE}"
+        echo "postgresql: PORT: 5432 ${POSTGRES_DATABASE}"
         echo "Username: ${POSTGRES_USER}"
         echo "Password: ${POSTGRES_PASSWORD}"
         echo -e "${GREEN}Useful links:${NC}"
