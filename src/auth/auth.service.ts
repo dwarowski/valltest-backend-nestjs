@@ -8,11 +8,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
+import { tokenPayload } from 'src/cookie-token/token-payload';
+
 import { User } from '../user/entities/user.entity';
 
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
-import { tokenPayload } from 'src/cookie-token/token-payload';
 
 @Injectable()
 export class AuthService {

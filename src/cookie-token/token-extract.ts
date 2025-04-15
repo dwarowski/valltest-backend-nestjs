@@ -1,7 +1,8 @@
 import { UnauthorizedException } from '@nestjs/common';
-import { Request } from 'express';
-import { tokenPayload } from './token-payload';
 import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+
+import { tokenPayload } from './token-payload';
 
 export async function extractTokenFromCookie(
   req: Request,

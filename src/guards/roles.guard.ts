@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+import { extractTokenFromCookie } from 'src/cookie-token/token-extract';
 import { ROLES_KEY } from 'src/decorators/roles-decorator';
 import { RolesUsersService } from 'src/roles-users/roles-users.service';
-import { extractTokenFromCookie } from 'src/cookie-token/token-extract';
 
 @Injectable()
 export class RolesGuards implements CanActivate {

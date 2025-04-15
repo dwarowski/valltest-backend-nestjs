@@ -12,13 +12,14 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+
+import { Roles } from 'src/decorators/roles-decorator';
 
 import { CreateTestDto } from './dto/create-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsService } from './tests.service';
-import { Roles } from 'src/decorators/roles-decorator';
-import { Request } from 'express';
 
 @Controller('tests')
 @ApiTags('tests')

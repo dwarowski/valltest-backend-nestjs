@@ -6,10 +6,12 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
 import { Repository } from 'typeorm';
 
+import { extractTokenFromCookie } from 'src/cookie-token/token-extract';
 import { RatingService } from 'src/ratings/rating.service';
 import { TestTagService } from 'src/test-tag/test-tag.service';
 import { TopicService } from 'src/topics/topics.service';
@@ -21,9 +23,6 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsEntity } from './entity/test.entity';
-import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
-import { extractTokenFromCookie } from 'src/cookie-token/token-extract';
 
 @Injectable()
 export class TestsService {

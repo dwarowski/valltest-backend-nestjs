@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { RatingModule } from 'src/ratings/rating.module';
@@ -9,7 +10,6 @@ import { TopicsModule } from 'src/topics/topics.module';
 import { TestsEntity } from './entity/test.entity';
 import { TestsController } from './tests.controller';
 import { TestsService } from './tests.service';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
