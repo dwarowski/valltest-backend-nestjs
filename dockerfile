@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install --registry=https://registry.npmmirror.com 
+RUN npm install
 # Копируем исходный код приложения
 COPY . .
 

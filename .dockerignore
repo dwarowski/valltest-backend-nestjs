@@ -1,5 +1,5 @@
 node_modules
 dist
-Dockerfile
+dockerfile
 .dockerignore
 .env
