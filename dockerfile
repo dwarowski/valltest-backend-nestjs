@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install
+RUN npm install --omit-dev
 # Копируем исходный код приложения
 COPY . .
 
@@ -28,7 +28,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 
 # Объявляем порт, который будет прослушиваться контейнером
-EXPOSE 3000
+EXPOSE 7777
 
 # Команда для запуска приложения
 CMD ["node", "dist/main"]
