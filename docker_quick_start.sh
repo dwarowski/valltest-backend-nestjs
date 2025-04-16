@@ -21,11 +21,13 @@ check_success() {
     fi
 }
 
-# Generate a 6-digit password
+# Generate a 8-digit password
 generate_password() {
-    printf "%06d" $RANDOM
+    printf "%04d%04d" $RANDOM $RANDOM
 }
 
+
+# Generate a 32-jwt password
 generate_jwt_secret() {
     openssl rand -base64 32
 }
@@ -96,6 +98,8 @@ for i in {1..10}; do
     sleep 5
 done
 
-echo -e "${RED}Application failed to start. Check logs:${NC}"
-docker-compose logs valtest
+echo -e "${RED}Application failed to start.${NC}"
+echo -e "${YELLOW}If restarted with new env delete docker volume.${NC}"
+echo -e "${RED}Check logs:${NC}"
+docker-compose logs
 exit 1
