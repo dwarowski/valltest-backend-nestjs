@@ -1,8 +1,8 @@
-name: valtest
+name: valltest
 services:
   # Сервис NestJS приложения
   app:
-    container_name: valtest-backend-app
+    container_name: valltest-backend-app
     build:
       context: .  # Указывает на текущую директорию, где находится Dockerfile
       dockerfile: dockerfile  # Путь к вашему Dockerfile
@@ -22,7 +22,7 @@ services:
     depends_on:
       - db  # Указывает, что сервис app зависит от сервиса db
     networks:
-      - valtest-network
+      - valltest-network
 
   # Сервис базы данных PostgreSQL
   db:
@@ -38,11 +38,11 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data  # Монтирует том для хранения данных
     networks:
-      - valtest-network
+      - valltest-network
 
 # Определяем том для хранения данных базы данных
 volumes:
   db_data:
 
 networks:
-  valtest-network:
+  valltest-network:
