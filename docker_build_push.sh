@@ -12,7 +12,7 @@ check_success() {
     fi
 }
 
-docker_login() {    
+docker_login() {
     echo -e "${YELLOW}Logging into Docker Hub...${NC}"
     read -p "Enter username: " DOCKER_USERNAME
     read -s -p "Enter password: " DOCKER_PASSWORD
@@ -48,14 +48,9 @@ echo -e "${YELLOW}Pushing docker image to hub...${NC}"
 docker push "$IMAGE_TAG"
 push_result=$?
 if [ $push_result -ne 0 ]; then
-  echo -e "${RED}Couldn't push image.  Attempting login...${NC}"
-  docker_login  # Вызываем docker_login, если не удалось запушить образ
-  docker push "$IMAGE_TAG"
-  login_push_result=$?
-  if [ $login_push_result -ne 0 ]; then
+    echo -e "${RED}Couldn't push image.  Attempting login...${NC}"
+    docker_login  # Вызываем docker_login, если не удалось запушить образ
+    docker push "$IMAGE_TAG"
     check_success "Couldn't push image after login. Check logs"
-  fi
-else
-  check_success "Couldn't push image. Check logs" # Хотя на самом деле, сюда не попадем если push был успешный
 fi
 echo -e "${GREEN}Image pushed to hub succsesfully with tag: ${IMAGE_TAG}${NC}"
