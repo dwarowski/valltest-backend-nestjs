@@ -16,7 +16,7 @@ function Check-Success {
 }
 
 # Запрашиваем APP_VERSION у пользователя
-Write-Host "Enter the APP_VERSION:"
+Write-Host "Enter the APP_VERSION: " -NoNewLine
 $APP_VERSION = Read-Host
 
 # Проверяем, что APP_VERSION введено
