@@ -15,6 +15,22 @@ function Check-Success {
     }
 }
 
+function Docker-Login {
+    Write-Host -ForegroundColor $Yellow "Logging into Docker Hub..."
+    $DOCKER_USERNAME = Read-Host "Enter username"
+    $DOCKER_PASSWORD = Read-Host -AsSecureString "Enter password"
+
+    # Convert the secure string to plain text for the docker login command
+    $plainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($DOCKER_PASSWORD))
+
+    docker login -u $DOCKER_USERNAME -p $plainPassword
+    Check-Success "Docker login failed. Please check your credentials."
+    Write-Host -ForegroundColor $Green "Successfully logged into Docker Hub."
+
+    # Securely clear the password from memory after use
+    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($DOCKER_PASSWORD))
+}
+
 # Запрашиваем APP_VERSION у пользователя
 Write-Host "Enter the APP_VERSION: " -NoNewLine
 $APP_VERSION = Read-Host
@@ -33,6 +49,7 @@ if (-not (Test-Path -Path "dockerfile" -PathType Leaf)) {
     Write-Host -ForegroundColor $Red "Error: dockerfile not found. Create and configure it manually."
     exit 1
 }
+Write-Host -ForegroundColor $Green "dockerfile found"
 
 Write-Host -ForegroundColor $Yellow "Building docker image with tag: $IMAGE_TAG..."
 docker build -t $IMAGE_TAG ./ | Write-Host # Добавлено | Write-Host для отображения вывода
@@ -40,6 +57,13 @@ Check-Success "Couldn't build dockerfile. Check logs"
 Write-Host -ForegroundColor $Green "Image builded successfully"
 
 Write-Host -ForegroundColor $Yellow "Pushing docker image to hub..."
-docker push $IMAGE_TAG | Write-Host # Добавлено | Write-Host для отображения вывода
-Check-Success "Couldn't push image. Check logs"
+docker push $IMAGE_TAG | Write-Host
+if ($LASTEXITCODE -ne 0) { # Проверяем код возврата docker push
+    Write-Host -ForegroundColor $Red "Couldn't push image.  Attempting login..."
+    Docker-Login # Вызываем Docker-Login, если не удалось запушить образ
+    docker push $IMAGE_TAG | Write-Host # Повторяем попытку push
+    Check-Success "Couldn't push image after login. Check logs"
+} else {
+   Check-Success "Couldn't push image. Check logs" 
+}
 Write-Host -ForegroundColor $Green "Image pushed to hub successfully with tag: $IMAGE_TAG"
