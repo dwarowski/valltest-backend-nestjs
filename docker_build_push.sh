@@ -15,8 +15,8 @@ check_success() {
 docker_login() {    
     echo -e "${YELLOW}Logging into Docker Hub...${NC}"
     read -p "Enter username: " DOCKER_USERNAME
-    read -p "Enter password: " DOCKER_PASSWORD
-    docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD
+    read -s -p "Enter password: " DOCKER_PASSWORD
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     check_success "Docker login failed. Please check your credentials."
     echo -e "${GREEN}Successfully logged into Docker Hub.${NC}"
 }
@@ -46,6 +46,7 @@ echo -e "${GREEN}Image builded succsesfully${NC}"
 
 echo -e "${YELLOW}Pushing docker image to hub...${NC}"
 docker push "$IMAGE_TAG"
+push_result=$?
 if [ $push_result -ne 0 ]; then
   echo -e "${RED}Couldn't push image.  Attempting login...${NC}"
   docker_login  # Вызываем docker_login, если не удалось запушить образ
