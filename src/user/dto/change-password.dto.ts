@@ -1,4 +1,3 @@
-// src/user/dto/change-password.dto.ts
 import { IsString, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
 
 export class ChangePasswordDto {
