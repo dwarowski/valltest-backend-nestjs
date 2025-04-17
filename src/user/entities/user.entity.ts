@@ -3,6 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { RolesUsersEntity } from 'src/roles-users/entity/roles-users.entity';
 
 import { RatingEntity } from '../../ratings/entity/rating.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class User {
@@ -16,6 +17,7 @@ export class User {
   email: string;
 
   @Column()
+  @Exclude()
   hashed_password: string;
 
   @Column({ nullable: true })
