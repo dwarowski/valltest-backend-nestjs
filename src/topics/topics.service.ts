@@ -84,4 +84,11 @@ export class TopicService {
       .where({ id: id })
       .getOne();
   }
+  
+  async getTopicByName(name: string) {
+    return await this.topicRepository
+    .createQueryBuilder('topicId')
+    .where({ topicName : name })
+    .getOne();
+  }
 }
