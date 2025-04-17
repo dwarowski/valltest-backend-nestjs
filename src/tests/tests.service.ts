@@ -22,7 +22,7 @@ import { TestFilterDto } from './dto/test-filter.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsEntity } from './entity/test.entity';
 import { UserTests } from './dto/get-user-tests.dto';
-import { TestWithRaitingDto } from './dto/test-with-raiting.dto';
+import { TestsWithRating } from './dto/test-with-rating.dto';
 
 @Injectable()
 export class TestsService {
@@ -51,8 +51,11 @@ export class TestsService {
     .createQueryBuilder('userTests')
     .where('userTests.userAuthorId = :userId', { userId })
     .getMany();
+    
     const userTestsWithRaiting = await this.addAverageRatingToTests(userTests)
-    return userTestsWithRaiting
+    const userTestsCleaned = userTestsWithRaiting.map(test => { const { topic, timeForTest, testTag, userAuthorId, ...testCleaned } = test;
+      return testCleaned;}) 
+    return userTestsCleaned
     
   }
 
@@ -60,7 +63,7 @@ export class TestsService {
     page: number,
     take: number,
     filterDto?: TestFilterDto,
-  ): Promise<PageDto<TestWithRaitingDto>> {
+  ): Promise<PageDto<TestsWithRating>> {
     if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
       throw new BadRequestException('Invalid pagination params');
     }
@@ -92,7 +95,7 @@ export class TestsService {
     return pageDto;
   }
 
-  async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestWithRaitingDto[]> {
+  async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsWithRating[]> {
     return Promise.all(
       tests.map(async (test) => {
         const averageRating = await this.ratingService.getAverageRating(
