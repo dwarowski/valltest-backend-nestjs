@@ -11,5 +11,5 @@ export class TagsEntity {
   tag: string;
 
   @OneToMany(() => TestTagEntity, (testTag) => testTag.tag)
-  tagTest: TagsEntity[];
+  tagTest: TestTagEntity[];
 }
