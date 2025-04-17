@@ -94,9 +94,9 @@ export class TestsService {
     const testsWithRating = await this.addAverageRatingToTests(tests);
 
     const testsCleaned = testsWithRating.map(test => {
-      const { testTag, timeForTest, ...testCleaned } = test
+      const { topic, testTag, timeForTest, ...testCleaned } = test
       const cleanedTestTags = this.cleanTags(testTag)
-      return { ...testCleaned, tags: cleanedTestTags };
+      return { ...testCleaned, tags: cleanedTestTags, topicName: topic.topicName, subjectName: topic.subject.subjectName };
     })
 
     const pageMetaDto = new PageMetaDto({
