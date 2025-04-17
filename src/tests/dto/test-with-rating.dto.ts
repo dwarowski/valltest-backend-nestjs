@@ -1,5 +1,5 @@
 import { TestsEntity } from "../entity/test.entity";
 
-export class TestsWithRating extends TestsEntity {
+export class TestsWithRatingDto extends TestsEntity {
     averageRating: number;
 }
