@@ -24,6 +24,7 @@ import { TestsEntity } from './entity/test.entity';
 import { UserTestsDto } from './dto/get-user-tests.dto';
 import { TestsWithRatingDto } from './dto/test-with-rating.dto';
 import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
+import { GetTestsDto } from './dto/get-tests.dto';
 
 @Injectable()
 export class TestsService {
@@ -70,7 +71,7 @@ export class TestsService {
     page: number,
     take: number,
     filterDto?: TestFilterDto,
-  ): Promise<PageDto<TestsWithRatingDto>> {
+  ): Promise<PageDto<GetTestsDto>> {
     if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
       throw new BadRequestException('Invalid pagination params');
     }
@@ -90,14 +91,20 @@ export class TestsService {
 
     const [tests, total] = await testsQuery.getManyAndCount();
 
-    const testsWithRating = this.addAverageRatingToTests(tests);
+    const testsWithRating = await this.addAverageRatingToTests(tests);
+
+    const testsCleaned = testsWithRating.map(test => {
+      const { testTag, timeForTest, ...testCleaned } = test
+      const cleanedTestTags = this.cleanTags(testTag)
+      return { ...testCleaned, tags: cleanedTestTags };
+    })
 
     const pageMetaDto = new PageMetaDto({
       pageOptionsDto: { page, take },
       itemCount: total,
     });
 
-    const pageDto = new PageDto(await testsWithRating, pageMetaDto);
+    const pageDto = new PageDto(testsCleaned, pageMetaDto);
 
     return pageDto;
   }
