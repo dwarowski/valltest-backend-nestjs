@@ -45,5 +45,5 @@ export class TestsEntity {
   ratings: RatingEntity[];
 
   @OneToMany(() => TestTagEntity, (testTag) => testTag.test)
-  testTag: TagsEntity[];
+  testTag: TestTagEntity[];
 }
