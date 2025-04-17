@@ -5,7 +5,6 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
@@ -28,7 +27,6 @@ import { TestWithRaitingDto } from './dto/test-with-raiting.dto';
 @Injectable()
 export class TestsService {
   constructor(
-    private readonly jwtService: JwtService,
     @Inject(RatingService)
     private readonly ratingService: RatingService,
     @Inject(TopicService)
