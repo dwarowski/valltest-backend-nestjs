@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { UserDto } from './dto/get-user-dto';
 
 @Injectable()
 export class UserService {
@@ -87,11 +88,13 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  async getUserByName(username: string): Promise<User> {
+  async getUserByName(username: string): Promise<UserDto> {
     const user = await this.usersRepository.findOne({ where: { username } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user;
+
+    const userCleaned: UserDto = {id: user.id, username: user.username}  
+    return userCleaned;
   }
 }
