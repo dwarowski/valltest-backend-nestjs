@@ -69,7 +69,7 @@ export class TestsController {
   }
 
   @Roles('teacher')
-  @Get('userTests')
+  @Get('user')
   getUserTests(@Req() req: Request) {
     return this.TestsService.getTestByUser(req);
   }
