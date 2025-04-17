@@ -23,6 +23,7 @@ import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsEntity } from './entity/test.entity';
 import { UserTestsDto } from './dto/get-user-tests.dto';
 import { TestsWithRatingDto } from './dto/test-with-rating.dto';
+import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
 
 @Injectable()
 export class TestsService {
@@ -59,10 +60,7 @@ export class TestsService {
 
     const userTestsCleaned: UserTestsDto[] = userTestsWithRaiting.map(test => {
       const { ratings, testTag, topic, timeForTest, userAuthorId, ...testCleaned } = test;
-
-      const cleanedTestTags = testTag.map(tagEntry => {
-        return tagEntry.tag.tag
-      })
+      const cleanedTestTags = this.cleanTags(testTag)
       return { ...testCleaned, tags: cleanedTestTags };
     })
     return userTestsCleaned
@@ -105,17 +103,10 @@ export class TestsService {
   }
 
   async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsWithRatingDto[]> {
-    return Promise.all(
-      tests.map(async (test) => {
-        const averageRating = await this.ratingService.getAverageRating(
-          test.id,
-        );
-
-        return {
-          ...test,
-          averageRating: averageRating,
-        };
-      }),
+    return Promise.all(tests.map(async (test) => {
+      const averageRating = await this.ratingService.getAverageRating(test.id);
+      return { ...test, averageRating: averageRating };
+    }),
     );
   }
 
@@ -230,5 +221,10 @@ export class TestsService {
     if (tag) {
       queryBuilder.andWhere('tags.tag = :tag', { tag });
     }
+  }
+
+  private cleanTags(testTag: TestTagEntity[]) {
+    const cleanTags = testTag.map(tagEntry => { return tagEntry.tag.tag });
+    return cleanTags
   }
 }
