@@ -22,6 +22,8 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsEntity } from './entity/test.entity';
+import { UserTests } from './dto/get-user-tests.dto';
+import { TestWithRaitingDto } from './dto/test-with-raiting.dto';
 
 @Injectable()
 export class TestsService {
@@ -44,20 +46,23 @@ export class TestsService {
       .getOne();
   }
 
-  async getTestByUser(req: Request) {
+  async getTestByUser(req: Request): Promise<UserTests[]> {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
-    return await this.repository
-      .createQueryBuilder('userTests')
-      .where('userTests.userAuthorId = :userId', { userId })
-      .getMany();
+    const userTests = await this.repository
+    .createQueryBuilder('userTests')
+    .where('userTests.userAuthorId = :userId', { userId })
+    .getMany();
+    const userTestsWithRaiting = await this.addAverageRatingToTests(userTests)
+    return userTestsWithRaiting
+    
   }
 
   async getTestsByPage(
     page: number,
     take: number,
     filterDto?: TestFilterDto,
-  ): Promise<PageDto<TestsEntity>> {
+  ): Promise<PageDto<TestWithRaitingDto>> {
     if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
       throw new BadRequestException('Invalid pagination params');
     }
@@ -89,7 +94,7 @@ export class TestsService {
     return pageDto;
   }
 
-  async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsEntity[]> {
+  async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestWithRaitingDto[]> {
     return Promise.all(
       tests.map(async (test) => {
         const averageRating = await this.ratingService.getAverageRating(
