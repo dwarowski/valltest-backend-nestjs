@@ -21,8 +21,8 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { TestFilterDto } from './dto/test-filter.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsEntity } from './entity/test.entity';
-import { UserTests } from './dto/get-user-tests.dto';
-import { TestsWithRating } from './dto/test-with-rating.dto';
+import { UserTestsDto } from './dto/get-user-tests.dto';
+import { TestsWithRatingDto } from './dto/test-with-rating.dto';
 
 @Injectable()
 export class TestsService {
@@ -44,9 +44,10 @@ export class TestsService {
       .getOne();
   }
 
-  async getTestByUser(req: Request): Promise<UserTests[]> {
+  async getTestByUser(req: Request): Promise<UserTestsDto[]> {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
+
     const userTests = await this.repository
       .createQueryBuilder('userTests')
       .leftJoinAndSelect('userTests.testTag', 'testTag')
@@ -55,9 +56,14 @@ export class TestsService {
       .getMany();
 
     const userTestsWithRaiting = await this.addAverageRatingToTests(userTests)
-    const userTestsCleaned = userTestsWithRaiting.map(test => {
-      const { topic, timeForTest, userAuthorId, ...testCleaned } = test;
-      return testCleaned;
+
+    const userTestsCleaned: UserTestsDto[] = userTestsWithRaiting.map(test => {
+      const { ratings, testTag, topic, timeForTest, userAuthorId, ...testCleaned } = test;
+
+      const cleanedTestTags = testTag.map(tagEntry => {
+        return tagEntry.tag.tag
+      })
+      return { ...testCleaned, tags: cleanedTestTags };
     })
     return userTestsCleaned
   }
@@ -66,7 +72,7 @@ export class TestsService {
     page: number,
     take: number,
     filterDto?: TestFilterDto,
-  ): Promise<PageDto<TestsWithRating>> {
+  ): Promise<PageDto<TestsWithRatingDto>> {
     if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
       throw new BadRequestException('Invalid pagination params');
     }
@@ -98,7 +104,7 @@ export class TestsService {
     return pageDto;
   }
 
-  async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsWithRating[]> {
+  async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsWithRatingDto[]> {
     return Promise.all(
       tests.map(async (test) => {
         const averageRating = await this.ratingService.getAverageRating(
