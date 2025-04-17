@@ -14,13 +14,14 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
+import { UserDto } from './dto/get-user-dto';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Get(':id')
-  async getProfile(@Param('id') id: string): Promise<User> {
+  async getProfile(@Param('id') id: string): Promise<UserDto> {
     return this.usersService.findOneById(id);
   }
 

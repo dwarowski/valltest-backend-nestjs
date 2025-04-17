@@ -20,12 +20,13 @@ export class UserService {
   ) { }
 
   // Метод для получения пользователя по айди
-  async findOneById(id: string): Promise<User> {
+  async findOneById(id: string): Promise<UserDto> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    return user;
+    const userCleaned: UserDto = { id: user.id, username: user.username }
+    return userCleaned;
   }
 
   // Метод для обновления данных пользователя
