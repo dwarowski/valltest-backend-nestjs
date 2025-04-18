@@ -32,10 +32,6 @@ export class TestFavoritesService {
       throw new BadRequestException('User not found');
     }
 
-    if (!testEntity) {
-      throw new BadRequestException('Test not found');
-    }
-
     if (
       await this.repository.findOne({
         where: {

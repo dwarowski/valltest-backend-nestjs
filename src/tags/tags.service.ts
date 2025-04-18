@@ -33,9 +33,7 @@ export class TagsService {
   async createTag(dto: CreateTagDto) {
     const { tag, testId } = dto;
     const test = await this.testsService.getTestById(testId);
-    if (!test) {
-      throw new BadRequestException();
-    }
+
     const tags = await this.repository.save({
       tag,
     });
