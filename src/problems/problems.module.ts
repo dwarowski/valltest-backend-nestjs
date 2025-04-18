@@ -10,5 +10,6 @@ import { ProblemsService } from './problems.service';
   imports: [ConfigModule, TypeOrmModule.forFeature([ProblemsEntity])],
   controllers: [ProblemsController],
   providers: [ProblemsService],
+  exports: [ProblemsService]
 })
 export class ProblemsModule {}
