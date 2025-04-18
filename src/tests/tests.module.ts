@@ -10,6 +10,8 @@ import { TopicsModule } from 'src/topics/topics.module';
 import { TestsEntity } from './entity/test.entity';
 import { TestsController } from './tests.controller';
 import { TestsService } from './tests.service';
+import { ProblemsModule } from 'src/problems/problems.module';
+import { AnswersModule } from 'src/answers/answers.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { TestsService } from './tests.service';
     RatingModule,
     TopicsModule,
     TestTagModule,
+    ProblemsModule,
+    AnswersModule,
     TypeOrmModule.forFeature([TestsEntity]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
