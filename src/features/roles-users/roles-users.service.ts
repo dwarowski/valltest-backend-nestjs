@@ -7,26 +7,26 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { RolesService } from 'src/features/roles/roles.service';
 import { UserService } from '../users/user.service';
 
 import { roleDto } from './dto/role.dto';
 import { RolesUsersEntity } from '../../entities/roles-users/roles-users.entity';
+import { GetRolesService } from '../roles/get-role/get-roles.service';
 
 @Injectable()
 export class RolesUsersService {
   constructor(
     @Inject(UserService)
     private userService: UserService,
-    @Inject(RolesService)
-    private rolesService: RolesService,
+    @Inject(GetRolesService)
+    private getRolesService: GetRolesService,
     @InjectRepository(RolesUsersEntity)
     private repository: Repository<RolesUsersEntity>,
   ) {}
 
   async addRoleToUser(dto: roleDto) {
     const { role, user } = dto;
-    const roleEntity = await this.rolesService.getRole(role);
+    const roleEntity = await this.getRolesService.getRole(role);
     const userEntity = await this.userService.getUserByName(user);
     const existingRoles = await this.getUserRoles(userEntity.username);
 

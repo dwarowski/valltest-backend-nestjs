@@ -2,11 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { createRoleDto } from './dto/create-role.dto';
-import { RoleEntity } from '../../entities/roles/role.entity';
+import { RoleEntity } from '../../../entities/roles/role.entity';
 
 @Injectable()
-export class RolesService {
+export class GetRolesService {
   constructor(
     @InjectRepository(RoleEntity)
     private repository: Repository<RoleEntity>,
@@ -17,14 +16,6 @@ export class RolesService {
     if (!roleEntity) {
       throw new BadRequestException('role doesn`t exist');
     }
-
     return roleEntity;
-  }
-
-  async createRole(dto: createRoleDto) {
-    return await this.repository.save(dto);
-  }
-  async deleteRole(name: string) {
-    return await this.repository.delete({ role: name });
   }
 }
