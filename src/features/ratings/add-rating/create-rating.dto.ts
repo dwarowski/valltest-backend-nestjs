@@ -9,10 +9,6 @@ import {
 
 export class CreateRatingDto {
   @IsNotEmpty()
-  @IsString()
-  userId: string; // ID пользователя
-
-  @IsNotEmpty()
   @IsInt()
   testId: number; // ID теста
 

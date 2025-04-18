@@ -11,6 +11,6 @@ import { GetUserByNameService } from 'src/features/users/get-user-by-name/get-us
   imports: [TypeOrmModule.forFeature([User])],
   providers: [ChangeUserPasswordService, GetUserService, GetUserByNameService],
   controllers: [UserController],
-  exports: [GetUserByNameService],
+  exports: [GetUserByNameService, GetUserService],
 })
 export class UserModule {}

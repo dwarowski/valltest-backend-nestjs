@@ -12,10 +12,17 @@ export class GetTestRatingService {
   ) {}
 
   // Получить все оценки для теста
-  async getRatingsByTest(testId: number): Promise<RatingEntity[]> {
-    return this.ratingRepository.find({
+  async getRatingsByTest(testId: number) {
+    const testRatings = await this.ratingRepository.find({
       where: { test: { id: testId } },
       relations: ['user'], // Подгружаем информацию о пользователе
     });
+    
+    const cleanTestRatings = await Promise.all(testRatings.map(rating => {
+      const {id, user, ...cleanTestRating} = rating
+      return {...cleanTestRating, user: { username: user.username, avatar_location: user.avatar_location}}
+    }));
+
+    return cleanTestRatings
   }
 }

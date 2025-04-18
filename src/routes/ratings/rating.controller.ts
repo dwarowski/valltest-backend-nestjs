@@ -1,9 +1,10 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Req } from '@nestjs/common';
 
 import { CreateRatingDto } from '../../features/ratings/add-rating/create-rating.dto';
 import { RatingEntity } from '../../entities/ratings/rating.entity';
 import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';
 import { GetTestRatingService } from 'src/features/ratings/get-test-ratings/get-test-rating.service';
+import { Request } from 'express';
 
 @Controller('ratings')
 export class RatingController {
@@ -15,16 +16,17 @@ export class RatingController {
   // Добавить оценку к тесту
   @Post()
   async addRating(
+    @Req() req: Request,
     @Body() createRatingDto: CreateRatingDto,
-  ): Promise<RatingEntity> {
-    return this.addRatingService.addRating(createRatingDto);
+  ) {
+    return this.addRatingService.addRating(createRatingDto, req);
   }
 
   // Получить все оценки для теста
   @Get('/tests/:testId')
   async getRatingsByTest(
     @Param('testId') testId: number,
-  ): Promise<RatingEntity[]> {
+  ) {
     return this.getRatingByTestService.getRatingsByTest(testId);
   }
 }

@@ -9,9 +9,10 @@ import { RatingController } from './rating.controller';
 import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';
 import { GetTestAverageRatingService } from 'src/features/ratings/get-test-average-rating/get-test-average-rating.service';
 import { GetTestRatingService } from 'src/features/ratings/get-test-ratings/get-test-rating.service';
+import { UserModule } from '../users/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RatingEntity, User, TestsEntity])],
+  imports: [UserModule, TypeOrmModule.forFeature([RatingEntity, User, TestsEntity])],
   providers: [AddRatingService, GetTestAverageRatingService, GetTestRatingService],
   controllers: [RatingController],
   exports: [GetTestAverageRatingService],
