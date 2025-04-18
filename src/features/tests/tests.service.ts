@@ -10,7 +10,7 @@ import { Request } from 'express';
 import { Repository } from 'typeorm';
 
 import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
-import { TestTagService } from 'src/features/test-tag/test-tag.service';
+import { GetTagByNameService } from '../test-tag/get-tag-by-name/get-tag-by-name.service';
 import { TopicService } from 'src/features/topics/topics.service';
 
 import { PageMetaDto } from '../../shared/utils/dto/get-page/page-meta.dto';
@@ -27,6 +27,8 @@ import { GetTestsDto } from './dto/get-tests.dto';
 import { CreateProblemsService } from 'src/features/problems/create-problem/create-problems.service';
 import { CreateAnswersService } from 'src/features/answers/create-answer/create-answers.service';
 import { GetTestAverageRatingService } from '../ratings/get-test-average-rating/get-test-average-rating.service';
+import { CreateRelationTestTagService } from '../test-tag/create-relation/create-relation-test-tag.service';
+import { DeleteRelationTestTagService } from '../test-tag/delete-relation/delete-relation-test-tag.service';
 
 @Injectable()
 export class TestsService {
@@ -35,8 +37,12 @@ export class TestsService {
     private readonly getTestAverageRatingService: GetTestAverageRatingService ,
     @Inject(TopicService)
     private readonly topicService: TopicService,
-    @Inject(TestTagService)
-    private readonly testTagService: TestTagService,
+    @Inject(GetTagByNameService)
+    private readonly getTagByNameService: GetTagByNameService,
+    @Inject(CreateRelationTestTagService)
+    private readonly createRelationTestTagService: CreateRelationTestTagService,
+    @Inject(DeleteRelationTestTagService)
+    private readonly deleteRelationTestTagService: DeleteRelationTestTagService,
     @Inject(CreateProblemsService)
     private readonly createProblemsService: CreateProblemsService,
     @Inject(CreateAnswersService)
@@ -271,7 +277,7 @@ export class TestsService {
   }
 
   async deleteTagByTestId(testId: number, tag: string) {
-    const tagEntity = await this.testTagService.getTagByName(tag);
+    const tagEntity = await this.getTagByNameService.getTagByName(tag);
 
     if (!tagEntity) {
       throw new Error(`tag with name "${tag}" not found`);
@@ -279,18 +285,18 @@ export class TestsService {
 
     const tagId = tagEntity.tag.id;
 
-    return await this.testTagService.deleteRelationByTestAndTag(testId, tagId);
+    return await this.deleteRelationTestTagService.deleteRelationByTestAndTag(testId, tagId);
   }
 
   async addTagToTest(testId: number, tag: string) {
-    const tagEntity = await this.testTagService.getTagByName(tag);
+    const tagEntity = await this.getTagByNameService.getTagByName(tag);
     const testEntity = await this.getTestEntityById(testId);
 
     if (!tagEntity) {
       throw new BadRequestException('Not found');
     }
 
-    return this.testTagService.createRelationTestTag(testEntity, tagEntity.tag);
+    return this.createRelationTestTagService.createRelationTestTag(testEntity, tagEntity.tag);
   }
 
   private async addAverageRatingToTests(

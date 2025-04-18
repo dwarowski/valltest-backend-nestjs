@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { TestTagService } from 'src/features/test-tag/test-tag.service';
 import { TestsService } from 'src/features/tests/tests.service';
 
 import { CreateTagDto } from './create-tag.dto';
 import { TagsEntity } from '../../../entities/tags/tags.entity';
+import { CreateRelationTestTagService } from 'src/features/test-tag/create-relation/create-relation-test-tag.service';
 
 @Injectable()
 export class CreateTagService {
@@ -15,8 +15,8 @@ export class CreateTagService {
     private testsService: TestsService,
     @InjectRepository(TagsEntity)
     private repository: Repository<TagsEntity>,
-    @Inject(TestTagService)
-    private testTagService: TestTagService,
+    @Inject(CreateRelationTestTagService)
+    private createRelationTestTagService: CreateRelationTestTagService,
   ) {}
 
   async createTag(dto: CreateTagDto) {
@@ -26,6 +26,6 @@ export class CreateTagService {
     const tags = await this.repository.save({
       tag,
     });
-    return await this.testTagService.createRelationTestTag(test, tags);
+    return await this.createRelationTestTagService.createRelationTestTag(test, tags);
   }
 }
