@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class roleDto {
+export class RemoveRoleDto {
   @IsString()
   role: string;
   @IsString()

@@ -6,7 +6,9 @@ import { UserModule } from 'src/routes/users/user.module';
 
 import { RolesUsersEntity } from '../../entities/roles-users/roles-users.entity';
 import { RolesUsersController } from './roles-users.controller';
-import { RolesUsersService } from '../../features/roles-users/roles-users.service';
+import { AddRoleToUsersService } from 'src/features/roles-users/add-role-to-user/add-roles-to-user.service';
+import { GetUserRoleService } from 'src/features/roles-users/get-user-role/get-user-role.service';
+import { RemoveRoleService } from 'src/features/roles-users/remove-role/remove-role.service';
 
 @Module({
   imports: [
@@ -14,8 +16,8 @@ import { RolesUsersService } from '../../features/roles-users/roles-users.servic
     UserModule,
     TypeOrmModule.forFeature([RolesUsersEntity]),
   ],
-  providers: [RolesUsersService],
-  exports: [RolesUsersService],
+  providers: [AddRoleToUsersService, GetUserRoleService, RemoveRoleService],
+  exports: [GetUserRoleService],
   controllers: [RolesUsersController],
 })
 export class RolesUsersModule {}

@@ -1,19 +1,22 @@
 import { Body, Controller, Delete, Post } from '@nestjs/common';
-
-import { roleDto } from '../../features/roles-users/dto/role.dto';
-import { RolesUsersService } from '../../features/roles-users/roles-users.service';
+import { AddRoleToUserDto } from 'src/features/roles-users/add-role-to-user/add-role-to-user.dto';
+import { AddRoleToUsersService } from 'src/features/roles-users/add-role-to-user/add-roles-to-user.service';
+import { RemoveRoleDto } from 'src/features/roles-users/remove-role/remove-role.dto';
+import { RemoveRoleService } from 'src/features/roles-users/remove-role/remove-role.service';
 
 @Controller('roles-users')
 export class RolesUsersController {
-  constructor(private readonly rolesUsersService: RolesUsersService) {}
+  constructor(private readonly addRoleToUsersService: AddRoleToUsersService,
+    private readonly  removeRoleRelation: RemoveRoleService,
+  ) {}
 
   @Post()
-  addRoleToUser(@Body() dto: roleDto) {
-    return this.rolesUsersService.addRoleToUser(dto);
+  addRoleToUser(@Body() dto: AddRoleToUserDto) {
+    return this.addRoleToUsersService.addRoleToUser(dto);
   }
 
   @Delete()
-  removeRole(@Body() dto: roleDto) {
-    return this.rolesUsersService.deleteRoleRelation(dto);
+  removeRole(@Body() dto: RemoveRoleDto) {
+    return this.removeRoleRelation.deleteRoleRelation(dto);
   }
 }

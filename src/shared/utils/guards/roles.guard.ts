@@ -3,13 +3,13 @@ import { Reflector } from '@nestjs/core';
 
 import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
 import { ROLES_KEY } from 'src/shared/utils/decorators/roles-decorator';
-import { RolesUsersService } from 'src/features/roles-users/roles-users.service';
+import { GetUserRoleService } from 'src/features/roles-users/get-user-role/get-user-role.service';
 
 @Injectable()
 export class RolesGuards implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private RolesUserService: RolesUsersService,
+    private getUserRoleService: GetUserRoleService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -26,7 +26,7 @@ export class RolesGuards implements CanActivate {
 
     const payload = await extractTokenFromCookie(request);
 
-    const userRoles = await this.RolesUserService.getUserRoles(
+    const userRoles = await this.getUserRoleService.getUserRoles(
       payload.username,
     );
 
