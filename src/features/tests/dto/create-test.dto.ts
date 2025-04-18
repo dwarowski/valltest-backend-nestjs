@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { CreateAnswerDto } from 'src/features/answers/dto/create-answer.dto';
+import { CreateAnswerDto } from 'src/features/answers/create-answer/create-answer.dto';
 
 export class CreateTestDto {
   difficulty: number;
