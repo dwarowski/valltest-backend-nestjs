@@ -25,6 +25,8 @@ import { UserTestsDto } from './dto/get-user-tests.dto';
 import { TestsWithRatingDto } from './dto/test-with-rating.dto';
 import { TestTagEntity } from 'src/test-tag/entity/test-tag.entity';
 import { GetTestsDto } from './dto/get-tests.dto';
+import { ProblemsService } from 'src/problems/problems.service';
+import { AnswersService } from 'src/answers/answers.service';
 
 @Injectable()
 export class TestsService {
@@ -35,6 +37,10 @@ export class TestsService {
     private readonly topicService: TopicService,
     @Inject(TestTagService)
     private readonly testTagService: TestTagService,
+    @Inject(ProblemsService)
+    private readonly problemsService: ProblemsService,
+    @Inject(AnswersService)
+    private readonly answersService: AnswersService,
     @InjectRepository(TestsEntity)
     private repository: Repository<TestsEntity>,
   ) { }
@@ -109,21 +115,39 @@ export class TestsService {
     return pageDto;
   }
 
-  async creatTest(dto: CreateTestDto) {
-    const { testName, userAuthorId, difficulty, topicId, timeForTest } = dto;
+  async creatTest(dto: CreateTestDto, req: Request) {
+    const { testName, difficulty, topicName, questions } = dto;
+    const payload = await extractTokenFromCookie(req);
+    const userId = payload.id;
 
-    const topic = await this.topicService.getTopicById(topicId);
+    const topicEntity = await this.topicService.getTopicByName(topicName);
 
-    if (!topic) {
-      throw new Error(`Topic with ID ${topicId} not found`);
+    if (!topicEntity) {
+      throw new Error(`Topic with name: ${topicName} not found`);
     }
-    return await this.repository.save({
+
+    const testEntity = await this.repository.save({
       testName,
-      userAuthorId,
+      userAuthorId: userId,
       difficulty,
-      topic: topic,
-      timeForTest,
+      topic: topicEntity,
+      timeForTest: 2
     });
+
+    const testQuestions = await Promise.all(questions.map(async question => {
+      const createdProblem = await this.problemsService.createProblem(testEntity.id, question)
+      const { test, id, ...cleanProblem} = createdProblem
+      
+      await Promise.all(question.answers.map(async answer => {
+        const createdAnswer = await this.answersService.createAnswer(createdProblem.id, answer)
+        const {problem, id, ...cleanAnswer} = createdAnswer
+        return cleanAnswer
+      }))
+
+      return cleanProblem
+    }))
+
+    return { ...testEntity, questions: testQuestions }
   }
 
   async deleteTest(id: number) {
@@ -134,18 +158,20 @@ export class TestsService {
       .execute();
   }
 
-  async updateTest(id: number, dto: UpdateTestDto) {
+  async updateTest(id: number, dto: UpdateTestDto, req: Request) {
+    const payload = await extractTokenFromCookie(req);
+    const userId = payload.id;
     try {
-      const { testName, userAuthorId, difficulty, topicId, timeForTest } = dto;
+      const { testName, difficulty, topicName } = dto;
 
-      if (!topicId) {
-        throw new BadRequestException('topicId is required');
+      if (!topicName) {
+        throw new BadRequestException('topic name is required');
       }
 
-      const topic = await this.topicService.getTopicById(topicId);
+      const topic = await this.topicService.getTopicByName(topicName);
 
       if (!topic) {
-        throw new Error(`Topic with ID ${topicId} not found`);
+        throw new Error(`Topic with name: ${topicName} not found`);
       }
 
       const result = await this.repository
@@ -153,10 +179,10 @@ export class TestsService {
         .update(TestsEntity)
         .set({
           testName,
-          userAuthorId,
+          userAuthorId: userId,
           difficulty,
           topic: topic,
-          timeForTest,
+          timeForTest: 2
         })
         .where({ id: id })
         .execute();
@@ -229,7 +255,7 @@ export class TestsService {
     }
   }
 
-  private async cleanTags(testTag: TestTagEntity[]): Promise<string[]>{
+  private async cleanTags(testTag: TestTagEntity[]): Promise<string[]> {
     const cleanTags = testTag.map(tagEntry => { return tagEntry.tag.tag });
     return cleanTags
   }
