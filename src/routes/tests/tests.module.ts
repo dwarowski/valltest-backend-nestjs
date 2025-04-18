@@ -9,9 +9,14 @@ import { TopicsModule } from 'src/routes/topics/topics.module';
 
 import { TestsEntity } from '../../entities/tests/test.entity';
 import { TestsController } from './tests.controller';
-import { TestsService } from '../../features/tests/tests.service';
 import { ProblemsModule } from 'src/routes/problems/problems.module';
 import { AnswersModule } from 'src/routes/answers/answers.module';
+import { CreateTestsService } from 'src/features/tests/create-test/create-tests.service';
+import { DeleteTestsService } from 'src/features/tests/delete-test/delete-tests.service';
+import { GetTestsEntityByIdService } from 'src/features/tests/get-test-entity-id/get-tests-entity-id.service';
+import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.service';
+import { GetUsersTestsService } from 'src/features/tests/get-test-user/get-user-tests.service';
+import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests-page.service';
 
 @Module({
   imports: [
@@ -28,7 +33,14 @@ import { AnswersModule } from 'src/routes/answers/answers.module';
     }),
   ],
   controllers: [TestsController],
-  providers: [TestsService],
-  exports: [TestsService],
+  providers: [
+    CreateTestsService,
+    DeleteTestsService,
+    GetTestsEntityByIdService,
+    GetTestsIdService,
+    GetUsersTestsService,
+    GetTestsPageService
+  ],
+  exports: [GetTestsEntityByIdService],
 })
 export class TestsModule {}
