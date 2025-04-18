@@ -7,7 +7,9 @@ import { TestsModule } from 'src/routes/tests/tests.module';
 
 import { TagsEntity } from '../../entities/tags/tags.entity';
 import { TagsController } from './tags.controller';
-import { TagsService } from 'src/features/tags/tags.service';
+
+import { CreateTagService } from 'src/features/tags/create-tag/create-tag.service';
+import { DeleteTagService } from 'src/features/tags/delete-tag/delete-tag.service';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { TagsService } from 'src/features/tags/tags.service';
     TypeOrmModule.forFeature([TagsEntity]),
   ],
   controllers: [TagsController],
-  providers: [TagsService],
-  exports: [TagsService],
+  providers: [CreateTagService, DeleteTagService],
+  exports: [],
 })
 export class TagsModule {}

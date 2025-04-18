@@ -1,26 +1,25 @@
 import { Get, Post, Body, Controller, Delete, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { CreateTagDto } from '../../features/tags/dto/create-tag.dto';
-import { TagsService } from 'src/features/tags/tags.service';
+import { CreateTagDto } from '../../features/tags/create-tag/create-tag.dto';
+import { CreateTagService } from 'src/features/tags/create-tag/create-tag.service';
+import { DeleteTagService } from 'src/features/tags/delete-tag/delete-tag.service';
 
 @Controller('tags')
-@ApiTags('tags')
+@ApiTags('Tags')
 export class TagsController {
-  constructor(private readonly tagsService: TagsService) {}
-
-  @Get()
-  getTags() {
-    return this.tagsService.getTags();
-  }
+  constructor(
+    private readonly createTagService: CreateTagService,
+    private readonly deleteTagService: DeleteTagService,
+  ) {}
 
   @Post()
   createTag(@Body() dto: CreateTagDto) {
-    return this.tagsService.createTag(dto);
+    return this.createTagService.createTag(dto);
   }
 
   @Delete(':id')
-  deleteTag(@Param('id') id: string) {
-    return this.tagsService.deleteTagById(+id);
+  deleteTag(@Param('id') tag: string) {
+    return this.deleteTagService.deleteTagByName(tag);
   }
 }
