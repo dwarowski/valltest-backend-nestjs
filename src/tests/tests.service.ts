@@ -46,10 +46,16 @@ export class TestsService {
   ) { }
 
   async getTestById(id: number) {
-    return await this.repository
+    const testEntity = await this.repository
       .createQueryBuilder('test')
       .where({ id: id })
+      .leftJoinAndSelect('test.problems', 'problems')
       .getOne();
+
+    if (!testEntity) {
+      throw new NotFoundException('Test doesn`t exsit')
+    }
+    return testEntity
   }
 
   async getTestByUser(req: Request): Promise<UserTestsDto[]> {
@@ -136,11 +142,11 @@ export class TestsService {
 
     const testQuestions = await Promise.all(questions.map(async question => {
       const createdProblem = await this.problemsService.createProblem(testEntity.id, question)
-      const { test, id, ...cleanProblem} = createdProblem
-      
+      const { test, id, ...cleanProblem } = createdProblem
+
       await Promise.all(question.answers.map(async answer => {
         const createdAnswer = await this.answersService.createAnswer(createdProblem.id, answer)
-        const {problem, id, ...cleanAnswer} = createdAnswer
+        const { problem, id, ...cleanAnswer } = createdAnswer
         return cleanAnswer
       }))
 
