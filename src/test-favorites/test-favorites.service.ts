@@ -25,7 +25,7 @@ export class TestFavoritesService {
   async addTestToFavorite(userId: string, testId: string) {
     const [userEntity, testEntity] = await Promise.all([
       this.userService.findOneById(userId),
-      this.testsService.getTestById(+testId),
+      this.testsService.getTestEntityById(+testId),
     ]);
 
     if (!userEntity) {

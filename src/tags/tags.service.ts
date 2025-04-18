@@ -32,7 +32,7 @@ export class TagsService {
 
   async createTag(dto: CreateTagDto) {
     const { tag, testId } = dto;
-    const test = await this.testsService.getTestById(testId);
+    const test = await this.testsService.getTestEntityById(testId);
 
     const tags = await this.repository.save({
       tag,
