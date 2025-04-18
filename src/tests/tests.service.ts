@@ -50,6 +50,34 @@ export class TestsService {
       .createQueryBuilder('test')
       .where({ id: id })
       .leftJoinAndSelect('test.problems', 'problems')
+      .leftJoinAndSelect('problems.answers', 'answers')
+      .getOne();
+
+    if (!testEntity) {
+      throw new NotFoundException('Test doesn`t exsit')
+    }
+    
+    const { problems, ratings, ...testWoProblems } = testEntity
+
+    const cleanTest = await Promise.all(problems.map(async question => {
+      const { test, id, answers, ...cleanProblem } = question
+
+      const cleanAnswers = await Promise.all(answers.map(async answer => {
+        return answer.value
+      }))
+
+      return { ...cleanProblem, answers: cleanAnswers }
+    }))
+
+    return { ...testWoProblems, problems: cleanTest }
+  }
+
+  async getTestEntityById(id: number) {
+    const testEntity = await this.repository
+      .createQueryBuilder('test')
+      .where({ id: id })
+      .leftJoinAndSelect('test.problems', 'problems')
+      .leftJoinAndSelect('problems.answers', 'answers')
       .getOne();
 
     if (!testEntity) {
@@ -57,7 +85,6 @@ export class TestsService {
     }
     return testEntity
   }
-
   async getTestByUser(req: Request): Promise<UserTestsDto[]> {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
@@ -153,7 +180,7 @@ export class TestsService {
       return cleanProblem
     }))
 
-    return { ...testEntity, questions: testQuestions }
+    return { ...testEntity, problems: testQuestions }
   }
 
   async deleteTest(id: number) {
@@ -226,15 +253,12 @@ export class TestsService {
 
   async addTagToTest(testId: number, tag: string) {
     const tagEntity = await this.testTagService.getTagByName(tag);
-    const testEntity = await this.getTestById(testId);
+    const testEntity = await this.getTestEntityById(testId);
 
     if (!tagEntity) {
       throw new BadRequestException('Not found');
     }
 
-    if (!testEntity) {
-      throw new BadRequestException('Not found');
-    }
     return this.testTagService.createRelationTestTag(testEntity, tagEntity.tag);
   }
 
