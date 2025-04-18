@@ -44,8 +44,8 @@ export class TestsController {
   }
 
   @Post()
-  createTest(@Body() dto: CreateTestDto) {
-    return this.TestsService.creatTest(dto);
+  createTest(@Body() dto: CreateTestDto, @Req() req: Request) {
+    return this.TestsService.creatTest(dto, req);
   }
 
   @Delete('delete/:id')
@@ -64,8 +64,8 @@ export class TestsController {
   }
 
   @Patch('update/:id')
-  updateTest(@Param('id') id: string, @Body() dto: UpdateTestDto) {
-    return this.TestsService.updateTest(+id, dto);
+  updateTest(@Param('id') id: string, @Body() dto: UpdateTestDto, @Req() req: Request) {
+    return this.TestsService.updateTest(+id, dto, req);
   }
 
   @Roles('teacher')
