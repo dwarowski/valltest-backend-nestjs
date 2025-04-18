@@ -11,7 +11,7 @@ import { TestsEntity } from '../../../entities/tests/test.entity';
 export class GetTestsEntityByIdService {
   constructor(
     @InjectRepository(TestsEntity)
-    private repository: Repository<TestsEntity>,
+    private readonly repository: Repository<TestsEntity>,
   ) {}
 
   async getTestEntityById(id: number) {

@@ -22,7 +22,7 @@ export class GetTestsPageService {
     @Inject(GetTestAverageRatingService)
     private readonly getTestAverageRatingService: GetTestAverageRatingService ,
     @InjectRepository(TestsEntity)
-    private repository: Repository<TestsEntity>,
+    private readonly repository: Repository<TestsEntity>,
   ) {}
 
   async getTestsByPage(

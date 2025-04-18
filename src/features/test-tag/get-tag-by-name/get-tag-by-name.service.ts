@@ -8,7 +8,7 @@ import { TestTagEntity } from '../../../entities/test-tag/test-tag.entity';
 export class GetTagByNameService {
   constructor(
     @InjectRepository(TestTagEntity)
-    private repository: Repository<TestTagEntity>,
+    private readonly repository: Repository<TestTagEntity>,
   ) {}
 
   async getTagByName(tagName: string) {

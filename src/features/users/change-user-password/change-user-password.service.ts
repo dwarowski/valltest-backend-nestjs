@@ -14,7 +14,7 @@ import { User } from 'src/entities/users/user.entity';
 export class ChangeUserPasswordService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private readonly usersRepository: Repository<User>,
   ) {}
 
   // Метод для смены пароля

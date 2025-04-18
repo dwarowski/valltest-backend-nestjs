@@ -11,11 +11,11 @@ import { GetTestsEntityByIdService } from 'src/features/tests/get-test-entity-id
 export class CreateTagService {
   constructor(
     @Inject(GetTestsEntityByIdService)
-    private getTestsEntityByIdService: GetTestsEntityByIdService,
+    private readonly getTestsEntityByIdService: GetTestsEntityByIdService,
     @InjectRepository(TagsEntity)
-    private repository: Repository<TagsEntity>,
+    private readonly repository: Repository<TagsEntity>,
     @Inject(CreateRelationTestTagService)
-    private createRelationTestTagService: CreateRelationTestTagService,
+    private readonly createRelationTestTagService: CreateRelationTestTagService,
   ) {}
 
   async createTag(dto: CreateTagDto) {

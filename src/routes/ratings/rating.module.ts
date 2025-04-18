@@ -11,9 +11,7 @@ import { GetTestAverageRatingService } from 'src/features/ratings/get-test-avera
 import { GetTestRatingService } from 'src/features/ratings/get-test-ratings/get-test-rating.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([RatingEntity, User, TestsEntity]), // Добавляем User и TestsEntity
-  ],
+  imports: [TypeOrmModule.forFeature([RatingEntity, User, TestsEntity])],
   providers: [AddRatingService, GetTestAverageRatingService, GetTestRatingService],
   controllers: [RatingController],
   exports: [GetTestAverageRatingService],

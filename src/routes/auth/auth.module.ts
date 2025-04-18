@@ -20,6 +20,6 @@ import { LoginService } from 'src/features/auth/login/login.service';
   ],
   providers: [RegisterService, LoginService],
   controllers: [AuthController],
-  exports: [JwtModule],
+  exports: [],
 })
 export class AuthModule {}

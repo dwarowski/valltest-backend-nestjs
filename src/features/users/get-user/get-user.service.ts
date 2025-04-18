@@ -12,7 +12,7 @@ import { UserDto } from './get-user-dto';
 export class GetUserService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private readonly usersRepository: Repository<User>,
   ) {}
 
   // Метод для получения пользователя по айди

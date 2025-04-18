@@ -8,7 +8,7 @@ import { TestTagEntity } from '../../../entities/test-tag/test-tag.entity';
 export class DeleteRelationTestTagService {
   constructor(
     @InjectRepository(TestTagEntity)
-    private repository: Repository<TestTagEntity>,
+    private readonly repository: Repository<TestTagEntity>,
   ) {}
 
   async deleteRelationByTestAndTag(testId: number, tagId: number) {

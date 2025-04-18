@@ -11,7 +11,7 @@ import { ProblemsEntity } from '../../../entities/problems/problems.entity';
 export class CreateProblemsService {
   constructor(
     @InjectRepository(ProblemsEntity)
-    private repository: Repository<ProblemsEntity>,
+    private readonly repository: Repository<ProblemsEntity>,
   ) { }
   async createProblem(id: number, dto: CreateProblemDto) {
     return await this.repository.save({ ...dto, test: id });

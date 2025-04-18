@@ -11,7 +11,7 @@ import { TestTagEntity } from '../../../entities/test-tag/test-tag.entity';
 export class CreateRelationTestTagService {
   constructor(
     @InjectRepository(TestTagEntity)
-    private repository: Repository<TestTagEntity>,
+    private readonly repository: Repository<TestTagEntity>,
   ) {}
 
   async createRelationTestTag(test: TestsEntity, tag: TagsEntity) {

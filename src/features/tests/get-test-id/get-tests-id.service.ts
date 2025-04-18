@@ -12,7 +12,7 @@ import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
 export class GetTestsIdService {
   constructor(
     @InjectRepository(TestsEntity)
-    private repository: Repository<TestsEntity>,
+    private readonly repository: Repository<TestsEntity>,
   ) {}
 
   async getTestById(id: number) {

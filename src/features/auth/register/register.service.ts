@@ -17,7 +17,7 @@ import { LoginService } from '../login/login.service';
 export class RegisterService {
   constructor(
     @Inject(LoginService)
-    private loginService: LoginService,
+    private readonly loginService: LoginService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}

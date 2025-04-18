@@ -12,7 +12,7 @@ import { UserDto } from './get-user-dto';
 export class GetUserByNameService {
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private readonly usersRepository: Repository<User>,
   ) {}
 
   async execute(username: string): Promise<UserDto> {

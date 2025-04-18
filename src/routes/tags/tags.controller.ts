@@ -1,4 +1,4 @@
-import { Get, Post, Body, Controller, Delete, Param } from '@nestjs/common';
+import { Post, Body, Controller, Delete, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CreateTagDto } from '../../features/tags/create-tag/create-tag.dto';

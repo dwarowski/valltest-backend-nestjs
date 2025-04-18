@@ -11,7 +11,7 @@ import { RolesUsersEntity } from '../../../entities/roles-users/roles-users.enti
 export class GetUserRoleService {
   constructor(
     @InjectRepository(RolesUsersEntity)
-    private repository: Repository<RolesUsersEntity>,
+    private readonly repository: Repository<RolesUsersEntity>,
   ) { }
 
   async getUserRoles(username: string) {

@@ -11,7 +11,7 @@ import { AnswersEntity } from '../../../entities/answers/answers.entity';
 export class CreateAnswersService {
   constructor(
     @InjectRepository(AnswersEntity)
-    private repository: Repository<AnswersEntity>,
+    private readonly repository: Repository<AnswersEntity>,
   ) { }
 
   createAnswer(id: number, dto: CreateAnswerDto) {

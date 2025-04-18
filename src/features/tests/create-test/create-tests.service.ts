@@ -25,7 +25,7 @@ export class CreateTestsService {
     @Inject(CreateAnswersService)
     private readonly createAnswersService: CreateAnswersService,
     @InjectRepository(TestsEntity)
-    private repository: Repository<TestsEntity>,
+    private readonly repository: Repository<TestsEntity>,
   ) {}
 
   async creatTest(dto: CreateTestDto, req: Request) {

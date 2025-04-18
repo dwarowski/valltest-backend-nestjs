@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -8,7 +8,7 @@ import { TagsEntity } from '../../../entities/tags/tags.entity';
 export class DeleteTagService {
   constructor(
     @InjectRepository(TagsEntity)
-    private repository: Repository<TagsEntity>,
+    private readonly repository: Repository<TagsEntity>,
   ) {}
 
   async deleteTagByName(tagName: string) {

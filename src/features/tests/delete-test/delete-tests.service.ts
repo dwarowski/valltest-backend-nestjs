@@ -10,7 +10,7 @@ import { TestsEntity } from '../../../entities/tests/test.entity';
 export class DeleteTestsService {
   constructor(
     @InjectRepository(TestsEntity)
-    private repository: Repository<TestsEntity>,
+    private readonly repository: Repository<TestsEntity>,
   ) {}
 
   async deleteTest(id: number) {

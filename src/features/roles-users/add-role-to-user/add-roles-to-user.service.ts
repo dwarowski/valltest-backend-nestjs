@@ -17,13 +17,13 @@ import { GetUserByNameService } from 'src/features/users/get-user-by-name/get-us
 export class AddRoleToUsersService {
   constructor(
     @Inject(GetUserByNameService)
-    private getUserByName: GetUserByNameService,
+    private readonly getUserByName: GetUserByNameService,
     @Inject(GetRolesService)
-    private getRolesService: GetRolesService,
+    private readonly getRolesService: GetRolesService,
     @Inject(GetUserRoleService)
     private readonly getUserRoleService: GetUserRoleService,
     @InjectRepository(RolesUsersEntity)
-    private repository: Repository<RolesUsersEntity>,
+    private readonly repository: Repository<RolesUsersEntity>,
   ) {}
 
   async addRoleToUser(dto: AddRoleToUserDto) {

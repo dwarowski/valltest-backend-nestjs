@@ -12,7 +12,7 @@ import { RemoveRoleDto } from './remove-role.dto';
 export class RemoveRoleService {
   constructor(
     @InjectRepository(RolesUsersEntity)
-    private repository: Repository<RolesUsersEntity>,
+    private readonly repository: Repository<RolesUsersEntity>,
   ) {}
 
   async deleteRoleRelation(dto: RemoveRoleDto) {
