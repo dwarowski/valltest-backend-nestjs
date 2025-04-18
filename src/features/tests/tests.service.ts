@@ -25,7 +25,7 @@ import { UserTestsDto } from './dto/get-user-tests.dto';
 import { TestsWithRatingDto } from './dto/test-with-rating.dto';
 import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
 import { GetTestsDto } from './dto/get-tests.dto';
-import { ProblemsService } from 'src/features/problems/create-problem/problems.service';
+import { CreateProblemsService } from 'src/features/problems/create-problem/create-problems.service';
 import { CreateAnswersService } from 'src/features/answers/create-answer/create-answers.service';
 
 @Injectable()
@@ -37,8 +37,8 @@ export class TestsService {
     private readonly topicService: TopicService,
     @Inject(TestTagService)
     private readonly testTagService: TestTagService,
-    @Inject(ProblemsService)
-    private readonly problemsService: ProblemsService,
+    @Inject(CreateProblemsService)
+    private readonly createProblemsService: CreateProblemsService,
     @Inject(CreateAnswersService)
     private readonly answersService: CreateAnswersService,
     @InjectRepository(TestsEntity)
@@ -190,7 +190,7 @@ export class TestsService {
 
     const testQuestions = await Promise.all(
       questions.map(async (question) => {
-        const createdProblem = await this.problemsService.createProblem(
+        const createdProblem = await this.createProblemsService.createProblem(
           testEntity.id,
           question,
         );

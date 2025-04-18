@@ -7,7 +7,7 @@ import { User } from 'src/entities/users/user.entity';
 
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { RatingEntity } from '../../entities/ratings/rating.entity';
-
+ 
 @Injectable()
 export class RatingService {
   constructor(

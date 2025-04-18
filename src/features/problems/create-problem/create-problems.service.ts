@@ -8,7 +8,7 @@ import { CreateProblemDto } from './create-problem.dto';
 import { ProblemsEntity } from '../../../entities/problems/problems.entity';
 
 @Injectable()
-export class ProblemsService {
+export class CreateProblemsService {
   constructor(
     @InjectRepository(ProblemsEntity)
     private repository: Repository<ProblemsEntity>,
