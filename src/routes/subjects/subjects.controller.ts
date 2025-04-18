@@ -1,46 +1,32 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
   Param,
-  Patch,
   Delete,
 } from '@nestjs/common';
 
-import { CreateSubjectDto } from '../../features/subjects/dto/create-subject.dto';
-import { UpdateSubjectDto } from '../../features/subjects/dto/update-subject.dto';
+import { CreateSubjectDto } from '../../features/subjects/create-subject/create-subject.dto';
 import { SubjectEntity } from '../../entities/subjects/subject.entity';
-import { SubjectService } from '../../features/subjects/subjects.service';
+import { CreateSubjectService } from 'src/features/subjects/create-subject/create-subject.service';
+import { DeleteSubjectService } from 'src/features/subjects/delete-subject/delete-subject.service';
 
 @Controller('subjects')
 export class SubjectController {
-  constructor(private readonly subjectService: SubjectService) {}
-
-  // Получить все предметы
-  @Get()
-  async findAll(): Promise<SubjectEntity[]> {
-    return this.subjectService.findAll();
-  }
+  constructor(
+    private readonly creaeteSubjectService: CreateSubjectService,
+    private readonly deleteSubjectSerivce: DeleteSubjectService
+  ) { }
 
   // Создать предмет
   @Post()
   async create(@Body() subjectData: CreateSubjectDto): Promise<SubjectEntity> {
-    return this.subjectService.create(subjectData);
-  }
-
-  // Обновить предмет
-  @Patch(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateData: UpdateSubjectDto,
-  ): Promise<SubjectEntity> {
-    return this.subjectService.update(id, updateData);
+    return this.creaeteSubjectService.create(subjectData);
   }
 
   // Удалить предмет
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<void> {
-    return this.subjectService.delete(id);
+    return this.deleteSubjectSerivce.delete(id);
   }
 }
