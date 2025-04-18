@@ -56,8 +56,8 @@ export class TestsService {
     if (!testEntity) {
       throw new NotFoundException('Test doesn`t exsit')
     }
-    
-    const { problems, ratings, ...testWoProblems } = testEntity
+
+    const { problems, ratings, ...test } = testEntity
 
     const cleanTest = await Promise.all(problems.map(async question => {
       const { test, id, answers, ...cleanProblem } = question
@@ -69,7 +69,7 @@ export class TestsService {
       return { ...cleanProblem, answers: cleanAnswers }
     }))
 
-    return { ...testWoProblems, problems: cleanTest }
+    return { ...test, problems: cleanTest }
   }
 
   async getTestEntityById(id: number) {
@@ -85,6 +85,7 @@ export class TestsService {
     }
     return testEntity
   }
+
   async getTestByUser(req: Request): Promise<UserTestsDto[]> {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
