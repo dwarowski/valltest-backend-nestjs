@@ -38,7 +38,7 @@ export class TestsController {
     return this.TestsService.getTestsByPage(page, take, filterDto);
   }
 
-  @Get('test/:id')
+  @Get(':id')
   getTestById(@Param('id') testId: string) {
     return this.TestsService.getTestById(+testId);
   }
