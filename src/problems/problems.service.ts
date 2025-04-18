@@ -22,8 +22,8 @@ export class ProblemsService {
     return this.repository.find();
   }
 
-  createProblem(id: number, dto: CreateProblemDto) {
-    return this.repository.save({ ...dto, test: id });
+  async createProblem(id: number, dto: CreateProblemDto) {
+    return await this.repository.save({ ...dto, test: id });
   }
 
   async deleteProblem(id: number) {
