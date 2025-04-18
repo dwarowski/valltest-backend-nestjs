@@ -6,11 +6,12 @@ import { SubjectController } from './subjects.controller';
 
 import { CreateSubjectService } from 'src/features/subjects/create-subject/create-subject.service';
 import { DeleteSubjectService } from 'src/features/subjects/delete-subject/delete-subject.service';
+import { GetSubjectService } from 'src/features/subjects/get-subject/get-subject.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([SubjectEntity])],
-  providers: [CreateSubjectService, DeleteSubjectService],
+  providers: [CreateSubjectService, DeleteSubjectService, GetSubjectService],
   controllers: [SubjectController],
-  exports: [],
+  exports: [GetSubjectService],
 })
 export class SubjectsModule {}

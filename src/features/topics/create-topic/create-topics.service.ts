@@ -1,31 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { SubjectEntity } from '../../../entities/subjects/subject.entity';
-
 import { CreateTopicDto } from './create-topic.dto';
 import { TopicEntity } from '../../../entities/topics/topic.entity';
+import { GetSubjectService } from 'src/features/subjects/get-subject/get-subject.service';
 
 @Injectable()
 export class CreateTopicService {
   constructor(
     @InjectRepository(TopicEntity)
     private readonly topicRepository: Repository<TopicEntity>,
-    @InjectRepository(SubjectEntity)
-    private readonly subjectRepository: Repository<SubjectEntity>,
+    @Inject(GetSubjectService)
+    private readonly getSubjectService: GetSubjectService,
   ) {}
 
   // Создание темы
   async create(createTopicDto: CreateTopicDto): Promise<TopicEntity> {
-    const subject = await this.subjectRepository.findOne({
-      where: { id: createTopicDto.subjectId },
-    });
-    if (!subject) {
-      throw new NotFoundException(
-        `Subject with ID ${createTopicDto.subjectId} not found`,
-      );
-    }
+    const subject = await this.getSubjectService.execute(createTopicDto.subjectName)
 
     const topic = this.topicRepository.create({
       topicName: createTopicDto.topicName,

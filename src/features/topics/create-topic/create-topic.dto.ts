@@ -6,5 +6,6 @@ export class CreateTopicDto {
   topicName: string;
 
   @IsNotEmpty()
-  subjectId: number;
+  @IsString()
+  subjectName: string;
 }
