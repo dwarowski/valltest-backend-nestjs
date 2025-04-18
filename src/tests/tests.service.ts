@@ -43,7 +43,7 @@ export class TestsService {
     private readonly answersService: AnswersService,
     @InjectRepository(TestsEntity)
     private repository: Repository<TestsEntity>,
-  ) { }
+  ) {}
 
   async getTestById(id: number) {
     const testEntity = await this.repository
@@ -54,22 +54,26 @@ export class TestsService {
       .getOne();
 
     if (!testEntity) {
-      throw new NotFoundException('Test doesn`t exsit')
+      throw new NotFoundException('Test doesn`t exsit');
     }
 
-    const { problems, ratings, ...test } = testEntity
+    const { problems, ratings, ...test } = testEntity;
 
-    const cleanTest = await Promise.all(problems.map(async question => {
-      const { test, id, answers, ...cleanProblem } = question
+    const cleanTest = await Promise.all(
+      problems.map(async (question) => {
+        const { test, id, answers, ...cleanProblem } = question;
 
-      const cleanAnswers = await Promise.all(answers.map(async answer => {
-        return answer.value
-      }))
+        const cleanAnswers = await Promise.all(
+          answers.map(async (answer) => {
+            return answer.value;
+          }),
+        );
 
-      return { ...cleanProblem, answers: cleanAnswers }
-    }))
+        return { ...cleanProblem, answers: cleanAnswers };
+      }),
+    );
 
-    return { ...test, problems: cleanTest }
+    return { ...test, problems: cleanTest };
   }
 
   async getTestEntityById(id: number) {
@@ -81,9 +85,9 @@ export class TestsService {
       .getOne();
 
     if (!testEntity) {
-      throw new NotFoundException('Test doesn`t exsit')
+      throw new NotFoundException('Test doesn`t exsit');
     }
-    return testEntity
+    return testEntity;
   }
 
   async getTestByUser(req: Request): Promise<UserTestsDto[]> {
@@ -97,14 +101,23 @@ export class TestsService {
       .where('userTests.userAuthorId = :userId', { userId })
       .getMany();
 
-    const userTestsWithRaiting = await this.addAverageRatingToTests(userTests)
+    const userTestsWithRaiting = await this.addAverageRatingToTests(userTests);
 
-    const userTestsCleaned: UserTestsDto[] = await Promise.all(userTestsWithRaiting.map(async test => {
-      const { ratings, testTag, topic, timeForTest, userAuthorId, ...testCleaned } = test;
-      const cleanedTestTags = await this.cleanTags(testTag)
-      return { ...testCleaned, tags: cleanedTestTags };
-    }))
-    return userTestsCleaned
+    const userTestsCleaned: UserTestsDto[] = await Promise.all(
+      userTestsWithRaiting.map(async (test) => {
+        const {
+          ratings,
+          testTag,
+          topic,
+          timeForTest,
+          userAuthorId,
+          ...testCleaned
+        } = test;
+        const cleanedTestTags = await this.cleanTags(testTag);
+        return { ...testCleaned, tags: cleanedTestTags };
+      }),
+    );
+    return userTestsCleaned;
   }
 
   async getTestsByPage(
@@ -133,11 +146,18 @@ export class TestsService {
 
     const testsWithRating = await this.addAverageRatingToTests(tests);
 
-    const testsCleaned = await Promise.all(testsWithRating.map(async test => {
-      const { topic, testTag, timeForTest, ...testCleaned } = test
-      const cleanedTestTags = await this.cleanTags(testTag)
-      return { ...testCleaned, tags: cleanedTestTags, topicName: topic.topicName, subjectName: topic.subject.subjectName };
-    }))
+    const testsCleaned = await Promise.all(
+      testsWithRating.map(async (test) => {
+        const { topic, testTag, timeForTest, ...testCleaned } = test;
+        const cleanedTestTags = await this.cleanTags(testTag);
+        return {
+          ...testCleaned,
+          tags: cleanedTestTags,
+          topicName: topic.topicName,
+          subjectName: topic.subject.subjectName,
+        };
+      }),
+    );
 
     const pageMetaDto = new PageMetaDto({
       pageOptionsDto: { page, take },
@@ -165,23 +185,33 @@ export class TestsService {
       userAuthorId: userId,
       difficulty,
       topic: topicEntity,
-      timeForTest: 2
+      timeForTest: 2,
     });
 
-    const testQuestions = await Promise.all(questions.map(async question => {
-      const createdProblem = await this.problemsService.createProblem(testEntity.id, question)
-      const { test, id, ...cleanProblem } = createdProblem
+    const testQuestions = await Promise.all(
+      questions.map(async (question) => {
+        const createdProblem = await this.problemsService.createProblem(
+          testEntity.id,
+          question,
+        );
+        const { test, id, ...cleanProblem } = createdProblem;
 
-      await Promise.all(question.answers.map(async answer => {
-        const createdAnswer = await this.answersService.createAnswer(createdProblem.id, answer)
-        const { problem, id, ...cleanAnswer } = createdAnswer
-        return cleanAnswer
-      }))
+        await Promise.all(
+          question.answers.map(async (answer) => {
+            const createdAnswer = await this.answersService.createAnswer(
+              createdProblem.id,
+              answer,
+            );
+            const { problem, id, ...cleanAnswer } = createdAnswer;
+            return cleanAnswer;
+          }),
+        );
 
-      return cleanProblem
-    }))
+        return cleanProblem;
+      }),
+    );
 
-    return { ...testEntity, problems: testQuestions }
+    return { ...testEntity, problems: testQuestions };
   }
 
   async deleteTest(id: number) {
@@ -216,7 +246,7 @@ export class TestsService {
           userAuthorId: userId,
           difficulty,
           topic: topic,
-          timeForTest: 2
+          timeForTest: 2,
         })
         .where({ id: id })
         .execute();
@@ -263,14 +293,23 @@ export class TestsService {
     return this.testTagService.createRelationTestTag(testEntity, tagEntity.tag);
   }
 
-  private async addAverageRatingToTests(tests: TestsEntity[]): Promise<TestsWithRatingDto[]> {
-    return Promise.all(tests.map(async (test) => {
-      const averageRating = await this.ratingService.getAverageRating(test.id);
-      return { ...test, averageRating: averageRating };
-    }));
+  private async addAverageRatingToTests(
+    tests: TestsEntity[],
+  ): Promise<TestsWithRatingDto[]> {
+    return Promise.all(
+      tests.map(async (test) => {
+        const averageRating = await this.ratingService.getAverageRating(
+          test.id,
+        );
+        return { ...test, averageRating: averageRating };
+      }),
+    );
   }
 
-  private async applyFilters(queryBuilder, filterDto: TestFilterDto): Promise<void> {
+  private async applyFilters(
+    queryBuilder,
+    filterDto: TestFilterDto,
+  ): Promise<void> {
     const { subject, topic, tag } = filterDto;
 
     if (subject) {
@@ -287,7 +326,9 @@ export class TestsService {
   }
 
   private async cleanTags(testTag: TestTagEntity[]): Promise<string[]> {
-    const cleanTags = testTag.map(tagEntry => { return tagEntry.tag.tag });
-    return cleanTags
+    const cleanTags = testTag.map((tagEntry) => {
+      return tagEntry.tag.tag;
+    });
+    return cleanTags;
   }
 }

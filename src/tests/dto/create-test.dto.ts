@@ -8,6 +8,6 @@ export class CreateTestDto {
   topicName: string;
   questions: {
     question: string;
-    answers: CreateAnswerDto[]
-  }[]
+    answers: CreateAnswerDto[];
+  }[];
 }

@@ -1,5 +1,5 @@
-import { TestsEntity } from "../entity/test.entity";
+import { TestsEntity } from '../entity/test.entity';
 
 export class TestsWithRatingDto extends TestsEntity {
-    averageRating: number;
+  averageRating: number;
 }

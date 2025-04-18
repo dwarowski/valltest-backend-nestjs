@@ -64,7 +64,11 @@ export class TestsController {
   }
 
   @Patch('update/:id')
-  updateTest(@Param('id') id: string, @Body() dto: UpdateTestDto, @Req() req: Request) {
+  updateTest(
+    @Param('id') id: string,
+    @Body() dto: UpdateTestDto,
+    @Req() req: Request,
+  ) {
     return this.TestsService.updateTest(+id, dto, req);
   }
 

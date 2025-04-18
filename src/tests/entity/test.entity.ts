@@ -48,5 +48,5 @@ export class TestsEntity {
   testTag: TestTagEntity[];
 
   @OneToMany(() => ProblemsEntity, (problems) => problems.test)
-  problems: ProblemsEntity[]
+  problems: ProblemsEntity[];
 }

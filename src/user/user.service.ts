@@ -17,7 +17,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) { }
+  ) {}
 
   // Метод для получения пользователя по айди
   async findOneById(id: string): Promise<UserDto> {
@@ -25,7 +25,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const userCleaned: UserDto = { id: user.id, username: user.username }
+    const userCleaned: UserDto = { id: user.id, username: user.username };
     return userCleaned;
   }
 
@@ -94,7 +94,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    const userCleaned: UserDto = { id: user.id, username: user.username }
+    const userCleaned: UserDto = { id: user.id, username: user.username };
     return userCleaned;
   }
 }

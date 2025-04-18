@@ -1,4 +1,9 @@
-import { BadRequestException, ConflictException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -25,7 +30,7 @@ export class RolesUsersService {
     const userEntity = await this.userService.getUserByName(user);
     const existingRoles = await this.getUserRoles(userEntity.username);
 
-    if (existingRoles.some(existingRole => existingRole === role)) {
+    if (existingRoles.some((existingRole) => existingRole === role)) {
       throw new ConflictException(`User already has the role: ${role}`);
     }
     return await this.repository.save({ user: userEntity, role: roleEntity });
