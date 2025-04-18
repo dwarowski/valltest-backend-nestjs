@@ -7,18 +7,17 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { UserService } from '../../users/user.service';
-
 import { AddRoleToUserDto } from './add-role-to-user.dto';
 import { RolesUsersEntity } from '../../../entities/roles-users/roles-users.entity';
 import { GetRolesService } from '../../roles/get-role/get-roles.service';
 import { GetUserRoleService } from '../get-user-role/get-user-role.service';
+import { GetUserByNameService } from 'src/features/users/get-user-by-name/get-user-by-name.service';
 
 @Injectable()
 export class AddRoleToUsersService {
   constructor(
-    @Inject(UserService)
-    private userService: UserService,
+    @Inject(GetUserByNameService)
+    private getUserByName: GetUserByNameService,
     @Inject(GetRolesService)
     private getRolesService: GetRolesService,
     @Inject(GetUserRoleService)
@@ -30,7 +29,7 @@ export class AddRoleToUsersService {
   async addRoleToUser(dto: AddRoleToUserDto) {
     const { role, user } = dto;
     const roleEntity = await this.getRolesService.getRole(role);
-    const userEntity = await this.userService.getUserByName(user);
+    const userEntity = await this.getUserByName.execute(user);
     const existingRoles = await this.getUserRoleService.getUserRoles(userEntity.username);
 
     if (existingRoles.some((existingRole) => existingRole === role)) {
