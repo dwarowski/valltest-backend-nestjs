@@ -2,14 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { TestsEntity } from '../../entities/tests/test.entity';
+import { TestsEntity } from '../../../entities/tests/test.entity';
 import { User } from 'src/entities/users/user.entity';
 
-import { CreateRatingDto } from './dto/create-rating.dto';
-import { RatingEntity } from '../../entities/ratings/rating.entity';
+import { CreateRatingDto } from './create-rating.dto';
+import { RatingEntity } from '../../../entities/ratings/rating.entity';
  
 @Injectable()
-export class RatingService {
+export class AddRatingService {
   constructor(
     @InjectRepository(RatingEntity)
     private readonly ratingRepository: Repository<RatingEntity>,
@@ -47,24 +47,5 @@ export class RatingService {
     });
 
     return this.ratingRepository.save(newRating);
-  }
-
-  // Получить все оценки для теста
-  async getRatingsByTest(testId: number): Promise<RatingEntity[]> {
-    return this.ratingRepository.find({
-      where: { test: { id: testId } },
-      relations: ['user'], // Подгружаем информацию о пользователе
-    });
-  }
-
-  // Получить средний рейтинг теста
-  async getAverageRating(testId: number): Promise<number> {
-    const result = await this.ratingRepository
-      .createQueryBuilder('rating')
-      .select('AVG(rating.rating)', 'average')
-      .where('rating.testId = :testId', { testId })
-      .getRawOne();
-
-    return parseFloat(result.average) || 0;
   }
 }

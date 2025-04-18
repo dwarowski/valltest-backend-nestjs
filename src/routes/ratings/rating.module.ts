@@ -6,14 +6,16 @@ import { User } from 'src/entities/users/user.entity'; // Импортируем
 
 import { RatingEntity } from '../../entities/ratings/rating.entity';
 import { RatingController } from './rating.controller';
-import { RatingService } from 'src/features/ratings/rating.service';
+import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';
+import { GetTestAverageRatingService } from 'src/features/ratings/get-test-average-rating/get-test-average-rating.service';
+import { GetTestRatingService } from 'src/features/ratings/get-test-ratings/get-test-rating.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([RatingEntity, User, TestsEntity]), // Добавляем User и TestsEntity
   ],
-  providers: [RatingService],
+  providers: [AddRatingService, GetTestAverageRatingService, GetTestRatingService],
   controllers: [RatingController],
-  exports: [RatingService],
+  exports: [GetTestAverageRatingService],
 })
 export class RatingModule {}

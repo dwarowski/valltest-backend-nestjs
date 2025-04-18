@@ -10,7 +10,6 @@ import { Request } from 'express';
 import { Repository } from 'typeorm';
 
 import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
-import { RatingService } from 'src/features/ratings/rating.service';
 import { TestTagService } from 'src/features/test-tag/test-tag.service';
 import { TopicService } from 'src/features/topics/topics.service';
 
@@ -27,12 +26,13 @@ import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
 import { GetTestsDto } from './dto/get-tests.dto';
 import { CreateProblemsService } from 'src/features/problems/create-problem/create-problems.service';
 import { CreateAnswersService } from 'src/features/answers/create-answer/create-answers.service';
+import { GetTestAverageRatingService } from '../ratings/get-test-average-rating/get-test-average-rating.service';
 
 @Injectable()
 export class TestsService {
   constructor(
-    @Inject(RatingService)
-    private readonly ratingService: RatingService,
+    @Inject(GetTestAverageRatingService)
+    private readonly getTestAverageRatingService: GetTestAverageRatingService ,
     @Inject(TopicService)
     private readonly topicService: TopicService,
     @Inject(TestTagService)
@@ -298,7 +298,7 @@ export class TestsService {
   ): Promise<TestsWithRatingDto[]> {
     return Promise.all(
       tests.map(async (test) => {
-        const averageRating = await this.ratingService.getAverageRating(
+        const averageRating = await this.getTestAverageRatingService.getAverageRating(
           test.id,
         );
         return { ...test, averageRating: averageRating };

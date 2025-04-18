@@ -1,19 +1,23 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 
-import { CreateRatingDto } from '../../features/ratings/dto/create-rating.dto';
+import { CreateRatingDto } from '../../features/ratings/add-rating/create-rating.dto';
 import { RatingEntity } from '../../entities/ratings/rating.entity';
-import { RatingService } from 'src/features/ratings/rating.service';
+import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';
+import { GetTestRatingService } from 'src/features/ratings/get-test-ratings/get-test-rating.service';
 
 @Controller('ratings')
 export class RatingController {
-  constructor(private readonly ratingService: RatingService) {}
+  constructor(
+    private readonly addRatingService: AddRatingService,
+    private readonly getRatingByTestService: GetTestRatingService
+  ) { }
 
   // Добавить оценку к тесту
   @Post()
   async addRating(
     @Body() createRatingDto: CreateRatingDto,
   ): Promise<RatingEntity> {
-    return this.ratingService.addRating(createRatingDto);
+    return this.addRatingService.addRating(createRatingDto);
   }
 
   // Получить все оценки для теста
@@ -21,12 +25,6 @@ export class RatingController {
   async getRatingsByTest(
     @Param('testId') testId: number,
   ): Promise<RatingEntity[]> {
-    return this.ratingService.getRatingsByTest(testId);
-  }
-
-  // Получить средний рейтинг теста
-  @Get('/tests/:testId/average')
-  async getAverageRating(@Param('testId') testId: number): Promise<number> {
-    return this.ratingService.getAverageRating(testId);
+    return this.getRatingByTestService.getRatingsByTest(testId);
   }
 }
