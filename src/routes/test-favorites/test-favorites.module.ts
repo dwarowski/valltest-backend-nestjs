@@ -6,8 +6,6 @@ import { TestsModule } from 'src/routes/tests/tests.module';
 import { UserModule } from 'src/routes/users/user.module';
 
 import { FavoriteTestEntity } from '../../entities/test-favorites/favorite-test.entity';
-import { TestFavoritesController } from './test-favorites.controller';
-import { TestFavoritesService } from '../../features/test-favorites/test-favorites.service';
 
 @Module({
   imports: [
@@ -16,8 +14,8 @@ import { TestFavoritesService } from '../../features/test-favorites/test-favorit
     TestsModule,
     TypeOrmModule.forFeature([FavoriteTestEntity]),
   ],
-  controllers: [TestFavoritesController],
-  providers: [TestFavoritesService],
-  exports: [TestFavoritesService],
+  controllers: [],
+  providers: [],
+  exports: [],
 })
 export class TestFavoritesModule {}
