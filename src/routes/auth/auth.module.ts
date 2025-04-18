@@ -6,7 +6,8 @@ import { User } from 'src/entities/users/user.entity';
 import { UserModule } from '../users/user.module';
 
 import { AuthController } from './auth.controller';
-import { AuthService } from 'src/features/auth/auth.service';
+import { RegisterService } from 'src/features/auth/register/register.service';
+import { LoginService } from 'src/features/auth/login/login.service';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { AuthService } from 'src/features/auth/auth.service';
       signOptions: { expiresIn: '1h' },
     }),
   ],
-  providers: [AuthService],
+  providers: [RegisterService, LoginService],
   controllers: [AuthController],
   exports: [JwtModule],
 })

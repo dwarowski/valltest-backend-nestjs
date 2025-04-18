@@ -7,20 +7,22 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 
-import { AuthService } from 'src/features/auth/auth.service';
-import { LoginDto } from '../../features/auth/dto/login.dto';
-import { RegisterDto } from '../../features/auth/dto/register.dto';
+import { LoginDto } from '../../features/auth/login/login.dto';
+import { RegisterDto } from '../../features/auth/register/register.dto';
+import { LoginService } from 'src/features/auth/login/login.service';
+import { RegisterService } from 'src/features/auth/register/register.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly loginService: LoginService,
+    private readonly registerService: RegisterService,) {}
 
   @Post('register')
   async register(
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { access_token } = await this.authService.register(registerDto);
+    const { access_token } = await this.registerService.register(registerDto);
     return this.addTokenToCookie(access_token, res, 'register successful');
   }
 
@@ -29,7 +31,7 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { access_token } = await this.authService.login(loginDto);
+    const { access_token } = await this.loginService.login(loginDto);
     return this.addTokenToCookie(access_token, res, 'login successful');
   }
 
