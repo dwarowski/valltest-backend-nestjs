@@ -22,7 +22,7 @@ import { UpdateTestDto } from './dto/update-test.dto';
 import { TestsService } from './tests.service';
 
 @Controller('tests')
-@ApiTags('tests')
+@ApiTags('Test')
 export class TestsController {
   constructor(private readonly TestsService: TestsService) {}
 
@@ -43,7 +43,7 @@ export class TestsController {
     return this.TestsService.getTestById(+testId);
   }
 
-  @Post()
+  @Post('test')
   createTest(@Body() dto: CreateTestDto, @Req() req: Request) {
     return this.TestsService.creatTest(dto, req);
   }
