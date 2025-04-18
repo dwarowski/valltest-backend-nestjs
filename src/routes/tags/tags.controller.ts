@@ -18,8 +18,8 @@ export class TagsController {
     return this.createTagService.createTag(dto);
   }
 
-  @Delete(':id')
-  deleteTag(@Param('id') tag: string) {
+  @Delete(':tag')
+  deleteTag(@Param('tag') tag: string) {
     return this.deleteTagService.deleteTagByName(tag);
   }
 }
