@@ -25,7 +25,7 @@ import { UserTestsDto } from './dto/get-user-tests.dto';
 import { TestsWithRatingDto } from './dto/test-with-rating.dto';
 import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
 import { GetTestsDto } from './dto/get-tests.dto';
-import { ProblemsService } from 'src/features/problems/problems.service';
+import { ProblemsService } from 'src/features/problems/create-problem/problems.service';
 import { CreateAnswersService } from 'src/features/answers/create-answer/create-answers.service';
 
 @Injectable()
