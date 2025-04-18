@@ -11,7 +11,6 @@ import { Repository } from 'typeorm';
 
 import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
 import { GetTagByNameService } from '../test-tag/get-tag-by-name/get-tag-by-name.service';
-import { TopicService } from 'src/features/topics/topics.service';
 
 import { PageMetaDto } from '../../shared/utils/dto/get-page/page-meta.dto';
 import { PageDto } from '../../shared/utils/dto/get-page/page.dto';
@@ -29,14 +28,15 @@ import { CreateAnswersService } from 'src/features/answers/create-answer/create-
 import { GetTestAverageRatingService } from '../ratings/get-test-average-rating/get-test-average-rating.service';
 import { CreateRelationTestTagService } from '../test-tag/create-relation/create-relation-test-tag.service';
 import { DeleteRelationTestTagService } from '../test-tag/delete-relation/delete-relation-test-tag.service';
+import { GetTopicService } from '../topics/get-topic/get-topics.service';
 
 @Injectable()
 export class TestsService {
   constructor(
     @Inject(GetTestAverageRatingService)
     private readonly getTestAverageRatingService: GetTestAverageRatingService ,
-    @Inject(TopicService)
-    private readonly topicService: TopicService,
+    @Inject(GetTopicService)
+    private readonly getTopicService: GetTopicService,
     @Inject(GetTagByNameService)
     private readonly getTagByNameService: GetTagByNameService,
     @Inject(CreateRelationTestTagService)
@@ -180,7 +180,7 @@ export class TestsService {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
 
-    const topicEntity = await this.topicService.getTopicByName(topicName);
+    const topicEntity = await this.getTopicService.getTopicByName(topicName);
 
     if (!topicEntity) {
       throw new Error(`Topic with name: ${topicName} not found`);
@@ -238,7 +238,7 @@ export class TestsService {
         throw new BadRequestException('topic name is required');
       }
 
-      const topic = await this.topicService.getTopicByName(topicName);
+      const topic = await this.getTopicService.getTopicByName(topicName);
 
       if (!topic) {
         throw new Error(`Topic with name: ${topicName} not found`);

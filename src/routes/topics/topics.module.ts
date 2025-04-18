@@ -5,14 +5,16 @@ import { SubjectEntity } from '../../entities/subjects/subject.entity'; // Им�
 
 import { TopicEntity } from '../../entities/topics/topic.entity';
 import { TopicController } from './topics.controller';
-import { TopicService } from '../../features/topics/topics.service';
+import { CreateTopicService } from 'src/features/topics/create-topic/create-topics.service';
+import { DeleteTopicService } from 'src/features/topics/delete-topic/delete-topics.service';
+import { GetTopicService } from 'src/features/topics/get-topic/get-topics.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([TopicEntity, SubjectEntity]), // Добавляем SubjectEntity
   ],
-  providers: [TopicService],
+  providers: [CreateTopicService, DeleteTopicService, GetTopicService],
   controllers: [TopicController],
-  exports: [TopicService],
+  exports: [GetTopicService],
 })
 export class TopicsModule {}
