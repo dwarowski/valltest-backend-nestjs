@@ -1,9 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
-import { TestsEntity } from '../../../entities/tests/test.entity';
-
 import { CreateRatingDto } from './create-rating.dto';
 import { RatingEntity } from '../../../entities/ratings/rating.entity';
 import { Request } from 'express';
@@ -28,7 +25,6 @@ export class AddRatingService {
     const userId = payload.id
     
     const userEntity = await this.getUserService.execute(userId)
-
     const testEntity = await this.getTestsEntityByIdService.getTestEntityById(createRatingDto.testId)
 
     const newRating = await this.ratingRepository.save({
