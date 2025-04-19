@@ -9,6 +9,7 @@ import { RatingEntity } from '../../../entities/ratings/rating.entity';
 import { Request } from 'express';
 import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
 import { GetUserService } from 'src/features/users/get-user/get-user.service';
+import { GetTestsEntityByIdService } from 'src/features/tests/get-test-entity-id/get-tests-entity-id.service';
  
 @Injectable()
 export class AddRatingService {
@@ -17,8 +18,8 @@ export class AddRatingService {
     private readonly ratingRepository: Repository<RatingEntity>,
     @Inject(GetUserService)
     private readonly getUserService: GetUserService,
-    @InjectRepository(TestsEntity)
-    private readonly testRepository: Repository<TestsEntity>,
+    @Inject(GetTestsEntityByIdService)
+    private readonly getTestsEntityByIdService: GetTestsEntityByIdService,
   ) {}
 
   // Добавить оценку к тесту
@@ -27,20 +28,8 @@ export class AddRatingService {
     const userId = payload.id
     
     const userEntity = await this.getUserService.execute(userId)
-    if (!userEntity) {
-      throw new NotFoundException(
-        `User with ID ${userId} not found`,
-      );
-    }
 
-    const testEntity = await this.testRepository.findOne({
-      where: { id: createRatingDto.testId },
-    });
-    if (!testEntity) {
-      throw new NotFoundException(
-        `Test with ID ${createRatingDto.testId} not found`,
-      );
-    }
+    const testEntity = await this.getTestsEntityByIdService.getTestEntityById(createRatingDto.testId)
 
     const newRating = await this.ratingRepository.save({
       user: userEntity,

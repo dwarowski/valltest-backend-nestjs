@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -21,7 +21,7 @@ import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests
 @Module({
   imports: [
     ConfigModule,
-    RatingModule,
+    forwardRef(() => RatingModule),
     TopicsModule,
     TestTagModule,
     ProblemsModule,
