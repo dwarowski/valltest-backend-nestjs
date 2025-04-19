@@ -20,8 +20,7 @@ export class GetUserRoleService {
         user: {
           username: username,
         },
-      },
-      relations: ['user', 'role'],
+      }
     });
     if (!userRoleEntity) {
       throw new BadRequestException('user doesn`t exist');
