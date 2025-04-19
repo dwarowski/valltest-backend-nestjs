@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -18,7 +18,6 @@ export class GetTestAverageRatingService {
       .select('AVG(rating.rating)', 'average')
       .where('rating.testId = :testId', { testId })
       .getRawOne();
-
     return parseFloat(result.average) || 0;
   }
 }
