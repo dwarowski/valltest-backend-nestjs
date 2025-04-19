@@ -25,8 +25,8 @@ export class TopicController {
   }
 
   // Удалить тему
-  @Delete(':id')
-  async delete(@Param('id') id: number): Promise<void> {
-    return this.deleteTopicService.delete(id);
+  @Delete(':topic')
+  async delete(@Param('topic') topicName: string): Promise<string> {
+    return await this.deleteTopicService.delete(topicName);
   }
 }

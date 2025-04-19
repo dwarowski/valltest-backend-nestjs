@@ -12,10 +12,16 @@ export class DeleteTopicService {
   ) {}
 
   // Удалить тему
-  async delete(id: number): Promise<void> {
-    const result = await this.topicRepository.delete(id);
+  async delete(topicName: string): Promise<string> {
+    const result = await this.topicRepository
+    .createQueryBuilder()
+    .delete()
+    .where({topicName: topicName})
+    .execute();
+    
     if (result.affected === 0) {
-      throw new NotFoundException(`Topic with ID ${id} not found`);
+      throw new NotFoundException(`Topic with ID ${topicName} not found`);
     }
+    return `Topic with name: ${topicName} deleted`
   }
 }
