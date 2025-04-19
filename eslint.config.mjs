@@ -28,12 +28,10 @@ export default defineConfig([
 
       "no-console": "warn",
 
-      // Базовые правила для TypeScript
-      "@typescript-eslint/no-unused-vars": "off",
       "no-unused-vars": "off",
 
       "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
+      "@typescript-eslint/no-unused-vars": [
         "warn",
         {
           vars: "all",
