@@ -13,7 +13,7 @@ export class CreateProblemsService {
     @InjectRepository(ProblemsEntity)
     private readonly repository: Repository<ProblemsEntity>,
   ) { }
-  async createProblem(id: number, dto: CreateProblemDto) {
-    return await this.repository.save({ ...dto, test: id });
+  async createProblem(testId: number, dto: CreateProblemDto) {
+    return await this.repository.save({ ...dto, test: testId });
   }
 }
