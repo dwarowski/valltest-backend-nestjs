@@ -14,7 +14,6 @@ export class CreateSubjectService {
 
   // Создать предмет
   async create(subjectData: CreateSubjectDto): Promise<SubjectEntity> {
-    const subject = this.subjectRepository.create(subjectData);
-    return this.subjectRepository.save(subject);
+    return await this.subjectRepository.save(subjectData);
   }
 }
