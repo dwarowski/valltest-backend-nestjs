@@ -10,7 +10,7 @@ export class RatingEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.ratings) // Связь с пользователем
+  @ManyToOne(() => User, (user) => user.ratings, { eager: true }) // Связь с пользователем
   user: User;
 
   @ManyToOne(() => TestsEntity, (test) => test.ratings) // Связь с тестом
