@@ -3,12 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { RatingEntity } from '../../../entities/ratings/rating.entity';
- 
+
 @Injectable()
 export class GetTestAverageRatingService {
   constructor(
     @InjectRepository(RatingEntity)
-    private readonly ratingRepository: Repository<RatingEntity>
+    private readonly ratingRepository: Repository<RatingEntity>,
   ) {}
 
   // Получить средний рейтинг теста

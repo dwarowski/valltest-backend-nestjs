@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
 
 import { CreateSubjectDto } from '../../features/subjects/create-subject/create-subject.dto';
 import { SubjectEntity } from '../../entities/subjects/subject.entity';
@@ -15,8 +9,8 @@ import { DeleteSubjectService } from 'src/features/subjects/delete-subject/delet
 export class SubjectController {
   constructor(
     private readonly creaeteSubjectService: CreateSubjectService,
-    private readonly deleteSubjectSerivce: DeleteSubjectService
-  ) { }
+    private readonly deleteSubjectSerivce: DeleteSubjectService,
+  ) {}
 
   // Создать предмет
   @Post()

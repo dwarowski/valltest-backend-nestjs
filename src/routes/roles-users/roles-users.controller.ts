@@ -8,7 +8,7 @@ import { RemoveRoleService } from 'src/features/roles-users/remove-role/remove-r
 export class RolesUsersController {
   constructor(
     private readonly addRoleToUsersService: AddRoleToUsersService,
-    private readonly  removeRoleRelation: RemoveRoleService,
+    private readonly removeRoleRelation: RemoveRoleService,
   ) {}
 
   @Post()

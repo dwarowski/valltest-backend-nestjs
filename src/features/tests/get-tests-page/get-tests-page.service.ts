@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -20,7 +16,7 @@ import { GetTestAverageRatingService } from '../../ratings/get-test-average-rati
 export class GetTestsPageService {
   constructor(
     @Inject(GetTestAverageRatingService)
-    private readonly getTestAverageRatingService: GetTestAverageRatingService ,
+    private readonly getTestAverageRatingService: GetTestAverageRatingService,
     @InjectRepository(TestsEntity)
     private readonly repository: Repository<TestsEntity>,
   ) {}
@@ -79,9 +75,8 @@ export class GetTestsPageService {
   ): Promise<TestsWithRatingDto[]> {
     return Promise.all(
       tests.map(async (test) => {
-        const averageRating = await this.getTestAverageRatingService.getAverageRating(
-          test.id,
-        );
+        const averageRating =
+          await this.getTestAverageRatingService.getAverageRating(test.id);
         return { ...test, averageRating: averageRating };
       }),
     );

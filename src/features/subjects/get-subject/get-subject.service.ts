@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { SubjectEntity } from "src/entities/subjects/subject.entity";
-import { Repository } from "typeorm";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { SubjectEntity } from 'src/entities/subjects/subject.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class GetSubjectService {
@@ -10,16 +10,15 @@ export class GetSubjectService {
     private readonly subjectRepository: Repository<SubjectEntity>,
   ) {}
 
-  async execute(subjectName: string){
+  async execute(subjectName: string) {
     const subject = await this.subjectRepository.findOne({
-        where: { subjectName: subjectName },
-      });
-      if (!subject) {
-        throw new NotFoundException(
-          `Subject with Name: ${subjectName} not found`,
-        );
-      }
-      return subject
+      where: { subjectName: subjectName },
+    });
+    if (!subject) {
+      throw new NotFoundException(
+        `Subject with Name: ${subjectName} not found`,
+      );
+    }
+    return subject;
   }
-  
 }

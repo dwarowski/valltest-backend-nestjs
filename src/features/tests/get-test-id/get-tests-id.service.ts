@@ -1,12 +1,8 @@
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { TestsEntity } from '../../../entities/tests/test.entity';
-import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
 
 @Injectable()
 export class GetTestsIdService {

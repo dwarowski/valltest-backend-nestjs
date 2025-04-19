@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  ConflictException,
-  Inject,
-} from '@nestjs/common';
+import { Injectable, ConflictException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
@@ -49,5 +45,4 @@ export class RegisterService {
 
     return await this.loginService.login(loginDto);
   }
-
 }

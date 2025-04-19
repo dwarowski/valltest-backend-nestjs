@@ -1,7 +1,4 @@
-import {
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
@@ -10,7 +7,6 @@ import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token
 
 import { CreateTestDto } from './create-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
-import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
 import { CreateProblemsService } from 'src/features/problems/create-problem/create-problems.service';
 import { CreateAnswersService } from 'src/features/answers/create-answer/create-answers.service';
 import { GetTopicService } from '../../topics/get-topic/get-topics.service';

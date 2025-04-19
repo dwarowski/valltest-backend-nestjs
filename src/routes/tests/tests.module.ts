@@ -39,7 +39,7 @@ import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests
     GetTestsEntityByIdService,
     GetTestsIdService,
     GetUsersTestsService,
-    GetTestsPageService
+    GetTestsPageService,
   ],
   exports: [GetTestsEntityByIdService],
 })

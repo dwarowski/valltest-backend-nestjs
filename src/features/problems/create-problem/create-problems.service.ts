@@ -1,6 +1,4 @@
-import {
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,7 +10,7 @@ export class CreateProblemsService {
   constructor(
     @InjectRepository(ProblemsEntity)
     private readonly repository: Repository<ProblemsEntity>,
-  ) { }
+  ) {}
   async createProblem(testId: number, dto: CreateProblemDto) {
     return await this.repository.save({ ...dto, test: testId });
   }

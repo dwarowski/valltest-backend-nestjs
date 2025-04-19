@@ -11,7 +11,11 @@ import { TestsModule } from '../tests/tests.module';
 
 @Module({
   imports: [UserModule, TestsModule, TypeOrmModule.forFeature([RatingEntity])],
-  providers: [AddRatingService, GetTestAverageRatingService, GetTestRatingService],
+  providers: [
+    AddRatingService,
+    GetTestAverageRatingService,
+    GetTestRatingService,
+  ],
   controllers: [RatingController],
   exports: [GetTestAverageRatingService],
 })

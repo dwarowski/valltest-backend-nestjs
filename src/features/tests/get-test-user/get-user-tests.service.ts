@@ -1,7 +1,4 @@
-import {
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
@@ -58,9 +55,8 @@ export class GetUsersTestsService {
   ): Promise<TestsWithRatingDto[]> {
     return Promise.all(
       tests.map(async (test) => {
-        const averageRating = await this.getTestAverageRatingService.getAverageRating(
-          test.id,
-        );
+        const averageRating =
+          await this.getTestAverageRatingService.getAverageRating(test.id);
         return { ...test, averageRating: averageRating };
       }),
     );

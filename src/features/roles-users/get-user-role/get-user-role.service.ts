@@ -1,7 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,7 +9,7 @@ export class GetUserRoleService {
   constructor(
     @InjectRepository(RolesUsersEntity)
     private readonly repository: Repository<RolesUsersEntity>,
-  ) { }
+  ) {}
 
   async getUserRoles(username: string) {
     const userRoleEntity = await this.repository.find({
@@ -20,7 +17,7 @@ export class GetUserRoleService {
         user: {
           username: username,
         },
-      }
+      },
     });
     if (!userRoleEntity) {
       throw new BadRequestException('user doesn`t exist');

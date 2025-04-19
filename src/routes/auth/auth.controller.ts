@@ -14,8 +14,10 @@ import { RegisterService } from 'src/features/auth/register/register.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly loginService: LoginService,
-    private readonly registerService: RegisterService,) {}
+  constructor(
+    private readonly loginService: LoginService,
+    private readonly registerService: RegisterService,
+  ) {}
 
   @Post('register')
   async register(

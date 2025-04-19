@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-} from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 
 import { ChangePasswordDto } from '../../features/users/change-user-password/change-password.dto';
 import { UserDto } from '../../features/users/get-user/get-user-dto';
@@ -15,8 +9,8 @@ import { ChangeUserPasswordService } from 'src/features/users/change-user-passwo
 export class UserController {
   constructor(
     private readonly getUserService: GetUserService,
-    private readonly changePasswordService: ChangeUserPasswordService
-  ) { }
+    private readonly changePasswordService: ChangeUserPasswordService,
+  ) {}
 
   @Get(':id')
   async getProfile(@Param('id') id: string): Promise<UserDto> {

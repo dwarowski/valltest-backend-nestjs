@@ -1,7 +1,6 @@
 import { Controller, Post, Body, Get, Param, Req } from '@nestjs/common';
 
 import { CreateRatingDto } from '../../features/ratings/add-rating/create-rating.dto';
-import { RatingEntity } from '../../entities/ratings/rating.entity';
 import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';
 import { GetTestRatingService } from 'src/features/ratings/get-test-ratings/get-test-rating.service';
 import { Request } from 'express';
@@ -10,8 +9,8 @@ import { Request } from 'express';
 export class RatingController {
   constructor(
     private readonly addRatingService: AddRatingService,
-    private readonly getRatingByTestService: GetTestRatingService
-  ) { }
+    private readonly getRatingByTestService: GetTestRatingService,
+  ) {}
 
   // Добавить оценку к тесту
   @Post()
@@ -24,9 +23,7 @@ export class RatingController {
 
   // Получить все оценки для теста
   @Get('/tests/:testId')
-  async getRatingsByTest(
-    @Param('testId') testId: number,
-  ) {
+  async getRatingsByTest(@Param('testId') testId: number) {
     return this.getRatingByTestService.getRatingsByTest(testId);
   }
 }

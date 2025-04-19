@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -20,10 +20,14 @@ export class CreateTopicService {
 
   // Создание темы
   async create(createTopicDto: CreateTopicDto) {
-    const subject = await this.getSubjectService.execute(createTopicDto.subjectName)
-    const topicEntity = await this.getTopicService.getTopicByName(createTopicDto.topicName)
+    const subject = await this.getSubjectService.execute(
+      createTopicDto.subjectName,
+    );
+    const topicEntity = await this.getTopicService.getTopicByName(
+      createTopicDto.topicName,
+    );
     if (topicEntity) {
-      throw new ForbiddenException('Topic already exsist')
+      throw new ForbiddenException('Topic already exsist');
     }
 
     const topic = await this.topicRepository.save({

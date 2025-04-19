@@ -14,14 +14,14 @@ export class DeleteTopicService {
   // Удалить тему
   async delete(topicName: string): Promise<string> {
     const result = await this.topicRepository
-    .createQueryBuilder()
-    .delete()
-    .where({topicName: topicName})
-    .execute();
-    
+      .createQueryBuilder()
+      .delete()
+      .where({ topicName: topicName })
+      .execute();
+
     if (result.affected === 0) {
       throw new NotFoundException(`Topic with ID ${topicName} not found`);
     }
-    return `Topic with name: ${topicName} deleted`
+    return `Topic with name: ${topicName} deleted`;
   }
 }

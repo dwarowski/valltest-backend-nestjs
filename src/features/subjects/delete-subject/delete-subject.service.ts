@@ -14,14 +14,16 @@ export class DeleteSubjectService {
   // Удалить предмет
   async delete(subjectData: string): Promise<string> {
     const result = await this.subjectRepository
-    .createQueryBuilder('subject')
-    .delete()
-    .where({subjectName: subjectData})
-    .execute()
+      .createQueryBuilder('subject')
+      .delete()
+      .where({ subjectName: subjectData })
+      .execute();
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Subject with name: ${subjectData} not found`);
+      throw new NotFoundException(
+        `Subject with name: ${subjectData} not found`,
+      );
     }
-    return `Subject with name: ${subjectData} deleted`
+    return `Subject with name: ${subjectData} deleted`;
   }
 }

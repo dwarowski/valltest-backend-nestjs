@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
 
 import { CreateTopicDto } from '../../features/topics/create-topic/create-topic.dto';
 import { TopicEntity } from '../../entities/topics/topic.entity';
@@ -14,8 +8,8 @@ import { DeleteTopicService } from 'src/features/topics/delete-topic/delete-topi
 @Controller('topics')
 export class TopicController {
   constructor(
-    private readonly createTopicService: CreateTopicService ,
-    private readonly deleteTopicService: DeleteTopicService
+    private readonly createTopicService: CreateTopicService,
+    private readonly deleteTopicService: DeleteTopicService,
   ) {}
 
   // Создание темы

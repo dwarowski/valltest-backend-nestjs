@@ -25,6 +25,9 @@ export class CreateTagService {
     const tags = await this.repository.save({
       tag,
     });
-    return await this.createRelationTestTagService.createRelationTestTag(test, tags);
+    return await this.createRelationTestTagService.createRelationTestTag(
+      test,
+      tags,
+    );
   }
 }
