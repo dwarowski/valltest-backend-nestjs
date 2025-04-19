@@ -47,7 +47,7 @@ export class RegisterService {
       password: registerDto.password,
     };
 
-    return this.loginService.login(loginDto);
+    return await this.loginService.login(loginDto);
   }
 
 }
