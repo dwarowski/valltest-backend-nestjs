@@ -1,6 +1,4 @@
-import {
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,9 +10,9 @@ export class CreateAnswersService {
   constructor(
     @InjectRepository(AnswersEntity)
     private readonly repository: Repository<AnswersEntity>,
-  ) { }
+  ) {}
 
-  createAnswer(id: number, dto: CreateAnswerDto) {
-    return this.repository.save({ ...dto, problem: id });
+  createAnswer(problemId: number, dto: CreateAnswerDto) {
+    return this.repository.save({ ...dto, problem: problemId });
   }
 }
