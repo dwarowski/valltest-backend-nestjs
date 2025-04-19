@@ -23,11 +23,11 @@ export class GetTestsIdService {
       throw new NotFoundException('Test doesn`t exsit');
     }
 
-    const { problems, ratings, ...test } = testEntity;
+    const { problems, ratings: _ratings, ...test } = testEntity;
 
     const cleanTest = await Promise.all(
       problems.map(async (question) => {
-        const { test, id, answers, ...cleanProblem } = question;
+        const { test: _test, id: _id, answers, ...cleanProblem } = question;
 
         const cleanAnswers = await Promise.all(
           answers.map(async (answer) => {

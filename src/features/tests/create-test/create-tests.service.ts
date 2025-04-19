@@ -49,7 +49,7 @@ export class CreateTestsService {
           testEntity.id,
           question,
         );
-        const { test, id, ...cleanProblem } = createdProblem;
+        const { test: _test, id: _id, ...cleanProblem } = createdProblem;
 
         await Promise.all(
           question.answers.map(async (answer) => {
@@ -57,7 +57,11 @@ export class CreateTestsService {
               createdProblem.id,
               answer,
             );
-            const { problem, id, ...cleanAnswer } = createdAnswer;
+            const {
+              problem: _problem,
+              id: _id,
+              ...cleanAnswer
+            } = createdAnswer;
             return cleanAnswer;
           }),
         );

@@ -36,11 +36,11 @@ export class GetUsersTestsService {
     const userTestsCleaned: UserTestsDto[] = await Promise.all(
       userTestsWithRaiting.map(async (test) => {
         const {
-          ratings,
+          ratings: _ratings,
           testTag,
-          topic,
-          timeForTest,
-          userAuthorId,
+          topic: _topic,
+          timeForTest: _timeForTest,
+          userAuthorId: _userAuthorId,
           ...testCleaned
         } = test;
         const cleanedTestTags = await this.cleanTags(testTag);

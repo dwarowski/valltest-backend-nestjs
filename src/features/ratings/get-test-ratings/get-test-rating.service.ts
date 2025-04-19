@@ -19,7 +19,7 @@ export class GetTestRatingService {
 
     const cleanTestRatings = await Promise.all(
       testRatings.map((rating) => {
-        const { id, user, ...cleanTestRating } = rating;
+        const { id: _id, user, ...cleanTestRating } = rating;
         return {
           ...cleanTestRating,
           user: {

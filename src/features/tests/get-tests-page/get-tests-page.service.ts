@@ -49,7 +49,12 @@ export class GetTestsPageService {
 
     const testsCleaned = await Promise.all(
       testsWithRating.map(async (test) => {
-        const { topic, testTag, timeForTest, ...testCleaned } = test;
+        const {
+          topic,
+          testTag,
+          timeForTest: _timeForTest,
+          ...testCleaned
+        } = test;
         const cleanedTestTags = await this.cleanTags(testTag);
         return {
           ...testCleaned,

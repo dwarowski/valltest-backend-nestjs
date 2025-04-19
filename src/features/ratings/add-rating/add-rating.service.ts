@@ -36,7 +36,7 @@ export class AddRatingService {
       comment: createRatingDto.comment,
     });
 
-    const { test, user, ...cleanedRating } = newRating;
+    const { test: _test, user, ...cleanedRating } = newRating;
 
     return { ...cleanedRating, user: user.username };
   }
