@@ -11,13 +11,14 @@ export class GetUserRoleService {
     private readonly rolesUsersRepository: Repository<RolesUsersEntity>,
   ) {}
 
-  async execute(username: string) {
+  async execute(identifier: string, type: 'id' | 'username') {
+    const whereClause =
+      type === 'username'
+        ? { user: { username: identifier } }
+        : { user: { id: identifier } };
+
     const userRoleEntity = await this.rolesUsersRepository.find({
-      where: {
-        user: {
-          username: username,
-        },
-      },
+      where: whereClause,
     });
     if (!userRoleEntity) {
       throw new BadRequestException('user doesn`t exist');
