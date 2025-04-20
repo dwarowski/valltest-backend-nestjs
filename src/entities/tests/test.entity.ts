@@ -27,7 +27,7 @@ export class TestsEntity {
   userAuthorId: string;
 
   @Column()
-  difficulty: number;
+  difficulty: string;
 
   @ManyToOne(() => TopicEntity, (topic) => topic.id, {
     eager: true,
