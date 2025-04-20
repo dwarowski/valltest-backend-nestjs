@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { CreateTopicDto } from './create-topic.dto';
 import { TopicEntity } from '../../../entities/topics/topic.entity';
 import { GetSubjectService } from 'src/features/subjects/get-subject/get-subject.service';
-import { GetTopicService } from '../get-topic/get-topics.service';
 
 @Injectable()
 export class CreateTopicService {
@@ -14,14 +13,12 @@ export class CreateTopicService {
     private readonly topicRepository: Repository<TopicEntity>,
     @Inject(GetSubjectService)
     private readonly getSubject: GetSubjectService,
-    @Inject(GetTopicService)
-    private readonly getTopic: GetTopicService,
   ) {}
 
   // Создание темы
   async execute(createTopicDto: CreateTopicDto) {
     const subject = await this.getSubject.execute(createTopicDto.subjectName);
-    const topicEntity = await this.getTopic.execute(createTopicDto.topicName);
+    const topicEntity = await this.topicRepository.findOneBy({ topicName: createTopicDto.topicName });
     if (topicEntity) {
       throw new ForbiddenException('Topic already exsist');
     }
