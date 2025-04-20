@@ -1,5 +1,4 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -10,7 +9,6 @@ import { TopicsModule } from 'src/routes/topics/topics.module';
 import { TestsEntity } from '../../entities/tests/test.entity';
 import { TestsController } from './tests.controller';
 import { ProblemsModule } from 'src/routes/problems/problems.module';
-import { AnswersModule } from 'src/routes/answers/answers.module';
 import { CreateTestsService } from 'src/features/tests/create-test/create-tests.service';
 import { DeleteTestsService } from 'src/features/tests/delete-test/delete-tests.service';
 import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.service';

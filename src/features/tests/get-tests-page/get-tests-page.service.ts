@@ -80,8 +80,7 @@ export class GetTestsPageService {
   ): Promise<TestsWithRatingDto[]> {
     return Promise.all(
       tests.map(async (test) => {
-        const averageRating =
-          await this.getTestAverageRating.execute(test.id);
+        const averageRating = await this.getTestAverageRating.execute(test.id);
         return { ...test, averageRating: averageRating };
       }),
     );

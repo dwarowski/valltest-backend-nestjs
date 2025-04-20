@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
@@ -19,7 +19,7 @@ export class CreateTestsService {
     private readonly createProblem: CreateProblemService,
     @InjectRepository(TestsEntity)
     private readonly testsRepository: Repository<TestsEntity>,
-  ) { }
+  ) {}
 
   async execute(dto: CreateTestDto, req: Request) {
     const { topicName, questions, ...testDto } = dto;
@@ -38,19 +38,18 @@ export class CreateTestsService {
 
     const testQuestions = await Promise.all(
       questions.map(async (question) => {
-        question.test = testEntity.id
+        question.test = testEntity.id;
         const createdProblem = await this.createProblem.execute(question);
         return createdProblem;
       }),
     );
 
-    const createdTest = Object.assign(new CreateTestDto(),
-    { 
-      testName: testEntity.testName, 
-      difficulty: testEntity.difficulty, 
+    const createdTest = Object.assign(new CreateTestDto(), {
+      testName: testEntity.testName,
+      difficulty: testEntity.difficulty,
       topicName: testEntity.topic.topicName,
-      testQuestions
-    })
+      testQuestions,
+    });
     return createdTest;
   }
 }

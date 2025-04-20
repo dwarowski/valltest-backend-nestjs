@@ -18,10 +18,8 @@ export class ChangeUserPasswordService {
   ) {}
 
   // Метод для смены пароля
-  async execute(
-    changePasswordDto: ChangePasswordDto,
-  ): Promise<string> {
-    const {email, newPassword, oldPassword} = changePasswordDto
+  async execute(changePasswordDto: ChangePasswordDto): Promise<string> {
+    const { email, newPassword, oldPassword } = changePasswordDto;
     const user = await this.usersRepository.findOne({ where: { email } });
     if (!user) {
       throw new NotFoundException(`User with email: ${email} not found`);
@@ -37,14 +35,11 @@ export class ChangeUserPasswordService {
     }
 
     // Хешируем новый пароль
-    const newHashedPassword = await bcrypt.hash(
-      newPassword,
-      10,
-    );
+    const newHashedPassword = await bcrypt.hash(newPassword, 10);
 
     // Обновляем пароль
     user.hashed_password = newHashedPassword;
     await this.usersRepository.save(user);
-    return 'Password changed successfully'
+    return 'Password changed successfully';
   }
 }

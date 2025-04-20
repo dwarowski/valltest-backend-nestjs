@@ -20,14 +20,11 @@ export class CreateTagService {
 
   async execute(dto: CreateTagDto) {
     const { tag, testId } = dto;
-    const testEntity = await this.getTest.execute(testId, "entity");
+    const testEntity = await this.getTest.execute(testId, 'entity');
 
     const tags = await this.tagsRepository.save({
       tag,
     });
-    return await this.createRelationTestTag.execute(
-      testEntity,
-      tags,
-    );
+    return await this.createRelationTestTag.execute(testEntity, tags);
   }
 }

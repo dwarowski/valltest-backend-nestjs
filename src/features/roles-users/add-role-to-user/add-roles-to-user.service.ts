@@ -24,12 +24,15 @@ export class AddRoleToUsersService {
   async execute(dto: AddRoleToUserDto) {
     const { role, user } = dto;
     const roleEntity = await this.getRoles.execute(role);
-    const userEntity = await this.getUser.execute(user, "username");
+    const userEntity = await this.getUser.execute(user, 'username');
     const existingRoles = await this.getUserRole.execute(userEntity.username);
 
     if (existingRoles.some((existingRole) => existingRole === role)) {
       throw new ConflictException(`User already has the role: ${role}`);
     }
-    return await this.rolesUsersRepository.save({ user: userEntity, role: roleEntity });
+    return await this.rolesUsersRepository.save({
+      user: userEntity,
+      role: roleEntity,
+    });
   }
 }

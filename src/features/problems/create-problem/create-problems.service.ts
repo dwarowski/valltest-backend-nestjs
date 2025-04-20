@@ -20,11 +20,11 @@ export class CreateProblemService {
 
     const answerEntities = await Promise.all(
       problemEntity.answers.map(async (answer) => {
-        answer.problem = problemEntity.id
+        answer.problem = problemEntity.id;
         const createdAnswer = await this.createAnswer.execute(answer);
         return createdAnswer;
       }),
     );
-    return { question: problemEntity.question, answers: answerEntities }
+    return { question: problemEntity.question, answers: answerEntities };
   }
 }

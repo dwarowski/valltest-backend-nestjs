@@ -26,9 +26,7 @@ export class RolesGuards implements CanActivate {
 
     const payload = await extractTokenFromCookie(request);
 
-    const userRoles = await this.getUserRole.execute(
-      payload.username,
-    );
+    const userRoles = await this.getUserRole.execute(payload.username);
 
     return requiredRoles.some((role) => userRoles.includes(role));
   }

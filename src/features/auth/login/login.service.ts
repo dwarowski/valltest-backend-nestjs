@@ -22,7 +22,7 @@ export class LoginService {
   async login(loginDto: LoginDto): Promise<{ access_token: string }> {
     // Ищем пользователя по email
     const userEntity = await this.userRepository.findOne({
-      where: { email: loginDto.email }
+      where: { email: loginDto.email },
     });
     if (!userEntity) {
       throw new UnauthorizedException('Неверный email или пароль');
@@ -37,7 +37,10 @@ export class LoginService {
       throw new UnauthorizedException('Неверный email или пароль');
     }
 
-    const userPayload: tokenPayload = { id: userEntity.id, username: userEntity.username };
+    const userPayload: tokenPayload = {
+      id: userEntity.id,
+      username: userEntity.username,
+    };
 
     return {
       access_token: await this.jwtService.signAsync(userPayload, {

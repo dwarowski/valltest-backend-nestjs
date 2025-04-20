@@ -17,8 +17,8 @@ export class GetTopicService {
       .where({ topicName: name })
       .getOne();
     if (!topicEntity) {
-      throw new NotFoundException(`Topic with name ${name} not found`)
+      throw new NotFoundException(`Topic with name ${name} not found`);
     }
-    return topicEntity
+    return topicEntity;
   }
 }

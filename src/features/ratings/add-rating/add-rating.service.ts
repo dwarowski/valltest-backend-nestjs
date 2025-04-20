@@ -24,9 +24,10 @@ export class AddRatingService {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
 
-    const userEntity = await this.getUser.execute(userId, "id");
+    const userEntity = await this.getUser.execute(userId, 'id');
     const testEntity = await this.getTests.execute(
-      createRatingDto.testId, "entity"
+      createRatingDto.testId,
+      'entity',
     );
 
     const newRating = await this.ratingRepository.save({

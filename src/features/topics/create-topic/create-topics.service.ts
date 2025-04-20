@@ -20,12 +20,8 @@ export class CreateTopicService {
 
   // Создание темы
   async execute(createTopicDto: CreateTopicDto) {
-    const subject = await this.getSubject.execute(
-      createTopicDto.subjectName,
-    );
-    const topicEntity = await this.getTopic.execute(
-      createTopicDto.topicName,
-    );
+    const subject = await this.getSubject.execute(createTopicDto.subjectName);
+    const topicEntity = await this.getTopic.execute(createTopicDto.topicName);
     if (topicEntity) {
       throw new ForbiddenException('Topic already exsist');
     }

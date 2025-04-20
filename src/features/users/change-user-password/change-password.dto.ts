@@ -1,10 +1,16 @@
-import { IsString, MinLength, MaxLength, IsNotEmpty, IsEmail } from 'class-validator';
+import {
+  IsString,
+  MinLength,
+  MaxLength,
+  IsNotEmpty,
+  IsEmail,
+} from 'class-validator';
 
 export class ChangePasswordDto {
   @IsString()
   @IsEmail()
   email: string;
-  
+
   @IsString()
   @IsNotEmpty()
   oldPassword: string; // Старый пароль
