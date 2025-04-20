@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,9 +12,13 @@ export class GetTopicService {
   ) {}
 
   async getTopicByName(name: string) {
-    return await this.topicRepository
+    const topicEntity = await this.topicRepository
       .createQueryBuilder('topic')
       .where({ topicName: name })
       .getOne();
+    if (!topicEntity) {
+      throw new NotFoundException(`Topic with name ${name} not found`)
+    }
+    return topicEntity
   }
 }
