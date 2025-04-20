@@ -19,7 +19,6 @@ import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests
 
 @Module({
   imports: [
-    ConfigModule,
     forwardRef(() => RatingModule),
     TopicsModule,
     TestTagModule,
