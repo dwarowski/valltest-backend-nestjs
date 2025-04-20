@@ -50,7 +50,7 @@ export class TestsController {
 
   @Get('test/:id')
   getTestById(@Param('id') testId: string) {
-    return this.getTestByIdService.getTestById(+testId);
+    return this.getTestByIdService.execute(+testId, "test");
   }
 
   @Post('test')
