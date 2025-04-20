@@ -1,13 +1,10 @@
 import { IsString } from 'class-validator';
-import { CreateAnswerDto } from 'src/features/answers/create-answer/create-answer.dto';
+import { CreateProblemDto } from 'src/features/problems/create-problem/create-problem.dto';
 
 export class CreateTestDto {
-  difficulty: string;
   @IsString()
   testName: string;
+  difficulty: string;
   topicName: string;
-  questions: {
-    question: string;
-    answers: CreateAnswerDto[];
-  }[];
+  questions: CreateProblemDto[];
 }
