@@ -24,7 +24,6 @@ import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests
     TopicsModule,
     TestTagModule,
     ProblemsModule,
-    AnswersModule,
     TypeOrmModule.forFeature([TestsEntity]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
