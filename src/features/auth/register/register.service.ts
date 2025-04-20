@@ -37,13 +37,12 @@ export class RegisterService {
 
     // Сохраняем пользователя в базе данных
     const userEntity = await this.userRepository.save({
-      username: 'name', //TODO wait for design update
       email: registerDto.email,
       hashed_password: hashedPassword,
     });
 
 
-    const _roleAssign = await this.addRoleToUser.execute({user: userEntity.username, role: 'teacher'}) // TODO wait for design update
+    const _roleAssign = await this.addRoleToUser.execute({user: userEntity.id, role: 'teacher'}) // TODO wait for design update
 
     const loginDto: LoginDto = {
       email: registerDto.email,

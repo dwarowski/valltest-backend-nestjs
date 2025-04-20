@@ -24,7 +24,7 @@ export class AddRoleToUsersService {
   async execute(dto: AddRoleToUserDto) {
     const { role, user } = dto;
     const roleEntity = await this.getRoles.execute(role);
-    const userEntity = await this.getUser.execute(user, 'username');
+    const userEntity = await this.getUser.execute(user, 'id');
     const existingRoles = await this.getUserRole.execute(userEntity.username);
 
     if (existingRoles.some((existingRole) => existingRole === role)) {
