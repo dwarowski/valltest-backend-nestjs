@@ -8,13 +8,13 @@ import { TestsEntity } from '../../../entities/tests/test.entity';
 export class GetTestsIdService {
   constructor(
     @InjectRepository(TestsEntity)
-    private readonly repository: Repository<TestsEntity>,
+    private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
   async execute(id: number, type: "entity"): Promise<TestsEntity>; // Перегрузка 1: type = "entity"
   async execute(id: number, type: "test"): Promise<any>;
   async execute(id: number, type: "entity" | "test") {
-    const testEntity = await this.repository
+    const testEntity = await this.testsRepository
       .createQueryBuilder('test')
       .where({ id: id })
       .leftJoinAndSelect('test.problems', 'problems')

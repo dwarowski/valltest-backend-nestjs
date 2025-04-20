@@ -9,13 +9,13 @@ import { RemoveRoleDto } from './remove-role.dto';
 export class RemoveRoleService {
   constructor(
     @InjectRepository(RolesUsersEntity)
-    private readonly repository: Repository<RolesUsersEntity>,
+    private readonly rolesUsersRepository: Repository<RolesUsersEntity>,
   ) {}
 
-  async deleteRoleRelation(dto: RemoveRoleDto) {
+  async execute(dto: RemoveRoleDto) {
     const { user, role } = dto;
 
-    const roleRelation = await this.repository.findOne({
+    const roleRelation = await this.rolesUsersRepository.findOne({
       where: {
         user: {
           username: user,
@@ -31,6 +31,6 @@ export class RemoveRoleService {
       throw new BadRequestException('relation doesn`t exist');
     }
 
-    return this.repository.delete(roleRelation);
+    return this.rolesUsersRepository.delete(roleRelation);
   }
 }

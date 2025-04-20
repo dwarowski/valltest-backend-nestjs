@@ -8,11 +8,11 @@ import { TagsEntity } from '../../../entities/tags/tags.entity';
 export class DeleteTagService {
   constructor(
     @InjectRepository(TagsEntity)
-    private readonly repository: Repository<TagsEntity>,
+    private readonly tagsRepository: Repository<TagsEntity>,
   ) {}
 
-  async deleteTagByName(tagName: string) {
-    return await this.repository
+  async execute(tagName: string) {
+    return await this.tagsRepository
       .createQueryBuilder('deleteTag')
       .delete()
       .where({ tag: tagName })

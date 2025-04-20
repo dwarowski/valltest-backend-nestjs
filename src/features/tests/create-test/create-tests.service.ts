@@ -14,22 +14,22 @@ import { GetTopicService } from '../../topics/get-topic/get-topics.service';
 export class CreateTestsService {
   constructor(
     @Inject(GetTopicService)
-    private readonly getTopicService: GetTopicService,
+    private readonly getTopic: GetTopicService,
     @Inject(CreateProblemService)
-    private readonly createProblemsService: CreateProblemService,
+    private readonly createProblem: CreateProblemService,
     @InjectRepository(TestsEntity)
-    private readonly repository: Repository<TestsEntity>,
+    private readonly testsRepository: Repository<TestsEntity>,
   ) { }
 
-  async creatTest(dto: CreateTestDto, req: Request) {
+  async execute(dto: CreateTestDto, req: Request) {
     const { topicName, questions, ...testDto } = dto;
 
     const payload = await extractTokenFromCookie(req);
     const userAuthorId = payload.id;
 
-    const topic = await this.getTopicService.getTopicByName(topicName);
+    const topic = await this.getTopic.execute(topicName);
 
-    const testEntity = await this.repository.save({
+    const testEntity = await this.testsRepository.save({
       ...testDto,
       userAuthorId,
       topic,
@@ -39,7 +39,7 @@ export class CreateTestsService {
     const testQuestions = await Promise.all(
       questions.map(async (question) => {
         question.test = testEntity.id
-        const createdProblem = await this.createProblemsService.execute(question);
+        const createdProblem = await this.createProblem.execute(question);
         return createdProblem;
       }),
     );

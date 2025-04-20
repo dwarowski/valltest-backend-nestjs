@@ -14,18 +14,18 @@ export class AddRatingService {
     @InjectRepository(RatingEntity)
     private readonly ratingRepository: Repository<RatingEntity>,
     @Inject(GetUserService)
-    private readonly getUserService: GetUserService,
+    private readonly getUser: GetUserService,
     @Inject(GetTestsIdService)
-    private readonly getTestsEntityByIdService: GetTestsIdService,
+    private readonly getTests: GetTestsIdService,
   ) {}
 
   // Добавить оценку к тесту
-  async addRating(createRatingDto: CreateRatingDto, req: Request) {
+  async execute(createRatingDto: CreateRatingDto, req: Request) {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
 
-    const userEntity = await this.getUserService.execute(userId, "id");
-    const testEntity = await this.getTestsEntityByIdService.execute(
+    const userEntity = await this.getUser.execute(userId, "id");
+    const testEntity = await this.getTests.execute(
       createRatingDto.testId, "entity"
     );
 

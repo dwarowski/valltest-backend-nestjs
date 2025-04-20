@@ -12,26 +12,24 @@ import { GetUserService } from 'src/features/users/get-user/get-user.service';
 export class AddRoleToUsersService {
   constructor(
     @Inject(GetUserService)
-    private readonly getUserByName: GetUserService,
+    private readonly getUser: GetUserService,
     @Inject(GetRolesService)
-    private readonly getRolesService: GetRolesService,
+    private readonly getRoles: GetRolesService,
     @Inject(GetUserRoleService)
-    private readonly getUserRoleService: GetUserRoleService,
+    private readonly getUserRole: GetUserRoleService,
     @InjectRepository(RolesUsersEntity)
-    private readonly repository: Repository<RolesUsersEntity>,
+    private readonly rolesUsersRepository: Repository<RolesUsersEntity>,
   ) {}
 
-  async addRoleToUser(dto: AddRoleToUserDto) {
+  async execute(dto: AddRoleToUserDto) {
     const { role, user } = dto;
-    const roleEntity = await this.getRolesService.getRole(role);
-    const userEntity = await this.getUserByName.execute(user, "username");
-    const existingRoles = await this.getUserRoleService.getUserRoles(
-      userEntity.username,
-    );
+    const roleEntity = await this.getRoles.execute(role);
+    const userEntity = await this.getUser.execute(user, "username");
+    const existingRoles = await this.getUserRole.execute(userEntity.username);
 
     if (existingRoles.some((existingRole) => existingRole === role)) {
       throw new ConflictException(`User already has the role: ${role}`);
     }
-    return await this.repository.save({ user: userEntity, role: roleEntity });
+    return await this.rolesUsersRepository.save({ user: userEntity, role: roleEntity });
   }
 }

@@ -12,7 +12,7 @@ export class DeleteSubjectService {
   ) {}
 
   // Удалить предмет
-  async delete(subjectData: string): Promise<string> {
+  async execute(subjectData: string): Promise<string> {
     const result = await this.subjectRepository
       .createQueryBuilder('subject')
       .delete()

@@ -8,11 +8,11 @@ import { RolesUsersEntity } from '../../../entities/roles-users/roles-users.enti
 export class GetUserRoleService {
   constructor(
     @InjectRepository(RolesUsersEntity)
-    private readonly repository: Repository<RolesUsersEntity>,
+    private readonly rolesUsersRepository: Repository<RolesUsersEntity>,
   ) {}
 
-  async getUserRoles(username: string) {
-    const userRoleEntity = await this.repository.find({
+  async execute(username: string) {
+    const userRoleEntity = await this.rolesUsersRepository.find({
       where: {
         user: {
           username: username,

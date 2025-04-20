@@ -15,11 +15,11 @@ export class TagsController {
 
   @Post()
   createTag(@Body() dto: CreateTagDto) {
-    return this.createTagService.createTag(dto);
+    return this.createTagService.execute(dto);
   }
 
   @Delete(':tag')
   deleteTag(@Param('tag') tag: string) {
-    return this.deleteTagService.deleteTagByName(tag);
+    return this.deleteTagService.execute(tag);
   }
 }

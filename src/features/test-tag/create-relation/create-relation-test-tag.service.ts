@@ -11,11 +11,11 @@ import { TestTagEntity } from '../../../entities/test-tag/test-tag.entity';
 export class CreateRelationTestTagService {
   constructor(
     @InjectRepository(TestTagEntity)
-    private readonly repository: Repository<TestTagEntity>,
+    private readonly testTagRepository: Repository<TestTagEntity>,
   ) {}
 
-  async createRelationTestTag(test: TestsEntity, tag: TagsEntity) {
-    return await this.repository.save({
+  async execute(test: TestsEntity, tag: TagsEntity) {
+    return await this.testTagRepository.save({
       test: test,
       tag: tag,
     });

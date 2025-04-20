@@ -15,12 +15,12 @@ export class SubjectController {
   // Создать предмет
   @Post()
   async create(@Body() subjectData: CreateSubjectDto): Promise<SubjectEntity> {
-    return this.creaeteSubjectService.create(subjectData);
+    return this.creaeteSubjectService.execute(subjectData);
   }
 
   // Удалить предмет
   @Delete(':subject')
   async delete(@Param('subject') subject: string): Promise<string> {
-    return await this.deleteSubjectSerivce.delete(subject);
+    return await this.deleteSubjectSerivce.execute(subject);
   }
 }

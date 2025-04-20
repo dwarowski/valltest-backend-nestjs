@@ -13,11 +13,11 @@ export class RolesUsersController {
 
   @Post()
   addRoleToUser(@Body() dto: AddRoleToUserDto) {
-    return this.addRoleToUsersService.addRoleToUser(dto);
+    return this.addRoleToUsersService.execute(dto);
   }
 
   @Delete()
   removeRole(@Body() dto: RemoveRoleDto) {
-    return this.removeRoleRelation.deleteRoleRelation(dto);
+    return this.removeRoleRelation.execute(dto);
   }
 }

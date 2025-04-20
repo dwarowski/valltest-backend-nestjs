@@ -45,7 +45,7 @@ export class TestsController {
     @Query('take', new DefaultValuePipe(1), ParseIntPipe) take: number = 1,
     @Query() filterDto?: TestFilterDto,
   ) {
-    return this.getTestsByPageService.getTestsByPage(page, take, filterDto);
+    return this.getTestsByPageService.execute(page, take, filterDto);
   }
 
   @Get('test/:id')
@@ -55,12 +55,12 @@ export class TestsController {
 
   @Post('test')
   createTest(@Body() dto: CreateTestDto, @Req() req: Request) {
-    return this.createTestService.creatTest(dto, req);
+    return this.createTestService.execute(dto, req);
   }
 
   @Delete('delete/:id')
   deleteTest(@Param('id') id: string) {
-    return this.deleteTestService.deleteTest(+id);
+    return this.deleteTestService.execute(+id);
   }
 
   @Roles('teacher')

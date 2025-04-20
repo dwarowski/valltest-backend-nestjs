@@ -12,7 +12,7 @@ export class GetTestAverageRatingService {
   ) {}
 
   // Получить средний рейтинг теста
-  async getAverageRating(testId: number): Promise<number> {
+  async execute(testId: number): Promise<number> {
     const result = await this.ratingRepository
       .createQueryBuilder('rating')
       .select('AVG(rating.rating)', 'average')

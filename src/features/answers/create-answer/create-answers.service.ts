@@ -14,8 +14,6 @@ export class CreateAnswerService {
 
   async execute(dto: CreateAnswerDto) {
     const answerEntity = await this.answersRepository.save(dto);
-
-
     return { value: answerEntity.value, is_correct: answerEntity.is_correct }
   }
 }

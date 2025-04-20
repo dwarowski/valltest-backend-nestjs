@@ -12,11 +12,11 @@ export class CreateProblemService {
     @Inject(CreateAnswerService)
     private readonly createAnswer: CreateAnswerService,
     @InjectRepository(ProblemsEntity)
-    private readonly repository: Repository<ProblemsEntity>,
+    private readonly problemsRepository: Repository<ProblemsEntity>,
   ) {}
 
   async execute(dto: CreateProblemDto) {
-    const problemEntity = await this.repository.save(dto);
+    const problemEntity = await this.problemsRepository.save(dto);
 
     const answerEntities = await Promise.all(
       problemEntity.answers.map(async (answer) => {

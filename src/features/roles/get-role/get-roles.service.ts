@@ -8,11 +8,11 @@ import { RoleEntity } from '../../../entities/roles/role.entity';
 export class GetRolesService {
   constructor(
     @InjectRepository(RoleEntity)
-    private readonly repository: Repository<RoleEntity>,
+    private readonly rolesRepository: Repository<RoleEntity>,
   ) {}
 
-  async getRole(name: string) {
-    const roleEntity = await this.repository.findOneBy({ role: name });
+  async execute(name: string) {
+    const roleEntity = await this.rolesRepository.findOneBy({ role: name });
     if (!roleEntity) {
       throw new BadRequestException('role doesn`t exist');
     }

@@ -12,7 +12,7 @@ export class DeleteTopicService {
   ) {}
 
   // Удалить тему
-  async delete(topicName: string): Promise<string> {
+  async execute(topicName: string): Promise<string> {
     const result = await this.topicRepository
       .createQueryBuilder()
       .delete()

@@ -8,11 +8,11 @@ import { TestsEntity } from '../../../entities/tests/test.entity';
 export class DeleteTestsService {
   constructor(
     @InjectRepository(TestsEntity)
-    private readonly repository: Repository<TestsEntity>,
+    private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
-  async deleteTest(id: number) {
-    return await this.repository
+  async execute(id: number) {
+    return await this.testsRepository
       .createQueryBuilder('testDelete')
       .delete()
       .where({ id: id })

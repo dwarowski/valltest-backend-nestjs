@@ -15,16 +15,16 @@ import { GetTestAverageRatingService } from '../../ratings/get-test-average-rati
 export class GetUsersTestsService {
   constructor(
     @Inject(GetTestAverageRatingService)
-    private readonly getTestAverageRatingService: GetTestAverageRatingService,
+    private readonly getTestAverageRating: GetTestAverageRatingService,
     @InjectRepository(TestsEntity)
-    private readonly repository: Repository<TestsEntity>,
+    private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
   async getTestByUser(req: Request): Promise<UserTestsDto[]> {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
 
-    const userTests = await this.repository
+    const userTests = await this.testsRepository
       .createQueryBuilder('userTests')
       .leftJoinAndSelect('userTests.testTag', 'testTag')
       .leftJoinAndSelect('testTag.tag', 'tags')
@@ -56,7 +56,7 @@ export class GetUsersTestsService {
     return Promise.all(
       tests.map(async (test) => {
         const averageRating =
-          await this.getTestAverageRatingService.getAverageRating(test.id);
+          await this.getTestAverageRating.execute(test.id);
         return { ...test, averageRating: averageRating };
       }),
     );

@@ -12,7 +12,7 @@ export class GetTestRatingService {
   ) {}
 
   // Получить все оценки для теста
-  async getRatingsByTest(testId: number) {
+  async execute(testId: number) {
     const testRatings = await this.ratingRepository.find({
       where: { test: { id: testId } },
     });

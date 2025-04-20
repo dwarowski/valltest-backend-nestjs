@@ -15,12 +15,12 @@ export class TopicController {
   // Создание темы
   @Post()
   async create(@Body() createTopicDto: CreateTopicDto): Promise<TopicEntity> {
-    return this.createTopicService.create(createTopicDto);
+    return this.createTopicService.execute(createTopicDto);
   }
 
   // Удалить тему
   @Delete(':topic')
   async delete(@Param('topic') topicName: string): Promise<string> {
-    return await this.deleteTopicService.delete(topicName);
+    return await this.deleteTopicService.execute(topicName);
   }
 }

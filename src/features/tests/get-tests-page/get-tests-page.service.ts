@@ -16,12 +16,12 @@ import { GetTestAverageRatingService } from '../../ratings/get-test-average-rati
 export class GetTestsPageService {
   constructor(
     @Inject(GetTestAverageRatingService)
-    private readonly getTestAverageRatingService: GetTestAverageRatingService,
+    private readonly getTestAverageRating: GetTestAverageRatingService,
     @InjectRepository(TestsEntity)
-    private readonly repository: Repository<TestsEntity>,
+    private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
-  async getTestsByPage(
+  async execute(
     page: number,
     take: number,
     filterDto?: TestFilterDto,
@@ -30,7 +30,7 @@ export class GetTestsPageService {
       throw new BadRequestException('Invalid pagination params');
     }
 
-    const testsQuery = this.repository
+    const testsQuery = this.testsRepository
       .createQueryBuilder('tests')
       .skip((page - 1) * take)
       .take(take)
@@ -81,7 +81,7 @@ export class GetTestsPageService {
     return Promise.all(
       tests.map(async (test) => {
         const averageRating =
-          await this.getTestAverageRatingService.getAverageRating(test.id);
+          await this.getTestAverageRating.execute(test.id);
         return { ...test, averageRating: averageRating };
       }),
     );

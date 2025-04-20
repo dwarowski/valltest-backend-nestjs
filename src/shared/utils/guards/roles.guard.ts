@@ -9,7 +9,7 @@ import { GetUserRoleService } from 'src/features/roles-users/get-user-role/get-u
 export class RolesGuards implements CanActivate {
   constructor(
     private reflector: Reflector,
-    private getUserRoleService: GetUserRoleService,
+    private getUserRole: GetUserRoleService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -26,7 +26,7 @@ export class RolesGuards implements CanActivate {
 
     const payload = await extractTokenFromCookie(request);
 
-    const userRoles = await this.getUserRoleService.getUserRoles(
+    const userRoles = await this.getUserRole.execute(
       payload.username,
     );
 

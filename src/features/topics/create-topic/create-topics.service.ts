@@ -19,11 +19,11 @@ export class CreateTopicService {
   ) {}
 
   // Создание темы
-  async create(createTopicDto: CreateTopicDto) {
+  async execute(createTopicDto: CreateTopicDto) {
     const subject = await this.getSubject.execute(
       createTopicDto.subjectName,
     );
-    const topicEntity = await this.getTopic.getTopicByName(
+    const topicEntity = await this.getTopic.execute(
       createTopicDto.topicName,
     );
     if (topicEntity) {

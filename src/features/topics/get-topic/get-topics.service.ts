@@ -11,7 +11,7 @@ export class GetTopicService {
     private readonly topicRepository: Repository<TopicEntity>,
   ) {}
 
-  async getTopicByName(name: string) {
+  async execute(name: string) {
     const topicEntity = await this.topicRepository
       .createQueryBuilder('topic')
       .where({ topicName: name })

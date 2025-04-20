@@ -18,12 +18,12 @@ export class RatingController {
     @Req() req: Request,
     @Body() createRatingDto: CreateRatingDto,
   ) {
-    return this.addRatingService.addRating(createRatingDto, req);
+    return this.addRatingService.execute(createRatingDto, req);
   }
 
   // Получить все оценки для теста
   @Get('/tests/:testId')
   async getRatingsByTest(@Param('testId') testId: number) {
-    return this.getRatingByTestService.getRatingsByTest(testId);
+    return this.getRatingByTestService.execute(testId);
   }
 }

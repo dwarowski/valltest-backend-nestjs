@@ -11,21 +11,21 @@ import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.s
 export class CreateTagService {
   constructor(
     @Inject(GetTestsIdService)
-    private readonly getTestById: GetTestsIdService,
+    private readonly getTest: GetTestsIdService,
     @InjectRepository(TagsEntity)
-    private readonly repository: Repository<TagsEntity>,
+    private readonly tagsRepository: Repository<TagsEntity>,
     @Inject(CreateRelationTestTagService)
-    private readonly createRelationTestTagService: CreateRelationTestTagService,
+    private readonly createRelationTestTag: CreateRelationTestTagService,
   ) {}
 
-  async createTag(dto: CreateTagDto) {
+  async execute(dto: CreateTagDto) {
     const { tag, testId } = dto;
-    const testEntity = await this.getTestById.execute(testId, "entity");
+    const testEntity = await this.getTest.execute(testId, "entity");
 
-    const tags = await this.repository.save({
+    const tags = await this.tagsRepository.save({
       tag,
     });
-    return await this.createRelationTestTagService.createRelationTestTag(
+    return await this.createRelationTestTag.execute(
       testEntity,
       tags,
     );
