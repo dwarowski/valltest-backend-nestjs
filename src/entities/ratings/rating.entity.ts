@@ -13,7 +13,7 @@ export class RatingEntity {
   @ManyToOne(() => User, (user) => user.ratings, { eager: true }) // Связь с пользователем
   user: User;
 
-  @ManyToOne(() => TestsEntity, (test) => test.ratings) // Связь с тестом
+  @ManyToOne(() => TestsEntity, (test) => test.ratings, {onDelete: "CASCADE"}) // Связь с тестом
   test: TestsEntity;
 
   @Column({ type: 'int' })
