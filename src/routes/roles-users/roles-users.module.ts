@@ -17,7 +17,7 @@ import { RemoveRoleService } from 'src/features/roles-users/remove-role/remove-r
     TypeOrmModule.forFeature([RolesUsersEntity]),
   ],
   providers: [AddRoleToUsersService, GetUserRoleService, RemoveRoleService],
-  exports: [GetUserRoleService],
+  exports: [GetUserRoleService, AddRoleToUsersService],
   controllers: [RolesUsersController],
 })
 export class RolesUsersModule {}

@@ -8,12 +8,15 @@ import { User } from 'src/entities/users/user.entity';
 import { LoginDto } from '../login/login.dto';
 import { RegisterDto } from './register.dto';
 import { LoginService } from '../login/login.service';
+import { AddRoleToUsersService } from 'src/features/roles-users/add-role-to-user/add-roles-to-user.service';
 
 @Injectable()
 export class RegisterService {
   constructor(
     @Inject(LoginService)
     private readonly loginService: LoginService,
+    @Inject(AddRoleToUsersService)
+    private readonly addRoleToUser: AddRoleToUsersService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
@@ -33,10 +36,14 @@ export class RegisterService {
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
 
     // Сохраняем пользователя в базе данных
-    await this.userRepository.save({
+    const userEntity = await this.userRepository.save({
+      username: 'name', //TODO wait for design update
       email: registerDto.email,
       hashed_password: hashedPassword,
     });
+
+
+    const _roleAssign = await this.addRoleToUser.execute({user: userEntity.username, role: 'teacher'}) // TODO wait for design update
 
     const loginDto: LoginDto = {
       email: registerDto.email,
