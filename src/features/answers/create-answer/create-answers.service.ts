@@ -6,13 +6,16 @@ import { CreateAnswerDto } from './create-answer.dto';
 import { AnswersEntity } from '../../../entities/answers/answers.entity';
 
 @Injectable()
-export class CreateAnswersService {
+export class CreateAnswerService {
   constructor(
     @InjectRepository(AnswersEntity)
-    private readonly repository: Repository<AnswersEntity>,
+    private readonly answersRepository: Repository<AnswersEntity>,
   ) {}
 
-  createAnswer(problemId: number, dto: CreateAnswerDto) {
-    return this.repository.save({ ...dto, problem: problemId });
+  async execute(dto: CreateAnswerDto) {
+    const answerEntity = await this.answersRepository.save(dto);
+
+
+    return { value: answerEntity.value, is_correct: answerEntity.is_correct }
   }
 }
