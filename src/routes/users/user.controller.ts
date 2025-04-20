@@ -17,11 +17,10 @@ export class UserController {
     return this.getUserService.execute(id, 'id');
   }
 
-  @Post(':id/change-password')
+  @Post('change-password')
   async changePassword(
-    @Param('id') id: string,
     @Body() changePasswordDto: ChangePasswordDto,
-  ): Promise<void> {
-    return this.changePasswordService.execute(id, changePasswordDto);
+  ): Promise<string> {
+    return await this.changePasswordService.execute(changePasswordDto);
   }
 }
