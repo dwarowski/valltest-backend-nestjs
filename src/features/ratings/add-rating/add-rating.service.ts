@@ -24,7 +24,7 @@ export class AddRatingService {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
 
-    const userEntity = await this.getUserService.execute(userId);
+    const userEntity = await this.getUserService.execute(userId, "id");
     const testEntity = await this.getTestsEntityByIdService.getTestEntityById(
       createRatingDto.testId,
     );

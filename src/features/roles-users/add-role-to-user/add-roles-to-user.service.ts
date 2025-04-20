@@ -6,13 +6,13 @@ import { AddRoleToUserDto } from './add-role-to-user.dto';
 import { RolesUsersEntity } from '../../../entities/roles-users/roles-users.entity';
 import { GetRolesService } from '../../roles/get-role/get-roles.service';
 import { GetUserRoleService } from '../get-user-role/get-user-role.service';
-import { GetUserByNameService } from 'src/features/users/get-user-by-name/get-user-by-name.service';
+import { GetUserService } from 'src/features/users/get-user/get-user.service';
 
 @Injectable()
 export class AddRoleToUsersService {
   constructor(
-    @Inject(GetUserByNameService)
-    private readonly getUserByName: GetUserByNameService,
+    @Inject(GetUserService)
+    private readonly getUserByName: GetUserService,
     @Inject(GetRolesService)
     private readonly getRolesService: GetRolesService,
     @Inject(GetUserRoleService)
@@ -24,7 +24,7 @@ export class AddRoleToUsersService {
   async addRoleToUser(dto: AddRoleToUserDto) {
     const { role, user } = dto;
     const roleEntity = await this.getRolesService.getRole(role);
-    const userEntity = await this.getUserByName.execute(user);
+    const userEntity = await this.getUserByName.execute(user, "username");
     const existingRoles = await this.getUserRoleService.getUserRoles(
       userEntity.username,
     );

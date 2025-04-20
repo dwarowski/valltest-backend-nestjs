@@ -13,8 +13,10 @@ export class GetUserService {
   ) {}
 
   // Метод для получения пользователя по айди
-  async execute(id: string): Promise<UserDto> {
-    const user = await this.usersRepository.findOne({ where: { id } });
+  async execute(identifier: string, type: "id" | "username"): Promise<UserDto> {
+    const whereClause = type === "username" ? {where: { username: identifier }} : { where: { id: identifier }}
+
+    const user = await this.usersRepository.findOne(whereClause);
     if (!user) {
       throw new NotFoundException('User not found');
     }
