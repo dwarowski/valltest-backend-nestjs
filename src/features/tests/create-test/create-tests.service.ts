@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
@@ -7,8 +7,7 @@ import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token
 
 import { CreateTestDto } from './create-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
-import { CreateProblemsService } from 'src/features/problems/create-problem/create-problems.service';
-import { CreateAnswersService } from 'src/features/answers/create-answer/create-answers.service';
+import { CreateProblemService } from 'src/features/problems/create-problem/create-problems.service';
 import { GetTopicService } from '../../topics/get-topic/get-topics.service';
 
 @Injectable()
@@ -16,60 +15,42 @@ export class CreateTestsService {
   constructor(
     @Inject(GetTopicService)
     private readonly getTopicService: GetTopicService,
-    @Inject(CreateProblemsService)
-    private readonly createProblemsService: CreateProblemsService,
-    @Inject(CreateAnswersService)
-    private readonly createAnswersService: CreateAnswersService,
+    @Inject(CreateProblemService)
+    private readonly createProblemsService: CreateProblemService,
     @InjectRepository(TestsEntity)
     private readonly repository: Repository<TestsEntity>,
-  ) {}
+  ) { }
 
   async creatTest(dto: CreateTestDto, req: Request) {
-    const { testName, difficulty, topicName, questions } = dto;
+    const { topicName, questions, ...testDto } = dto;
+
     const payload = await extractTokenFromCookie(req);
-    const userId = payload.id;
+    const userAuthorId = payload.id;
 
-    const topicEntity = await this.getTopicService.getTopicByName(topicName);
-
-    if (!topicEntity) {
-      throw new Error(`Topic with name: ${topicName} not found`);
-    }
+    const topic = await this.getTopicService.getTopicByName(topicName);
 
     const testEntity = await this.repository.save({
-      testName,
-      userAuthorId: userId,
-      difficulty,
-      topic: topicEntity,
-      timeForTest: 2,
+      ...testDto,
+      userAuthorId,
+      topic,
+      timeForTest: 2, // placeholder until design updates
     });
 
     const testQuestions = await Promise.all(
       questions.map(async (question) => {
-        const createdProblem = await this.createProblemsService.createProblem(
-          testEntity.id,
-          question,
-        );
-        const { test: _test, id: _id, ...cleanProblem } = createdProblem;
-
-        await Promise.all(
-          question.answers.map(async (answer) => {
-            const createdAnswer = await this.createAnswersService.createAnswer(
-              createdProblem.id,
-              answer,
-            );
-            const {
-              problem: _problem,
-              id: _id,
-              ...cleanAnswer
-            } = createdAnswer;
-            return cleanAnswer;
-          }),
-        );
-
-        return cleanProblem;
+        question.test = testEntity.id
+        const createdProblem = await this.createProblemsService.execute(question);
+        return createdProblem;
       }),
     );
 
-    return { ...testEntity, problems: testQuestions };
+    const createdTest = Object.assign(new CreateTestDto(),
+    { 
+      testName: testEntity.testName, 
+      difficulty: testEntity.difficulty, 
+      topicName: testEntity.topic.topicName,
+      testQuestions
+    })
+    return createdTest;
   }
 }
