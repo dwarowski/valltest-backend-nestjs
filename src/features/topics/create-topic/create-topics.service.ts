@@ -13,28 +13,25 @@ export class CreateTopicService {
     @InjectRepository(TopicEntity)
     private readonly topicRepository: Repository<TopicEntity>,
     @Inject(GetSubjectService)
-    private readonly getSubjectService: GetSubjectService,
+    private readonly getSubject: GetSubjectService,
     @Inject(GetTopicService)
-    private readonly getTopicService: GetTopicService,
+    private readonly getTopic: GetTopicService,
   ) {}
 
   // Создание темы
   async create(createTopicDto: CreateTopicDto) {
-    const subject = await this.getSubjectService.execute(
+    const subject = await this.getSubject.execute(
       createTopicDto.subjectName,
     );
-    const topicEntity = await this.getTopicService.getTopicByName(
+    const topicEntity = await this.getTopic.getTopicByName(
       createTopicDto.topicName,
     );
     if (topicEntity) {
       throw new ForbiddenException('Topic already exsist');
     }
-
-    const topic = await this.topicRepository.save({
+    return await this.topicRepository.save({
       topicName: createTopicDto.topicName,
       subject,
     });
-
-    return topic;
   }
 }
