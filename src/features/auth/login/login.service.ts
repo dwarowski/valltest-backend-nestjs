@@ -21,24 +21,23 @@ export class LoginService {
 
   async login(loginDto: LoginDto): Promise<{ access_token: string }> {
     // Ищем пользователя по email
-    const user = await this.userRepository.findOne({
-      where: { email: loginDto.email },
-      relations: ['role', 'role.role'],
+    const userEntity = await this.userRepository.findOne({
+      where: { email: loginDto.email }
     });
-    if (!user) {
+    if (!userEntity) {
       throw new UnauthorizedException('Неверный email или пароль');
     }
 
     // Сравниваем пароль
     const isPasswordValid = await bcrypt.compare(
       loginDto.password,
-      user.hashed_password,
+      userEntity.hashed_password,
     );
     if (!isPasswordValid) {
       throw new UnauthorizedException('Неверный email или пароль');
     }
 
-    const userPayload: tokenPayload = { id: user.id, username: user.username };
+    const userPayload: tokenPayload = { id: userEntity.id, username: userEntity.username };
 
     return {
       access_token: await this.jwtService.signAsync(userPayload, {
