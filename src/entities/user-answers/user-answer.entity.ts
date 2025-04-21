@@ -5,11 +5,14 @@ import {
   ManyToOne,
   OneToOne,
   JoinColumn,
+  Column,
 } from 'typeorm';
 
 import { AnswersEntity } from 'src/entities/answers/answers.entity';
 import { ProblemsEntity } from 'src/entities/problems/problems.entity';
 import { SessionTestEntity } from 'src/entities/test-sessions/session-test.entity';
+import { User } from '../users/user.entity';
+import { TestsEntity } from '../tests/test.entity';
 
 @Entity('user-answers')
 export class UserAnswersEntity {
@@ -17,13 +20,18 @@ export class UserAnswersEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ManyToOne(() => TestsEntity, (test) => test.id)
+  test: TestsEntity;
+
+  @ManyToOne(() => User, (user) => user.id)
+  user: User;
+
   @ManyToOne(() => ProblemsEntity, (problem) => problem.id)
-  problem: number;
+  problem: ProblemsEntity;
 
   @OneToOne(() => AnswersEntity, (answer) => answer.id)
-  @JoinColumn()
-  answer: number;
+  answer: AnswersEntity;
 
   @ManyToOne(() => SessionTestEntity, (test_session) => test_session.id)
-  session: number;
+  session: SessionTestEntity;
 }
