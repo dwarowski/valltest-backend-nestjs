@@ -4,6 +4,7 @@ import { RolesUsersEntity } from 'src/entities/roles-users/roles-users.entity';
 
 import { RatingEntity } from '../ratings/rating.entity';
 import { Exclude } from 'class-transformer';
+import { TestsEntity } from '../tests/test.entity';
 
 @Entity('users')
 export class User {
@@ -28,4 +29,7 @@ export class User {
 
   @OneToMany(() => RolesUsersEntity, (rolesUsers) => rolesUsers.user)
   role: RolesUsersEntity;
+
+  @OneToMany(() => TestsEntity, (test) => test.userAuthor)
+  test: TestsEntity;
 }

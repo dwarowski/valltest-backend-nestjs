@@ -13,6 +13,7 @@ import { TopicEntity } from 'src/entities/topics/topic.entity';
 
 import { RatingEntity } from '../ratings/rating.entity';
 import { ProblemsEntity } from 'src/entities/problems/problems.entity';
+import { User } from '../users/user.entity';
 
 @Entity('tests')
 export class TestsEntity {
@@ -23,8 +24,8 @@ export class TestsEntity {
   @Column()
   testName: string;
 
-  @Column('uuid')
-  userAuthorId: string;
+  @ManyToOne(() => User, (user) => user.id)
+  userAuthor: User;
 
   @Column()
   difficulty: string;

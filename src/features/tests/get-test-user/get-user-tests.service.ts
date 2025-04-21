@@ -40,7 +40,7 @@ export class GetUsersTestsService {
           testTag,
           topic: _topic,
           timeForTest: _timeForTest,
-          userAuthorId: _userAuthorId,
+          userAuthor: _userAuthorId,
           ...testCleaned
         } = test;
         const cleanedTestTags = await this.cleanTags(testTag);
