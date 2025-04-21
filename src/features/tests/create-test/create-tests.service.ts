@@ -9,6 +9,7 @@ import { CreateTestDto } from './create-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
 import { CreateProblemService } from 'src/features/problems/create-problem/create-problems.service';
 import { GetTopicService } from '../../topics/get-topic/get-topics.service';
+import { GetUserService } from 'src/features/users/get-user/get-user.service';
 
 @Injectable()
 export class CreateTestsService {
@@ -17,6 +18,8 @@ export class CreateTestsService {
     private readonly getTopic: GetTopicService,
     @Inject(CreateProblemService)
     private readonly createProblem: CreateProblemService,
+    @Inject(GetUserService)
+    private readonly getUser: GetUserService,
     @InjectRepository(TestsEntity)
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
@@ -25,13 +28,14 @@ export class CreateTestsService {
     const { topicName, questions, ...testDto } = dto;
 
     const payload = await extractTokenFromCookie(req);
-    const userAuthorId = payload.id;
+    const userId = payload.id;
 
+    const userEntity = await this.getUser.execute(userId, 'id')
     const topic = await this.getTopic.execute(topicName);
 
     const testEntity = await this.testsRepository.save({
       ...testDto,
-      userAuthorId,
+      userAuthor: userEntity,
       topic,
       timeForTest: 2, // placeholder until design updates
     });
