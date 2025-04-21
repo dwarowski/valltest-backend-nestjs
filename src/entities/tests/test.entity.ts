@@ -30,10 +30,7 @@ export class TestsEntity {
   @Column()
   difficulty: string;
 
-  @ManyToOne(() => TopicEntity, (topic) => topic.id, {
-    eager: true,
-    nullable: false,
-  })
+  @ManyToOne(() => TopicEntity, (topic) => topic.id, { nullable: false })
   topic: TopicEntity;
 
   @Column()
