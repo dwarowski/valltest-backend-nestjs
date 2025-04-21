@@ -7,9 +7,10 @@ import { TestsModule } from '../tests/tests.module';
 import { CheckAnswersService } from 'src/features/user-answers/check-user-answers/check-answers.serivce';
 import { GetUserTestAnsweresService } from 'src/features/user-answers/get-user-test-answers/get-user-test-answers.service';
 import { SaveUserAnswersService } from 'src/features/user-answers/save-user-answers/save-user-answers.service';
+import { UserModule } from '../users/user.module';
 
 @Module({
-  imports: [TestsModule ,TypeOrmModule.forFeature([UserAnswersEntity])],
+  imports: [TestsModule, UserModule, TypeOrmModule.forFeature([UserAnswersEntity])],
   controllers: [UserAnswersController],
   providers: [CheckAnswersService, GetUserTestAnsweresService, SaveUserAnswersService],
 })
