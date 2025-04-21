@@ -9,7 +9,6 @@ import { FavoriteTestEntity } from '../../entities/test-favorites/favorite-test.
 
 @Module({
   imports: [
-    ConfigModule,
     UserModule,
     TestsModule,
     TypeOrmModule.forFeature([FavoriteTestEntity]),
