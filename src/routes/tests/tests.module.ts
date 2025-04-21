@@ -15,6 +15,7 @@ import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.s
 import { GetUsersTestsService } from 'src/features/tests/get-test-user/get-user-tests.service';
 import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests-page.service';
 import { GetTestCorrectAnswersService } from 'src/features/tests/get-test-correct-answers/get-test-corect-answers.service';
+import { UserModule } from '../users/user.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { GetTestCorrectAnswersService } from 'src/features/tests/get-test-correc
     TopicsModule,
     TestTagModule,
     ProblemsModule,
+    UserModule,
     TypeOrmModule.forFeature([TestsEntity]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
