@@ -30,6 +30,7 @@ export class UserAnswersEntity {
   problem: ProblemsEntity;
 
   @OneToOne(() => AnswersEntity, (answer) => answer.id)
+  @JoinColumn()
   answer: AnswersEntity;
 
   @ManyToOne(() => SessionTestEntity, (test_session) => test_session.id)
