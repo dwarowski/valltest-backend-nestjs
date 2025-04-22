@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { AnswersEntity } from "src/entities/answers/answers.entity";
 import { Repository } from "typeorm";
@@ -11,6 +11,10 @@ export class GetAnswerService {
     ) {}
 
     async execute(answerId: number) {
-        return await this.answersRepository.findBy({ id: answerId })
+        const answerEntity = await this.answersRepository.findOneBy({ id: answerId })
+        if (!answerEntity) {
+            throw new NotFoundException(`answer with id ${answerId} not found`)
+        }
+        return answerEntity
     }
 }
