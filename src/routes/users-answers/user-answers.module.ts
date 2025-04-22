@@ -9,9 +9,10 @@ import { GetUserTestAnsweresService } from 'src/features/user-answers/get-user-t
 import { SaveUserAnswersService } from 'src/features/user-answers/save-user-answers/save-user-answers.service';
 import { UserModule } from '../users/user.module';
 import { ProblemsModule } from '../problems/problems.module';
+import { AnswersModule } from '../answers/answers.module';
 
 @Module({
-  imports: [TestsModule, UserModule, ProblemsModule, TypeOrmModule.forFeature([UserAnswersEntity])],
+  imports: [TestsModule, UserModule, ProblemsModule, AnswersModule, TypeOrmModule.forFeature([UserAnswersEntity])],
   controllers: [UserAnswersController],
   providers: [CheckAnswersService, GetUserTestAnsweresService, SaveUserAnswersService],
 })
