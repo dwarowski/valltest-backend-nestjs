@@ -16,7 +16,7 @@ import { Request } from 'express';
 import { Roles } from 'src/shared/utils/decorators/roles-decorator';
 
 import { CreateTestDto } from '../../features/tests/create-test/create-test.dto';
-import { TestFilterDto } from '../../features/tests/get-tests-page/test-filter.dto';
+import { PageTestDto } from '../../features/tests/get-tests-page/page-test.dto';
 import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests-page.service';
 import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.service';
 import { CreateTestsService } from 'src/features/tests/create-test/create-tests.service';
@@ -34,18 +34,9 @@ export class TestsController {
     private readonly getTestByUser: GetUsersTestsService,
   ) {}
 
-  @ApiQuery({ name: 'subject', required: false })
-  @ApiQuery({ name: 'topic', required: false })
-  @ApiQuery({ name: 'tag', required: false })
-  @ApiQuery({ name: 'page', required: false })
-  @ApiQuery({ name: 'take', required: false })
   @Get()
-  getTests(
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
-    @Query('take', new DefaultValuePipe(1), ParseIntPipe) take: number = 1,
-    @Query() filterDto?: TestFilterDto,
-  ) {
-    return this.getTestsByPageService.execute(page, take, filterDto);
+  getTests(@Query() dto: PageTestDto) {
+    return this.getTestsByPageService.execute(dto);
   }
 
   @Get('test/:id')

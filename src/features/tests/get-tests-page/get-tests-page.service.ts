@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { PageMetaDto } from '../../../shared/utils/dto/get-page/page-meta.dto';
 import { PageDto } from '../../../shared/utils/dto/get-page/page.dto';
 
-import { TestFilterDto } from './test-filter.dto';
+import { PageTestDto } from './page-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
 import { TestsWithRatingDto } from '../get-test-user/test-with-rating.dto';
 import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
@@ -21,14 +21,8 @@ export class GetTestsPageService {
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
-  async execute(
-    page: number,
-    take: number,
-    filterDto?: TestFilterDto,
-  ): Promise<PageDto<GetTestsDto>> {
-    if (isNaN(page) || isNaN(take) || take > 60 || page < 0) {
-      throw new BadRequestException('Invalid pagination params');
-    }
+  async execute(dto: PageTestDto): Promise<PageDto<GetTestsDto>> {
+    const { page, take, ...filterDto} = dto
 
     const testsQuery = this.testsRepository
       .createQueryBuilder('tests')
@@ -88,7 +82,7 @@ export class GetTestsPageService {
 
   private async applyFilters(
     queryBuilder,
-    filterDto: TestFilterDto,
+    filterDto,
   ): Promise<void> {
     const { subject, topic, tag } = filterDto;
 
