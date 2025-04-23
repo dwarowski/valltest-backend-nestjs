@@ -1,15 +1,16 @@
+import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class PageTestDto {
 
   @IsNumber()
-  @IsOptional()
   @Min(1)
+  @Type(() => Number)
   page: number;
 
   @IsNumber()
-  @IsOptional()
   @Max(60)
+  @Type(() => Number)
   take: number;
 
   @IsString()
