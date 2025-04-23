@@ -17,7 +17,7 @@ export class GetUsersTestsService {
     private readonly testsRepository: Repository<TestsEntity>,
   ) { }
 
-  async getTestByUser(req: Request): Promise<any> {
+  async execute(req: Request): Promise<any> {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
 

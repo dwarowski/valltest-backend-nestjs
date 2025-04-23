@@ -57,6 +57,6 @@ export class TestsController {
   @Roles('teacher')
   @Get('user')
   getUserTests(@Req() req: Request) {
-    return this.getTestByUser.getTestByUser(req);
+    return this.getTestByUser.execute(req);
   }
 }
