@@ -7,10 +7,7 @@ import { PageDto } from '../../../shared/utils/dto/get-page/page.dto';
 
 import { PageTestDto } from './page-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
-import { TestsWithRatingDto } from '../get-test-user/test-with-rating.dto';
-import { TestTagEntity } from 'src/entities/test-tag/test-tag.entity';
-import { GetTestsDto } from './get-tests.dto';
-import { GetTestAverageRatingService } from '../../ratings/get-test-average-rating/get-test-average-rating.service';
+import { GetTestAverageRatingService } from 'src/features/ratings/get-test-average-rating/get-test-average-rating.service';
 
 @Injectable()
 export class GetTestsPageService {
@@ -19,10 +16,10 @@ export class GetTestsPageService {
     private readonly getTestAverageRating: GetTestAverageRatingService,
     @InjectRepository(TestsEntity)
     private readonly testsRepository: Repository<TestsEntity>,
-  ) {}
+  ) { }
 
-  async execute(dto: PageTestDto): Promise<PageDto<GetTestsDto>> {
-    const { page, take, ...filterDto} = dto
+  async execute(dto: PageTestDto): Promise<PageDto<any>> {
+    const { page, take, subject, tag, topic } = dto
 
     const testsQuery = this.testsRepository
       .createQueryBuilder('tests')
@@ -31,31 +28,26 @@ export class GetTestsPageService {
       .leftJoinAndSelect('tests.topic', 'topic')
       .leftJoinAndSelect('topic.subject', 'subject')
       .leftJoinAndSelect('tests.testTag', 'testTag')
-      .leftJoinAndSelect('testTag.tag', 'tags');
+      .leftJoinAndSelect('testTag.tag', 'tags')
 
-    if (filterDto) {
-      this.applyFilters(testsQuery, filterDto);
+    if (subject) {
+      testsQuery.andWhere('subject.subjectName = :subject', { subject });
+    }
+
+    if (topic) {
+      testsQuery.andWhere('topic.topicName = :topic', { topic });
+    }
+
+    if (tag) {
+      testsQuery.andWhere('tags.tag = :tag', { tag });
     }
 
     const [tests, total] = await testsQuery.getManyAndCount();
 
-    const testsWithRating = await this.addAverageRatingToTests(tests);
-
-    const testsCleaned = await Promise.all(
-      testsWithRating.map(async (test) => {
-        const {
-          topic,
-          testTag,
-          timeForTest: _timeForTest,
-          ...testCleaned
-        } = test;
-        const cleanedTestTags = await this.cleanTags(testTag);
-        return {
-          ...testCleaned,
-          tags: cleanedTestTags,
-          topicName: topic.topicName,
-          subjectName: topic.subject.subjectName,
-        };
+    const testsWRating = await Promise.all(
+      tests.map(async (test) => {
+        const averageRating = await this.getTestAverageRating.execute(test.id)
+        return { ...test, averageRating: averageRating }
       }),
     );
 
@@ -64,45 +56,8 @@ export class GetTestsPageService {
       itemCount: total,
     });
 
-    const pageDto = new PageDto(testsCleaned, pageMetaDto);
+    const pageDto = new PageDto(testsWRating, pageMetaDto);
 
     return pageDto;
-  }
-
-  private async addAverageRatingToTests(
-    tests: TestsEntity[],
-  ): Promise<TestsWithRatingDto[]> {
-    return Promise.all(
-      tests.map(async (test) => {
-        const averageRating = await this.getTestAverageRating.execute(test.id);
-        return { ...test, averageRating: averageRating };
-      }),
-    );
-  }
-
-  private async applyFilters(
-    queryBuilder,
-    filterDto,
-  ): Promise<void> {
-    const { subject, topic, tag } = filterDto;
-
-    if (subject) {
-      queryBuilder.andWhere('subject.subjectName = :subject', { subject });
-    }
-
-    if (topic) {
-      queryBuilder.andWhere('topic.topicName = :topic', { topic });
-    }
-
-    if (tag) {
-      queryBuilder.andWhere('tags.tag = :tag', { tag });
-    }
-  }
-
-  private async cleanTags(testTag: TestTagEntity[]): Promise<string[]> {
-    const cleanTags = testTag.map((tagEntry) => {
-      return tagEntry.tag.tag;
-    });
-    return cleanTags;
   }
 }
