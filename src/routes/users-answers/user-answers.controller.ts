@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post, Req } from "@nestjs/common";
+import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Request } from "express";
 import { CheckAnswersService } from "src/features/user-answers/check-user-answers/check-answers.serivce";
@@ -24,7 +24,7 @@ export class UserAnswersController {
 
     @Roles('student')
     @Get(':id')
-    async checkUserAnswers(@Req() req: Request, @Param('id') id: number) {
+    async checkUserAnswers(@Req() req: Request, @Param('id', ParseIntPipe) id: number) {
         return await this.checkUserAnswersService.execute(req, id)
     }
 }
