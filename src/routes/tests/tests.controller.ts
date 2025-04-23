@@ -49,8 +49,8 @@ export class TestsController {
   }
 
   @Get('test/:id')
-  getTestById(@Param('id') testId: string) {
-    return this.getTestByIdService.execute(+testId, 'test');
+  getTestById(@Param('id', ParseIntPipe) testId: number) {
+    return this.getTestByIdService.execute(testId, 'test');
   }
 
   @Post('test')
@@ -59,8 +59,8 @@ export class TestsController {
   }
 
   @Delete('delete/:id')
-  deleteTest(@Param('id') id: string) {
-    return this.deleteTestService.execute(+id);
+  deleteTest(@Param('id', ParseIntPipe) id: number) {
+    return this.deleteTestService.execute(id);
   }
 
   @Roles('teacher')
