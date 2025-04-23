@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Req, ParseIntPipe } from '@nestjs/common';
 
 import { CreateRatingDto } from '../../features/ratings/add-rating/create-rating.dto';
 import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';
@@ -23,7 +23,7 @@ export class RatingController {
 
   // Получить все оценки для теста
   @Get('/tests/:testId')
-  async getRatingsByTest(@Param('testId') testId: number) {
+  async getRatingsByTest(@Param('testId', ParseIntPipe) testId: number) {
     return this.getRatingByTestService.execute(testId);
   }
 }
