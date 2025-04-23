@@ -3,6 +3,7 @@ import { AddRoleToUserDto } from 'src/features/roles-users/add-role-to-user/add-
 import { AddRoleToUsersService } from 'src/features/roles-users/add-role-to-user/add-roles-to-user.service';
 import { RemoveRoleDto } from 'src/features/roles-users/remove-role/remove-role.dto';
 import { RemoveRoleService } from 'src/features/roles-users/remove-role/remove-role.service';
+import { Roles } from 'src/shared/utils/decorators/roles-decorator';
 
 @Controller('roles-users')
 export class RolesUsersController {
@@ -11,11 +12,13 @@ export class RolesUsersController {
     private readonly removeRoleRelation: RemoveRoleService,
   ) {}
 
+  @Roles('admin')
   @Post()
   addRoleToUser(@Body() dto: AddRoleToUserDto) {
     return this.addRoleToUsersService.execute(dto);
   }
 
+  @Roles('admin')
   @Delete()
   removeRole(@Body() dto: RemoveRoleDto) {
     return this.removeRoleRelation.execute(dto);
