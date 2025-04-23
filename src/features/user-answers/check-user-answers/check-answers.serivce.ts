@@ -19,7 +19,7 @@ export class CheckAnswersService {
         const payload = await extractTokenFromCookie(req)
         const userId = payload.id
         const correctAnswers = await this.getTestCorrectAnswers.execute(testId)
-        const userAnswers = await this.getUserTestAnswers.execute(userId)
+        const userAnswers = await this.getUserTestAnswers.execute(userId, testId)
         const userResult = await this.compareAnswers(userAnswers, correctAnswers)
         return userResult
     }
