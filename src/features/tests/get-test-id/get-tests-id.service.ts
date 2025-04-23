@@ -34,11 +34,7 @@ export class GetTestsIdService {
       problems.map(async (question) => {
         const { test: _test, answers, ...cleanProblem } = question;
 
-        const cleanAnswers = await Promise.all(
-          answers.map(async (answer) => {
-            return { id: answer.id, value: answer.value} ;
-          }),
-        );
+        const cleanAnswers = answers.map(({ id, value }) => ({ id, value }));
 
         return { ...cleanProblem, answers: cleanAnswers };
       }),
