@@ -9,6 +9,7 @@ import { GetTestsIdService } from "src/features/tests/get-test-id/get-tests-id.s
 import { GetUserService } from "src/features/users/get-user/get-user.service";
 import { GetProblemService } from "src/features/problems/get-problem/get-problem.service";
 import { GetAnswerService } from "src/features/answers/get-answer/get-answer.service";
+import { GetUserTestAnsweresService } from "../get-user-test-answers/get-user-test-answers.service";
 
 @Injectable()
 export class SaveUserAnswersService {
@@ -23,6 +24,8 @@ export class SaveUserAnswersService {
         private readonly getProblem: GetProblemService,
         @Inject(GetAnswerService)
         private readonly getAnswer: GetAnswerService,
+        @Inject(GetUserTestAnsweresService)
+        private readonly getUserTestAnwers: GetUserTestAnsweresService,
     ) { }
 
     async execute(req: Request, dto: UserAnswersDto) {
@@ -32,6 +35,11 @@ export class SaveUserAnswersService {
 
         const userEntity = await this.getUser.execute(userId, 'id')
         const testsEntity = await this.getTest.execute(testId, 'entity')
+
+        const checkUserAnswers = await this.getUserTestAnwers.execute(userEntity.id, testsEntity.id)
+        if (checkUserAnswers) {
+            return 'Вы уже проходили этот тест'
+        }
 
         await Promise.all(userAnswers.map(async (userAnswer) => {
             try {
