@@ -34,6 +34,6 @@ export class CheckAnswersService {
                 }
             }
         }
-        return correctCount
+        return `${correctCount} / ${correctAnswers.correctAnswers.length}`
     }
 }
