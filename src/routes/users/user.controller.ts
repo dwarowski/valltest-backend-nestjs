@@ -18,9 +18,7 @@ export class UserController {
   }
 
   @Post('change-password')
-  async changePassword(
-    @Body() changePasswordDto: ChangePasswordDto,
-  ): Promise<string> {
+  async changePassword(@Body() changePasswordDto: ChangePasswordDto): Promise<string> {
     return await this.changePasswordService.execute(changePasswordDto);
   }
 }
