@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -16,6 +16,10 @@ export class GetTestRatingService {
     const testRatings = await this.ratingRepository.find({
       where: { test: { id: testId } },
     });
+
+    if(testRatings.length === 0) {
+      throw new NotFoundException('No rating')
+    }
 
     const cleanTestRatings = await Promise.all(
       testRatings.map((rating) => {
