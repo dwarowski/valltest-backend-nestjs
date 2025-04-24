@@ -8,6 +8,7 @@ import { PageDto } from '../../../shared/utils/dto/get-page/page.dto';
 import { PageTestDto } from './page-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
 import { GetTestAverageRatingService } from 'src/features/ratings/get-test-average-rating/get-test-average-rating.service';
+import { TestWithRatingDto } from 'src/shared/utils/dto/test-with-rating/test-with-rating.dto';
 
 @Injectable()
 export class GetTestsPageService {
@@ -18,7 +19,7 @@ export class GetTestsPageService {
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
-  async execute(dto: PageTestDto): Promise<PageDto<any>> {
+  async execute(dto: PageTestDto): Promise<PageDto<TestWithRatingDto>> {
     const { page, take, subject, tag, topic } = dto;
 
     const testsQuery = this.testsRepository
