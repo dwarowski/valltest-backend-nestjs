@@ -9,7 +9,10 @@ import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.s
 import { TestsEntity } from 'src/entities/tests/test.entity';
 
 @Module({
-  imports: [forwardRef(() => AnswersModule), TypeOrmModule.forFeature([ProblemsEntity, TestsEntity])], //TODO circular import if test module imported so using provider and entity
+  imports: [
+    forwardRef(() => AnswersModule),
+    TypeOrmModule.forFeature([ProblemsEntity, TestsEntity]),
+  ], //TODO circular import if test module imported so using provider and entity
   controllers: [],
   providers: [CreateProblemService, GetProblemService, GetTestsIdService],
   exports: [CreateProblemService, GetProblemService],

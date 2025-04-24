@@ -21,7 +21,10 @@ export class CreateProblemService {
   async execute(dto: CreateProblemDto) {
     const testEntity = await this.getTest.execute(dto.testId, 'entity');
 
-    const problemEntity = await this.problemsRepository.save({ test: testEntity, ...dto });
+    const problemEntity = await this.problemsRepository.save({
+      test: testEntity,
+      ...dto,
+    });
 
     const answerEntities = await Promise.all(
       problemEntity.answers.map(async (answer) => {

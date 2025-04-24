@@ -1,9 +1,4 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 
 import { LoginDto } from '../../features/auth/login/login.dto';

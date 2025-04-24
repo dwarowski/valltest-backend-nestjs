@@ -16,7 +16,7 @@ export class GetUsersTestsService {
     private readonly getTestAverageRating: GetTestAverageRatingService,
     @InjectRepository(TestsEntity)
     private readonly testsRepository: Repository<TestsEntity>,
-  ) { }
+  ) {}
 
   async execute(req: Request): Promise<TestWithRatingDto[]> {
     const payload = await extractTokenFromCookie(req);
@@ -31,7 +31,7 @@ export class GetUsersTestsService {
 
     const userTestsCleaned = await Promise.all(
       userTests.map(async (test) => {
-        const averageRating = await this.getTestAverageRating.execute(test.id)
+        const averageRating = await this.getTestAverageRating.execute(test.id);
         return { ...test, averageRating: averageRating };
       }),
     );

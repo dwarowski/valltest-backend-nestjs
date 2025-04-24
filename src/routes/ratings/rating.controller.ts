@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Get, Param, Req, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Req,
+  ParseIntPipe,
+} from '@nestjs/common';
 
 import { CreateRatingDto } from '../../features/ratings/add-rating/create-rating.dto';
 import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';

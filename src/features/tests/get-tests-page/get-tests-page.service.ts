@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -16,10 +16,10 @@ export class GetTestsPageService {
     private readonly getTestAverageRating: GetTestAverageRatingService,
     @InjectRepository(TestsEntity)
     private readonly testsRepository: Repository<TestsEntity>,
-  ) { }
+  ) {}
 
   async execute(dto: PageTestDto): Promise<PageDto<any>> {
-    const { page, take, subject, tag, topic } = dto
+    const { page, take, subject, tag, topic } = dto;
 
     const testsQuery = this.testsRepository
       .createQueryBuilder('tests')
@@ -28,7 +28,7 @@ export class GetTestsPageService {
       .leftJoinAndSelect('tests.topic', 'topic')
       .leftJoinAndSelect('topic.subject', 'subject')
       .leftJoinAndSelect('tests.testTag', 'testTag')
-      .leftJoinAndSelect('testTag.tag', 'tags')
+      .leftJoinAndSelect('testTag.tag', 'tags');
 
     if (subject) {
       testsQuery.andWhere('subject.subjectName = :subject', { subject });
@@ -46,8 +46,8 @@ export class GetTestsPageService {
 
     const testsWRating = await Promise.all(
       tests.map(async (test) => {
-        const averageRating = await this.getTestAverageRating.execute(test.id)
-        return { ...test, averageRating: averageRating }
+        const averageRating = await this.getTestAverageRating.execute(test.id);
+        return { ...test, averageRating: averageRating };
       }),
     );
 

@@ -1,20 +1,20 @@
-import { UnauthorizedException } from "@nestjs/common";
-import { Response } from "express";
+import { UnauthorizedException } from '@nestjs/common';
+import { Response } from 'express';
 
 export function addTokenToCookie(
-    access_token: string,
-    res: Response,
-    message: string,
+  access_token: string,
+  res: Response,
+  message: string,
 ) {
-    if (!access_token) {
-        throw new UnauthorizedException();
-    }
+  if (!access_token) {
+    throw new UnauthorizedException();
+  }
 
-    res.cookie('access_token', access_token, {
-        httpOnly: true,
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+  res.cookie('access_token', access_token, {
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
 
-    return { message: message };
+  return { message: message };
 }

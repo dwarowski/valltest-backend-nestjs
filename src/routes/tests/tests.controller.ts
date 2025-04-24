@@ -4,13 +4,12 @@ import {
   Controller,
   Body,
   Query,
-  DefaultValuePipe,
   ParseIntPipe,
   Param,
   Delete,
   Req,
 } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
 import { Roles } from 'src/shared/utils/decorators/roles-decorator';

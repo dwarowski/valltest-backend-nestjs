@@ -30,7 +30,7 @@ export class CreateTestsService {
     const payload = await extractTokenFromCookie(req);
     const userId = payload.id;
 
-    const userEntity = await this.getUser.execute(userId, 'id')
+    const userEntity = await this.getUser.execute(userId, 'id');
     const topic = await this.getTopic.execute(topicName);
 
     const testEntity = await this.testsRepository.save({

@@ -17,8 +17,8 @@ export class GetTestRatingService {
       where: { test: { id: testId } },
     });
 
-    if(testRatings.length === 0) {
-      throw new NotFoundException('No rating')
+    if (testRatings.length === 0) {
+      throw new NotFoundException('No rating');
     }
 
     const cleanTestRatings = await Promise.all(

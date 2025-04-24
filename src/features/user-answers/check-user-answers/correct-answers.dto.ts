@@ -1,10 +1,10 @@
-import { IsNumber } from "class-validator";
+import { IsNumber } from 'class-validator';
 
 export class CorrectAnswersDto {
-    @IsNumber()
-    testId: number;
-    correctAnswers: {
-        problemId: number
-        answerId: number
-    }[];
+  @IsNumber()
+  testId: number;
+  correctAnswers: {
+    problemId: number;
+    answerId: number;
+  }[];
 }

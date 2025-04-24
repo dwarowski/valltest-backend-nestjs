@@ -12,8 +12,18 @@ import { ProblemsModule } from '../problems/problems.module';
 import { AnswersModule } from '../answers/answers.module';
 
 @Module({
-  imports: [TestsModule, UserModule, ProblemsModule, AnswersModule, TypeOrmModule.forFeature([UserAnswersEntity])],
+  imports: [
+    TestsModule,
+    UserModule,
+    ProblemsModule,
+    AnswersModule,
+    TypeOrmModule.forFeature([UserAnswersEntity]),
+  ],
   controllers: [UserAnswersController],
-  providers: [CheckAnswersService, GetUserTestAnsweresService, SaveUserAnswersService],
+  providers: [
+    CheckAnswersService,
+    GetUserTestAnsweresService,
+    SaveUserAnswersService,
+  ],
 })
 export class UserAnswersModule {}

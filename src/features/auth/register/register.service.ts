@@ -41,8 +41,10 @@ export class RegisterService {
       hashed_password: hashedPassword,
     });
 
-
-    const _roleAssign = await this.addRoleToUser.execute({user: userEntity.id, role: 'teacher'}) // TODO wait for design update
+    const _roleAssign = await this.addRoleToUser.execute({
+      user: userEntity.id,
+      role: 'teacher',
+    }); // TODO wait for design update
 
     const loginDto: LoginDto = {
       email: registerDto.email,
