@@ -4,7 +4,7 @@ import { IsBoolean, IsString } from 'class-validator';
 export class CreateAnswerDto {
   @ApiProperty({ readOnly: true })
   @IsString()
-  problem: number;
+  problemId: number;
   @IsString()
   value: string;
   @IsBoolean()

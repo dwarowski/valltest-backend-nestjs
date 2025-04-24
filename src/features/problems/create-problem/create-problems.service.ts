@@ -25,7 +25,7 @@ export class CreateProblemService {
 
     const answerEntities = await Promise.all(
       problemEntity.answers.map(async (answer) => {
-        answer.problem = problemEntity.id;
+        answer.problemId = problemEntity.id;
         const createdAnswer = await this.createAnswer.execute(answer);
         return createdAnswer;
       }),
