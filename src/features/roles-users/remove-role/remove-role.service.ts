@@ -23,8 +23,7 @@ export class RemoveRoleService {
         role: {
           role: role,
         },
-      },
-      relations: ['user', 'role'],
+      }
     });
 
     if (!roleRelation) {
