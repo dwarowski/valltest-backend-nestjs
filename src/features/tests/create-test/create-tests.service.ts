@@ -53,7 +53,7 @@ export class CreateTestsService {
       difficulty: testEntity.difficulty,
       topicName: testEntity.topic.topicName,
       testQuestions,
-    });
+    }); //TODO unnecessary output can be just 'test created'
     return createdTest;
   }
 }
