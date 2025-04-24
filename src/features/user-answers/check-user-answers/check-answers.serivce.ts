@@ -24,16 +24,16 @@ export class CheckAnswersService {
         return userResult
     }
 
-    private async compareAnswers(userAnswers: UserAnswersDto, correctAnswers: CorrectAnswersDto) {
+    private async compareAnswers(userAnswersDto: UserAnswersDto, correctAnswersDto: CorrectAnswersDto) {
         let correctCount = 0;
-        for (const correct of correctAnswers.correctAnswers) {
-            for (const user of userAnswers.userAnswers) {
+        for (const correct of correctAnswersDto.correctAnswers) {
+            for (const user of userAnswersDto.userAnswers) {
                 if (correct.problemId === user.problemId && correct.answerId === user.answerId) {
                     correctCount++;
                     break;
                 }
             }
         }
-        return {score: correctCount, total: correctAnswers.correctAnswers.length}
+        return {score: correctCount, total: correctAnswersDto.correctAnswers.length}
     }
 }
