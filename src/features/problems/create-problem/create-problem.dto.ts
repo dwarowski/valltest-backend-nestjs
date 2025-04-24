@@ -5,7 +5,7 @@ import { CreateAnswerDto } from 'src/features/answers/create-answer/create-answe
 export class CreateProblemDto {
   @ApiProperty({ readOnly: true })
   @IsNumber()
-  test: number;
+  testId: number;
   @IsString()
   question: string;
 
