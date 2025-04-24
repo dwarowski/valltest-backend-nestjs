@@ -17,7 +17,7 @@ export class ProblemsEntity {
   id: number;
 
   @ManyToOne(() => TestsEntity, (test) => test.id, { onDelete: 'CASCADE' })
-  test: number;
+  test: TestsEntity;
 
   @Column()
   question: string;
