@@ -42,7 +42,7 @@ export class CreateTestsService {
 
     const testQuestions = await Promise.all(
       questions.map(async (question) => {
-        question.test = testEntity.id;
+        question.testId = testEntity.id;
         const createdProblem = await this.createProblem.execute(question);
         return createdProblem;
       }),
