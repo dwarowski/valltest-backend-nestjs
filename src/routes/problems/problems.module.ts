@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ProblemsEntity } from '../../entities/problems/problems.entity';
@@ -9,7 +9,7 @@ import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.s
 import { TestsEntity } from 'src/entities/tests/test.entity';
 
 @Module({
-  imports: [AnswersModule, TypeOrmModule.forFeature([ProblemsEntity, TestsEntity])], //TODO circular import if test module imported so using provider and entity
+  imports: [forwardRef(() => AnswersModule), TypeOrmModule.forFeature([ProblemsEntity, TestsEntity])], //TODO circular import if test module imported so using provider and entity
   controllers: [],
   providers: [CreateProblemService, GetProblemService, GetTestsIdService],
   exports: [CreateProblemService, GetProblemService],
