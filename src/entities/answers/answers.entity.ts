@@ -16,7 +16,7 @@ export class AnswersEntity {
   @ManyToOne(() => ProblemsEntity, (problem) => problem.id, {
     onDelete: 'CASCADE',
   })
-  problem: number;
+  problem: ProblemsEntity;
 
   @Column()
   is_correct: boolean;
