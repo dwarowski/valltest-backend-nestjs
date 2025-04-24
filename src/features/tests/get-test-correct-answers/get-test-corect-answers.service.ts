@@ -13,7 +13,7 @@ export class GetTestCorrectAnswersService {
         const correctAnswers = await Promise.all(testEntity.problems.map(async (problem) => {
             const correctAnswer = problem.answers.find(answer => answer.is_correct);
             if (!correctAnswer) {
-                throw new BadRequestException('No Correct Answer???')
+                throw new BadRequestException('No Correct Answer???') //TODO make at least one correct answer neccessary
             }
             return { problemId: problem.id, answerId: correctAnswer.id }
         }
