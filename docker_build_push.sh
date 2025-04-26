@@ -21,6 +21,8 @@ docker_login() {
     echo -e "${GREEN}Successfully logged into Docker Hub.${NC}"
 }
 
+### [ Stage 1/3 Initialize ]
+# Запрашиваем APP_VERSION у пользователя
 read -p "Enter the APP_VERSION: " APP_VERSION
 
 # Check if APP_VERSION is empty
@@ -32,6 +34,7 @@ fi
 # Construct the image tag
 IMAGE_TAG="dwaru/valltest-backend-app:${APP_VERSION}"
 
+# Ищем файл докера
 echo -e "${YELLOW}Searching dockerfile${NC}"
 if [ ! -f dockerfile ]; then
     echo -e "${RED}Error: dockerfile not found. Create and configure it manually.${NC}"
@@ -39,11 +42,17 @@ if [ ! -f dockerfile ]; then
 fi
 echo -e "${Green}dockerfile found${NC}"
 
+
+### [ Stage 2/3 Buliding docker container]
+# Собираем контейнер
 echo -e "${YELLOW}Building docker image with tag: ${IMAGE_TAG}...${NC}"
 docker build -t "$IMAGE_TAG" ./
 check_success "Couldn't build dockerfile. Check logs"
 echo -e "${GREEN}Image builded succsesfully${NC}"
 
+
+### [ Stage 3/3 Pushing docker container]
+# Пушим контейнер
 echo -e "${YELLOW}Pushing docker image to hub...${NC}"
 docker push "$IMAGE_TAG"
 push_result=$?
