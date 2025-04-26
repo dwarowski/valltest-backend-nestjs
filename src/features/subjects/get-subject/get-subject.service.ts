@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SubjectEntity } from 'src/entities/subjects/subject.entity';
 import { Repository } from 'typeorm';
+import { GetSubjectDto } from './get-subject.dto';
 
 @Injectable()
 export class GetSubjectService {
@@ -10,13 +11,13 @@ export class GetSubjectService {
     private readonly subjectRepository: Repository<SubjectEntity>,
   ) {}
 
-  async execute(subjectName: string) {
+  async execute(dto: GetSubjectDto) {
     const subject = await this.subjectRepository.findOne({
-      where: { subjectName: subjectName },
+      where: { subjectName: dto.subjectName },
     });
     if (!subject) {
       throw new NotFoundException(
-        `Subject with Name: ${subjectName} not found`,
+        `Subject with Name: ${dto.subjectName} not found`,
       );
     }
     return subject;
