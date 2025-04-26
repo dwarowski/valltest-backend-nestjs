@@ -20,6 +20,6 @@ export class TagsController {
 
   @Delete(':tag')
   deleteTag(@Param('tag') tag: string) {
-    return this.deleteTagService.execute(tag);
+    return this.deleteTagService.execute({ tag });
   }
 }
