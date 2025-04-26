@@ -1,4 +1,6 @@
-# Bash
+#!/bin/bash
+
+start_time=$(date +%s)
 # Colors for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -63,3 +65,6 @@ if [ $push_result -ne 0 ]; then
     check_success "Couldn't push image after login. Check logs"
 fi
 echo -e "${GREEN}Image pushed to hub succsesfully with tag: ${IMAGE_TAG}${NC}"
+end_time=$(date +%s)
+elapsed_time=$((end_time - start_time))
+echo "Time elapsed: $elapsed_time seconds"
