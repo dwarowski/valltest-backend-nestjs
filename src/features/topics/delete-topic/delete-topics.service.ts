@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { TopicEntity } from '../../../entities/topics/topic.entity';
+import { DeleteTopicDto } from './delete-topic.dto';
 
 @Injectable()
 export class DeleteTopicService {
@@ -12,16 +13,16 @@ export class DeleteTopicService {
   ) {}
 
   // Удалить тему
-  async execute(topicName: string): Promise<string> {
+  async execute(dto: DeleteTopicDto): Promise<string> {
     const result = await this.topicRepository
       .createQueryBuilder()
       .delete()
-      .where({ topicName: topicName })
+      .where({ topicName: dto.topicName })
       .execute();
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Topic with ID ${topicName} not found`);
+      throw new NotFoundException(`Topic with ID ${dto.topicName} not found`);
     }
-    return `Topic with name: ${topicName} deleted`;
+    return `Topic with name: ${dto.topicName} deleted`;
   }
 }

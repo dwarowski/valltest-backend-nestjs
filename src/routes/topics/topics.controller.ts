@@ -21,6 +21,6 @@ export class TopicController {
   // Удалить тему
   @Delete(':topic')
   async delete(@Param('topic') topicName: string): Promise<string> {
-    return await this.deleteTopicService.execute(topicName);
+    return await this.deleteTopicService.execute({ topicName });
   }
 }
