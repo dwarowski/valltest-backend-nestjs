@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { SubjectEntity } from '../../../entities/subjects/subject.entity';
+import { DeleteSubjectDto } from './delete-subject.dto';
 
 @Injectable()
 export class DeleteSubjectService {
@@ -12,18 +13,18 @@ export class DeleteSubjectService {
   ) {}
 
   // Удалить предмет
-  async execute(subjectData: string): Promise<string> {
+  async execute(dto: DeleteSubjectDto): Promise<string> {
     const result = await this.subjectRepository
       .createQueryBuilder('subject')
       .delete()
-      .where({ subjectName: subjectData })
+      .where({ subjectName: dto.subjectName })
       .execute();
 
     if (result.affected === 0) {
       throw new NotFoundException(
-        `Subject with name: ${subjectData} not found`,
+        `Subject with name: ${dto.subjectName} not found`,
       );
     }
-    return `Subject with name: ${subjectData} deleted`;
+    return `Subject with name: ${dto.subjectName} deleted`;
   }
 }
