@@ -21,6 +21,6 @@ export class SubjectController {
   // Удалить предмет
   @Delete(':subject')
   async delete(@Param('subject') subject: string): Promise<string> {
-    return await this.deleteSubjectSerivce.execute(subject);
+    return await this.deleteSubjectSerivce.execute({subjectName: subject});
   }
 }
