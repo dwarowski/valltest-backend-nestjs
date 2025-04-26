@@ -17,7 +17,7 @@ export class CreateTopicService {
 
   // Создание темы
   async execute(createTopicDto: CreateTopicDto) {
-    const subject = await this.getSubject.execute(createTopicDto.subjectName);
+    const subject = await this.getSubject.execute({subjectName: createTopicDto.subjectName});
     const topicEntity = await this.topicRepository.findOneBy({
       topicName: createTopicDto.topicName,
     });
