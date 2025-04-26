@@ -20,10 +20,9 @@ export class LoginService {
   ) {}
 
   async login(loginDto: LoginDto): Promise<{ access_token: string }> {
-    const normalizedEmail = loginDto.email.toLowerCase();
     // Ищем пользователя по email
     const userEntity = await this.userRepository.findOne({
-      where: { email: normalizedEmail },
+      where: { email: loginDto.email },
     });
     if (!userEntity) {
       throw new UnauthorizedException('Неверный email или пароль');
