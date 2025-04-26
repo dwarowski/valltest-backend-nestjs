@@ -34,10 +34,10 @@ export class RegisterService {
 
     // Хешируем пароль
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
-
+    const normalizedEmail = registerDto.email.toLowerCase();
     // Сохраняем пользователя в базе данных
     const userEntity = await this.userRepository.save({
-      email: registerDto.email,
+      email: normalizedEmail,
       hashed_password: hashedPassword,
     });
 
