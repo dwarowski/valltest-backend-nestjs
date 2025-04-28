@@ -16,16 +16,18 @@ export class GetUserTestAnsweresService {
       relations: ['test', 'user', 'problem', 'answer'],
     });
 
-    if (userAnswers.length == 0) {
-      throw new NotFoundException('User dont have answers');
-    }
-
     const userAnswersFilterd = await Promise.all(
       userAnswers.map(async (userAnswer) => {
         const { problem, answer } = userAnswer;
         return { problemId: problem.id, answerId: answer.id };
       }),
     );
-    return { testId: userAnswers[0].test.id, userAnswers: userAnswersFilterd };
+    if (userAnswers.length == 0) {
+      return 'No Answers Found'
+    }
+    else {
+      return { testId: userAnswers[0].test.id, userAnswers: userAnswersFilterd };
+    }
+   
   }
 }

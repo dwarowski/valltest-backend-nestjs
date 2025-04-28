@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Request } from 'express';
 import { GetTestCorrectAnswersService } from 'src/features/tests/get-test-correct-answers/get-test-corect-answers.service';
 import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
@@ -20,6 +20,11 @@ export class CheckAnswersService {
     const userId = payload.id;
     const correctAnswers = await this.getTestCorrectAnswers.execute(testId);
     const userAnswers = await this.getUserTestAnswers.execute(userId, testId);
+    
+    if (userAnswers == 'No Answers Found') {
+      throw new NotFoundException(userAnswers)
+    }
+
     const userResult = await this.compareAnswers(userAnswers, correctAnswers);
     return userResult;
   }

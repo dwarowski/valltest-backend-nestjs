@@ -40,7 +40,7 @@ export class SaveUserAnswersService {
       userEntity.id,
       testsEntity.id,
     );
-    if (checkUserAnswers) {
+    if (checkUserAnswers != 'No Answers Found') {
       return 'Вы уже проходили этот тест';
     }
 
