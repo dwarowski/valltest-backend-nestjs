@@ -14,16 +14,17 @@ async function bootstrap() {
 
   // Включаем CORS
   app.enableCors({
-    origin: '*', // Разрешаем доступ с любого домена (лучше указать конкретный)
+    origin: 'http://localhost:3000', // Разрешаем доступ с любого домена (лучше указать конкретный)
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
   });
 
   const config = new DocumentBuilder()
     .setTitle('Система тестрования ДГТУ')
     .setDescription(``)
     .setVersion('1.0')
-    .addBearerAuth()
+    .addCookieAuth("access_token")
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
