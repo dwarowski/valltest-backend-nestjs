@@ -39,7 +39,11 @@ export class LoginService {
     }
 
     const refreshToken = crypto.randomBytes(64).toString('hex');
-    await this.userRepository.update(userEntity.id, { refreshToken });
+    const expirationTime = 30 * 24 * 60 * 60 * 1000;
+    await this.userRepository.update(userEntity.id, {
+      refreshToken,
+      refreshTokenExpirationDate: new Date(Date.now() + expirationTime)
+    });
 
     const userPayload: tokenPayload = {
       id: userEntity.id,
