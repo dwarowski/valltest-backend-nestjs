@@ -28,13 +28,20 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { access_token } = await this.loginService.login(loginDto);
-    return addTokenToCookie(access_token, res, 'login successful');
+    const { access_token, refresh_token } = await this.loginService.login(loginDto);
+    return addTokenToCookie(access_token, res, 'login successful', refresh_token);
   }
 
   @Post('logout')
   async logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('access_token', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      path: '/',
+    });
+
+    res.clearCookie('refresh_token', {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
