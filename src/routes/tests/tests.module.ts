@@ -27,7 +27,7 @@ import { UserModule } from '../users/user.module';
     TypeOrmModule.forFeature([TestsEntity]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     }),
   ],
   controllers: [TestsController],

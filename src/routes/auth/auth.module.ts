@@ -17,7 +17,7 @@ import { RolesUsersModule } from '../roles-users/roles-users.module';
     RolesUsersModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     }),
   ],
   providers: [RegisterService, LoginService],
