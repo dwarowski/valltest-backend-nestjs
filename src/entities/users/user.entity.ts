@@ -22,6 +22,12 @@ export class User {
   hashed_password: string;
 
   @Column({ nullable: true })
+  refreshToken: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  refreshTokenExpirationDate: Date;
+
+  @Column({ nullable: true })
   avatar_location: string;
 
   @OneToMany(() => RatingEntity, (rating) => rating.user)
