@@ -46,10 +46,7 @@ export class LoginService {
       username: userEntity.username,
     };
 
-    const accessToken = await this.jwtService.signAsync(userPayload, {
-      secret: process.env.JWT_SECRET,
-      expiresIn: process.env.JWT_EXPIRES_IN,
-    })
+    const accessToken = await this.jwtService.signAsync(userPayload, { secret: process.env.JWT_SECRET })
     return {
       access_token: accessToken,
       refresh_token: refreshToken,
