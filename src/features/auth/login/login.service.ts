@@ -2,6 +2,7 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { Repository } from 'typeorm';
 
 import { tokenPayload } from 'src/shared/utils/functions/extract-token-from-cookie/token-payload';
@@ -19,7 +20,7 @@ export class LoginService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async login(loginDto: LoginDto): Promise<{ access_token: string }> {
+  async login(loginDto: LoginDto): Promise<{ access_token: string; refresh_token: string }> {
     // Ищем пользователя по email
     const userEntity = await this.userRepository.findOne({
       where: { email: loginDto.email },
@@ -37,16 +38,21 @@ export class LoginService {
       throw new UnauthorizedException('Неверный email или пароль');
     }
 
+    const refreshToken = crypto.randomBytes(64).toString('hex');
+    await this.userRepository.update(userEntity.id, { refreshToken });
+
     const userPayload: tokenPayload = {
       id: userEntity.id,
       username: userEntity.username,
     };
 
+    const accessToken = await this.jwtService.signAsync(userPayload, {
+      secret: process.env.JWT_SECRET,
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    })
     return {
-      access_token: await this.jwtService.signAsync(userPayload, {
-        secret: process.env.JWT_SECRET,
-        expiresIn: process.env.JWT_EXPIRES_IN,
-      }),
+      access_token: accessToken,
+      refresh_token: refreshToken,
     };
   }
 }
