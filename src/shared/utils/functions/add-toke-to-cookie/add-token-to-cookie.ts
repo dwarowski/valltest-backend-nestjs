@@ -15,7 +15,7 @@ export function addTokenToCookie(
     sameSite: 'none',
     secure: true,
     path: '/',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: 6000
   });
 
   res.cookie('refresh_token', refresh_token, { // Добавлено refresh_token cookie
