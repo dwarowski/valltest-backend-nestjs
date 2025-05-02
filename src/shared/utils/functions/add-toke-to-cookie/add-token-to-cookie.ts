@@ -5,7 +5,6 @@ export function addTokenToCookie(
   access_token: string,
   refresh_token: string,
   res: Response,
-  message: string,
 ) {
   if (!access_token) {
     throw new UnauthorizedException();
@@ -28,5 +27,5 @@ export function addTokenToCookie(
   });
 
 
-  return { message: message };
+  return true;
 }
