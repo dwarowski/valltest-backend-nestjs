@@ -9,9 +9,6 @@ export async function extractTokenFromCookie(
 ): Promise<tokenPayload> {
   const jwtService = new JwtService();
   const token = req.cookies['access_token'];
-  if (!token) {
-    throw new UnauthorizedException('No access token found.');
-  }
 
   try {
     const payload = await jwtService.verifyAsync(token, {
@@ -19,6 +16,6 @@ export async function extractTokenFromCookie(
     });
     return payload;
   } catch {
-    throw new UnauthorizedException('Invalid or expired access token.');
+    throw new UnauthorizedException('Invalid or expired/no access token.');
   }
 }
