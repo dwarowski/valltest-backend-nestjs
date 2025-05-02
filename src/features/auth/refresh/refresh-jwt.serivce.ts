@@ -4,7 +4,7 @@ import { User } from "src/entities/users/user.entity";
 import { Repository } from "typeorm";
 import * as crypto from 'crypto';
 import { Request } from "express";
-import { tokenPayload } from "src/shared/utils/functions/extract-token-from-cookie/token-payload";
+import { tokenPayload } from "src/shared/utils/functions/extract-token/token-payload";
 import { JwtService } from "@nestjs/jwt";
 
 @Injectable()

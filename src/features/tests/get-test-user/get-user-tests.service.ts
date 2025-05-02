@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
 
-import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
+import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 
 import { TestsEntity } from '../../../entities/tests/test.entity';
 import { GetTestAverageRatingService } from 'src/features/ratings/get-test-average-rating/get-test-average-rating.service';
@@ -19,7 +19,7 @@ export class GetUsersTestsService {
   ) {}
 
   async execute(req: Request): Promise<TestWithRatingDto[]> {
-    const payload = await extractTokenFromCookie(req);
+    const payload = await extractToken(req);
     const userId = payload.id;
 
     const userTests = await this.testsRepository

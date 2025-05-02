@@ -4,7 +4,7 @@ import { UserAnswersDto } from './user-answers.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserAnswersEntity } from 'src/entities/user-answers/user-answer.entity';
 import { Repository } from 'typeorm';
-import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
+import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.service';
 import { GetUserService } from 'src/features/users/get-user/get-user.service';
 import { GetProblemService } from 'src/features/problems/get-problem/get-problem.service';
@@ -30,7 +30,7 @@ export class SaveUserAnswersService {
 
   async execute(req: Request, dto: UserAnswersDto) {
     const { testId, userAnswers } = dto;
-    const payload = await extractTokenFromCookie(req);
+    const payload = await extractToken(req);
     const userId = payload.id;
 
     const userEntity = await this.getUser.execute(userId, 'id');

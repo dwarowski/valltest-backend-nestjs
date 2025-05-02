@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
-import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
+import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 import { ROLES_KEY } from 'src/shared/utils/decorators/roles-decorator';
 import { GetUserRoleService } from 'src/features/roles-users/get-user-role/get-user-role.service';
 
@@ -24,7 +24,7 @@ export class RolesGuards implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
 
-    const payload = await extractTokenFromCookie(request);
+    const payload = await extractToken(request);
 
     const userRoles = await this.getUserRole.execute(payload.id);
 

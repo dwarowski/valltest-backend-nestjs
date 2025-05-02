@@ -3,7 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Request } from "express";
 import { User } from "src/entities/users/user.entity";
-import { extractTokenFromCookie } from "src/shared/utils/functions/extract-token-from-cookie/token-extract";
+import { extractToken } from "src/shared/utils/functions/extract-token/token-extract";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -16,7 +16,7 @@ export class LogoutService {
     ) { }
 
     async execute(req: Request) {
-        const payload = await extractTokenFromCookie(req)
+        const payload = await extractToken(req)
         const userId = payload.id
         const userEntity = await this.userRepository.findOne({ where: { id: userId } })
         if (!userEntity) {

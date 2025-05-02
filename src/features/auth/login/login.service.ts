@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { Repository } from 'typeorm';
 
-import { tokenPayload } from 'src/shared/utils/functions/extract-token-from-cookie/token-payload';
+import { tokenPayload } from 'src/shared/utils/functions/extract-token/token-payload';
 
 import { User } from 'src/entities/users/user.entity';
 

@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Request } from 'express';
 import { GetTestCorrectAnswersService } from 'src/features/tests/get-test-correct-answers/get-test-corect-answers.service';
-import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
+import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 import { GetUserTestAnsweresService } from '../get-user-test-answers/get-user-test-answers.service';
 import { UserAnswersDto } from '../save-user-answers/user-answers.dto';
 import { CorrectAnswersDto } from './correct-answers.dto';
@@ -16,7 +16,7 @@ export class CheckAnswersService {
   ) {}
 
   async execute(req: Request, testId: number) {
-    const payload = await extractTokenFromCookie(req);
+    const payload = await extractToken(req);
     const userId = payload.id;
     const correctAnswers = await this.getTestCorrectAnswers.execute(testId);
     const userAnswers = await this.getUserTestAnswers.execute(userId, testId);

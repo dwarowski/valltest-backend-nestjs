@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
 
-import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
+import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 
 import { CreateTestDto } from './create-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
@@ -27,7 +27,7 @@ export class CreateTestsService {
   async execute(dto: CreateTestDto, req: Request) {
     const { topicName, questions, ...testDto } = dto;
 
-    const payload = await extractTokenFromCookie(req);
+    const payload = await extractToken(req);
     const userId = payload.id;
 
     const userEntity = await this.getUser.execute(userId, 'id');

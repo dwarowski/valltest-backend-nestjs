@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateRatingDto } from './create-rating.dto';
 import { RatingEntity } from '../../../entities/ratings/rating.entity';
 import { Request } from 'express';
-import { extractTokenFromCookie } from 'src/shared/utils/functions/extract-token-from-cookie/token-extract';
+import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 import { GetUserService } from 'src/features/users/get-user/get-user.service';
 import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.service';
 
@@ -21,7 +21,7 @@ export class AddRatingService {
 
   // Добавить оценку к тесту
   async execute(createRatingDto: CreateRatingDto, req: Request) {
-    const payload = await extractTokenFromCookie(req);
+    const payload = await extractToken(req);
     const userId = payload.id;
 
     const user = await this.getUser.execute(userId, 'id');
