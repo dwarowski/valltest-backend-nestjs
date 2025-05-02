@@ -9,7 +9,7 @@ import {
   Delete,
   Req,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 
 import { Roles } from 'src/shared/utils/decorators/roles-decorator';
@@ -53,6 +53,8 @@ export class TestsController {
     return this.deleteTestService.execute(id);
   }
 
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @Roles('teacher')
   @Get('user')
   getUserTests(@Req() req: Request) {

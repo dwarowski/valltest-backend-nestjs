@@ -8,7 +8,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { CheckAnswersService } from 'src/features/user-answers/check-user-answers/check-answers.serivce';
 import { SaveUserAnswersService } from 'src/features/user-answers/save-user-answers/save-user-answers.service';
@@ -25,12 +25,17 @@ export class UserAnswersController {
     private readonly saveUserAnswersService: SaveUserAnswersService,
   ) {}
 
+
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @Roles('student')
   @Post()
   async saveUserAnswers(@Req() req: Request, @Body() dto: UserAnswersDto) {
     return this.saveUserAnswersService.execute(req, dto);
   }
 
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @Roles('student')
   @Get(':id')
   async checkUserAnswers(
