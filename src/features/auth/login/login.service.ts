@@ -50,7 +50,7 @@ export class LoginService {
       username: userEntity.username,
     };
 
-    const accessToken = await this.jwtService.signAsync(userPayload, { secret: process.env.JWT_SECRET })
+    const accessToken = await this.jwtService.signAsync(userPayload)
     return {
       access_token: accessToken,
       refresh_token: refreshToken,
