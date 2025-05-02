@@ -29,7 +29,7 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const { access_token, refresh_token } = await this.loginService.login(loginDto);
-    return addTokenToCookie(access_token, res, 'login successful', refresh_token);
+    return addTokenToCookie(access_token, refresh_token, res, 'login successful');
   }
 
   @Post('logout')
