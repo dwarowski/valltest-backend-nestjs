@@ -3,9 +3,9 @@ import { Response } from 'express';
 
 export function addTokenToCookie(
   access_token: string,
+  refresh_token: string,
   res: Response,
   message: string,
-  refresh_token?: string,
 ) {
   if (!access_token) {
     throw new UnauthorizedException();
@@ -18,16 +18,15 @@ export function addTokenToCookie(
     path: '/',
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
-  
-  if (refresh_token) {
-    res.cookie('refresh_token', refresh_token, { // Добавлено refresh_token cookie
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-      path: '/',
-      maxAge: 30 * 24 * 60 * 60 * 1000, // refresh token expires in 30 days
-    });
-  }
+
+  res.cookie('refresh_token', refresh_token, { // Добавлено refresh_token cookie
+    httpOnly: true,
+    sameSite: 'none',
+    secure: true,
+    path: '/',
+    maxAge: 30 * 24 * 60 * 60 * 1000, // refresh token expires in 30 days
+  });
+
 
   return { message: message };
 }
