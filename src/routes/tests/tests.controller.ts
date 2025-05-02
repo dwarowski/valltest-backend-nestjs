@@ -43,6 +43,8 @@ export class TestsController {
     return this.getTestByIdService.execute(testId, 'test');
   }
 
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @Post('test')
   createTest(@Body() dto: CreateTestDto, @Req() req: Request) {
     return this.createTestService.execute(dto, req);

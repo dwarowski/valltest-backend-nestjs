@@ -12,6 +12,7 @@ import { CreateRatingDto } from '../../features/ratings/add-rating/create-rating
 import { AddRatingService } from 'src/features/ratings/add-rating/add-rating.service';
 import { GetTestRatingService } from 'src/features/ratings/get-test-ratings/get-test-rating.service';
 import { Request } from 'express';
+import { ApiBearerAuth, ApiCookieAuth } from '@nestjs/swagger';
 
 @Controller('ratings')
 export class RatingController {
@@ -21,6 +22,8 @@ export class RatingController {
   ) {}
 
   // Добавить оценку к тесту
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @Post()
   async addRating(
     @Req() req: Request,

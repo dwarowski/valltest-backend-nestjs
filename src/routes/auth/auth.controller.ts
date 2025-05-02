@@ -8,6 +8,7 @@ import { RegisterService } from 'src/features/auth/register/register.service';
 import { addTokenToCookie } from 'src/shared/utils/functions/add-toke-to-cookie/add-token-to-cookie';
 import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.serivce';
 import { LogoutService } from 'src/features/auth/logout/logout.service';
+import { ApiBearerAuth, ApiCookieAuth } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -38,6 +39,8 @@ export class AuthController {
     return {access_token, refresh_token}
   }
 
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @Post('refresh')
   async resfreshToken(@Req() req: Request,  @Res({ passthrough: true }) res: Response) {
     const { access_token, refresh_token } =  await this.refreshService.execute(req)
@@ -45,6 +48,8 @@ export class AuthController {
     return {access_token, refresh_token}
   }
 
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   @Post('logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     this.logoutService.execute(req);
