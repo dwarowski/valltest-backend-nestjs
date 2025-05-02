@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { TestTagModule } from 'src/routes/test-tag/test-tag.module';
@@ -13,7 +12,6 @@ import { DeleteTagService } from 'src/features/tags/delete-tag/delete-tag.servic
 
 @Module({
   imports: [
-    ConfigModule,
     TestsModule,
     TestTagModule,
     TypeOrmModule.forFeature([TagsEntity]),
