@@ -24,7 +24,8 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const { access_token, refresh_token} = await this.registerService.register(registerDto);
-    return addTokenToCookie(access_token, refresh_token, res, 'register successful');
+    addTokenToCookie(access_token, refresh_token, res);
+    return {access_token, refresh_token}
   }
 
   @Post('login')
@@ -33,13 +34,15 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const { access_token, refresh_token } = await this.loginService.login(loginDto);
-    return addTokenToCookie(access_token, refresh_token, res, 'login successful');
+    addTokenToCookie(access_token, refresh_token, res);
+    return {access_token, refresh_token}
   }
 
   @Post('refresh')
   async resfreshToken(@Req() req: Request,  @Res({ passthrough: true }) res: Response) {
     const { access_token, refresh_token } =  await this.refreshService.execute(req)
-    return addTokenToCookie( access_token, refresh_token, res, 'refresh succsesful')
+    addTokenToCookie( access_token, refresh_token, res)
+    return {access_token, refresh_token}
   }
 
   @Post('logout')
