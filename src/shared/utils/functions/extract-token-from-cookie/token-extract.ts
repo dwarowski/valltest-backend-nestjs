@@ -11,7 +11,7 @@ export async function extractTokenFromCookie(
   const token = req.cookies['access_token'];
 
   try {
-    const payload = await jwtService.verifyAsync(token);
+    const payload = await jwtService.verifyAsync(token, {secret: process.env.JWT_SECRET});
     return payload;
   } catch {
     throw new UnauthorizedException('Invalid or expired/no access token.');
