@@ -26,6 +26,12 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true })
   refreshTokenExpirationDate: Date;
+  
+  @Column()
+  isVerifed: boolean;
+
+  @Column()
+  verificationToken: string;
 
   @Column({ nullable: true })
   avatar_location: string;
