@@ -1,5 +1,5 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 
 import { LoginDto } from '../../features/auth/login/login.dto';
 import { RegisterDto } from '../../features/auth/register/register.dto';
@@ -12,6 +12,7 @@ export class AuthController {
   constructor(
     private readonly loginService: LoginService,
     private readonly registerService: RegisterService,
+    private readonly refreshService: RefreshTokenService,
   ) {}
 
   @Post('register')
@@ -30,6 +31,12 @@ export class AuthController {
   ) {
     const { access_token, refresh_token } = await this.loginService.login(loginDto);
     return addTokenToCookie(access_token, refresh_token, res, 'login successful');
+  }
+
+  @Post('refresh')
+  async resfreshToken(@Req() req: Request,  @Res({ passthrough: true }) res: Response) {
+    const { access_token, refresh_token } =  await this.refreshService.execute(req)
+    return addTokenToCookie( access_token, refresh_token, res, 'refresh succsesful')
   }
 
   @Post('logout')

@@ -9,6 +9,7 @@ import { AuthController } from './auth.controller';
 import { RegisterService } from 'src/features/auth/register/register.service';
 import { LoginService } from 'src/features/auth/login/login.service';
 import { RolesUsersModule } from '../roles-users/roles-users.module';
+import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.serivce';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
@@ -25,7 +26,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  providers: [RegisterService, LoginService],
+  providers: [RegisterService, LoginService, RefreshTokenService, LogoutService],
   controllers: [AuthController],
   exports: [],
 })
