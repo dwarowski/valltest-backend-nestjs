@@ -21,10 +21,11 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Система тестрования ДГТУ')
-    .setDescription(``)
-    .setVersion('1.0')
-    .addCookieAuth("access_token")
+    .setTitle('Система тестрования')
+    .setDescription(`API Valltest`)
+    .setVersion('0.0.4')
+    .addCookieAuth('access_token')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
