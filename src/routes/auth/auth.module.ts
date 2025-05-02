@@ -11,6 +11,7 @@ import { LoginService } from 'src/features/auth/login/login.service';
 import { RolesUsersModule } from '../roles-users/roles-users.module';
 import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.serivce';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LogoutService } from 'src/features/auth/logout/logout.service';
 
 @Module({
   imports: [

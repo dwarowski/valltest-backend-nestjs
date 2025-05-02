@@ -6,6 +6,8 @@ import { RegisterDto } from '../../features/auth/register/register.dto';
 import { LoginService } from 'src/features/auth/login/login.service';
 import { RegisterService } from 'src/features/auth/register/register.service';
 import { addTokenToCookie } from 'src/shared/utils/functions/add-toke-to-cookie/add-token-to-cookie';
+import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.serivce';
+import { LogoutService } from 'src/features/auth/logout/logout.service';
 
 @Controller('auth')
 export class AuthController {
@@ -13,6 +15,7 @@ export class AuthController {
     private readonly loginService: LoginService,
     private readonly registerService: RegisterService,
     private readonly refreshService: RefreshTokenService,
+    private readonly logoutService: LogoutService,
   ) {}
 
   @Post('register')
@@ -40,7 +43,9 @@ export class AuthController {
   }
 
   @Post('logout')
-  async logout(@Res({ passthrough: true }) res: Response) {
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    this.logoutService.execute(req);
+
     res.clearCookie('access_token', {
       httpOnly: true,
       secure: true,
