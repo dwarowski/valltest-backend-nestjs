@@ -1,6 +1,7 @@
 import { Injectable, ConflictException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
 import { Repository } from 'typeorm';
 
 import { User } from 'src/entities/users/user.entity';
@@ -32,12 +33,15 @@ export class RegisterService {
       );
     }
 
+    const verificationToken = uuidv4();
     // Хешируем пароль
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     // Сохраняем пользователя в базе данных
     const userEntity = await this.userRepository.save({
       email: registerDto.email,
       hashed_password: hashedPassword,
+      isVerifed: false,
+      verificationToken,
     });
 
     const _roleAssign = await this.addRoleToUser.execute({
