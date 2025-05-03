@@ -13,6 +13,7 @@ import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.seriv
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LogoutService } from 'src/features/auth/logout/logout.service';
 import { EmailModule } from 'src/shared/utils/mailer/mailer.module';
+import { VerifyEmailService } from 'src/features/auth/verify-email/verify-email.service';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { EmailModule } from 'src/shared/utils/mailer/mailer.module';
       inject: [ConfigService],
     }),
   ],
-  providers: [RegisterService, LoginService, RefreshTokenService, LogoutService],
+  providers: [RegisterService, LoginService, RefreshTokenService, LogoutService, VerifyEmailService],
   controllers: [AuthController],
   exports: [],
 })
