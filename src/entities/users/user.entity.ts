@@ -28,7 +28,7 @@ export class User {
   refreshTokenExpirationDate: Date;
   
   @Column()
-  isVerifed: boolean;
+  isVerified: boolean;
 
   @Column()
   verificationToken: string;
