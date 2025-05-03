@@ -43,7 +43,7 @@ export class RegisterService {
     const userEntity = await this.userRepository.save({
       email: registerDto.email,
       hashed_password: hashedPassword,
-      isVerifed: false,
+      isVerified: false,
       verificationToken,
     });
 
