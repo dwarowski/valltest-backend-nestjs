@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 import { LoginDto } from '../../features/auth/login/login.dto';
@@ -9,6 +9,7 @@ import { addTokenToCookie } from 'src/shared/utils/functions/add-toke-to-cookie/
 import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.serivce';
 import { LogoutService } from 'src/features/auth/logout/logout.service';
 import { ApiBearerAuth, ApiCookieAuth } from '@nestjs/swagger';
+import { VerifyEmailService } from 'src/features/auth/verify-email/verify-email.service';
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +18,7 @@ export class AuthController {
     private readonly registerService: RegisterService,
     private readonly refreshService: RefreshTokenService,
     private readonly logoutService: LogoutService,
+    private readonly verifyEmailService: VerifyEmailService
   ) {}
 
   @Post('register')
@@ -46,6 +48,11 @@ export class AuthController {
     const { access_token, refresh_token } =  await this.refreshService.execute(req)
     addTokenToCookie( access_token, refresh_token, res)
     return {access_token, refresh_token}
+  }
+
+  @Get('verify-email')
+  async verifyEmail(@Query('token') token: string) {
+    return await this.verifyEmailService.execute(token)
   }
 
   @ApiBearerAuth()
