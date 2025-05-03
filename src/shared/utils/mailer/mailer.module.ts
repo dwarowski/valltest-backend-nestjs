@@ -3,6 +3,7 @@ import { EmailService } from './mailer.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
           from: `"No Reply" <${configService.get('MAIL_FROM')}>`,
         },
         template: {
-          dir: './src/shared/utils/mailer/templates', // Путь к вашим шаблонам
+          dir: join(__dirname, 'templates'), // Путь к вашим шаблонам
           adapter: new HandlebarsAdapter(), // или EJSAdapter, PugAdapter
           options: {
             strict: true,
