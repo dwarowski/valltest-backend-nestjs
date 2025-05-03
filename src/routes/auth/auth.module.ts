@@ -12,10 +12,12 @@ import { RolesUsersModule } from '../roles-users/roles-users.module';
 import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.serivce';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LogoutService } from 'src/features/auth/logout/logout.service';
+import { EmailModule } from 'src/shared/utils/mailer/mailer.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
+    EmailModule,
     UserModule,
     RolesUsersModule,
     JwtModule.registerAsync({
