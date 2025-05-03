@@ -17,7 +17,7 @@ export class VerifyEmailService {
       
           // Поиск пользователя по токену
           const user = await this.userRepository.findOne({ where: { verificationToken: token } });
-
+          
           if (!user) {
             throw new BadRequestException('Неверный токен верификации.');
           }
