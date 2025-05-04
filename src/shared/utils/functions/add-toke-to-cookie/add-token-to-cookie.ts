@@ -15,17 +15,17 @@ export function addTokenToCookie(
     sameSite: 'none',
     secure: true,
     path: '/',
-    maxAge: 6000
+    maxAge: 6000,
   });
 
-  res.cookie('refresh_token', refresh_token, { // Добавлено refresh_token cookie
+  res.cookie('refresh_token', refresh_token, {
+    // Добавлено refresh_token cookie
     httpOnly: true,
     sameSite: 'none',
     secure: true,
     path: '/',
     maxAge: 30 * 24 * 60 * 60 * 1000, // refresh token expires in 30 days
   });
-
 
   return true;
 }

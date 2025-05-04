@@ -18,7 +18,7 @@ export class AuthController {
     private readonly registerService: RegisterService,
     private readonly refreshService: RefreshTokenService,
     private readonly logoutService: LogoutService,
-    private readonly verifyEmailService: VerifyEmailService
+    private readonly verifyEmailService: VerifyEmailService,
   ) {}
 
   @Post('register')
@@ -26,9 +26,10 @@ export class AuthController {
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { access_token, refresh_token} = await this.registerService.register(registerDto);
+    const { access_token, refresh_token } =
+      await this.registerService.register(registerDto);
     addTokenToCookie(access_token, refresh_token, res);
-    return {access_token, refresh_token}
+    return { access_token, refresh_token };
   }
 
   @Post('login')
@@ -36,23 +37,28 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const { access_token, refresh_token } = await this.loginService.login(loginDto);
+    const { access_token, refresh_token } =
+      await this.loginService.login(loginDto);
     addTokenToCookie(access_token, refresh_token, res);
-    return {access_token, refresh_token}
+    return { access_token, refresh_token };
   }
 
   @ApiBearerAuth()
   @ApiCookieAuth()
   @Post('refresh')
-  async resfreshToken(@Req() req: Request,  @Res({ passthrough: true }) res: Response) {
-    const { access_token, refresh_token } =  await this.refreshService.execute(req)
-    addTokenToCookie( access_token, refresh_token, res)
-    return {access_token, refresh_token}
+  async resfreshToken(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const { access_token, refresh_token } =
+      await this.refreshService.execute(req);
+    addTokenToCookie(access_token, refresh_token, res);
+    return { access_token, refresh_token };
   }
 
   @Get('verify-email')
   async verifyEmail(@Query('token') token: string) {
-    return await this.verifyEmailService.execute(token)
+    return await this.verifyEmailService.execute(token);
   }
 
   @ApiBearerAuth()

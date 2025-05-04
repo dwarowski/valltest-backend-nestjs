@@ -26,7 +26,7 @@ export class User {
 
   @Column({ type: 'timestamp', nullable: true })
   refreshTokenExpirationDate: Date;
-  
+
   @Column()
   isVerified: boolean;
 

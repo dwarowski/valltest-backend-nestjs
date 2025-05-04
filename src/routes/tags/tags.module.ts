@@ -11,11 +11,7 @@ import { CreateTagService } from 'src/features/tags/create-tag/create-tag.servic
 import { DeleteTagService } from 'src/features/tags/delete-tag/delete-tag.service';
 
 @Module({
-  imports: [
-    TestsModule,
-    TestTagModule,
-    TypeOrmModule.forFeature([TagsEntity]),
-  ],
+  imports: [TestsModule, TestTagModule, TypeOrmModule.forFeature([TagsEntity])],
   controllers: [TagsController],
   providers: [CreateTagService, DeleteTagService],
   exports: [],

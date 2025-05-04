@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserAnswersEntity } from 'src/entities/user-answers/user-answer.entity';
 import { Repository } from 'typeorm';
@@ -23,11 +23,12 @@ export class GetUserTestAnsweresService {
       }),
     );
     if (userAnswers.length == 0) {
-      return 'No Answers Found'
+      return 'No Answers Found';
+    } else {
+      return {
+        testId: userAnswers[0].test.id,
+        userAnswers: userAnswersFilterd,
+      };
     }
-    else {
-      return { testId: userAnswers[0].test.id, userAnswers: userAnswersFilterd };
-    }
-   
   }
 }

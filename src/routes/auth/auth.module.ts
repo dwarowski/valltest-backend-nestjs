@@ -30,7 +30,13 @@ import { VerifyEmailService } from 'src/features/auth/verify-email/verify-email.
       inject: [ConfigService],
     }),
   ],
-  providers: [RegisterService, LoginService, RefreshTokenService, LogoutService, VerifyEmailService],
+  providers: [
+    RegisterService,
+    LoginService,
+    RefreshTokenService,
+    LogoutService,
+    VerifyEmailService,
+  ],
   controllers: [AuthController],
   exports: [],
 })

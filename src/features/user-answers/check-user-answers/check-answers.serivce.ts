@@ -20,9 +20,9 @@ export class CheckAnswersService {
     const userId = payload.id;
     const correctAnswers = await this.getTestCorrectAnswers.execute(testId);
     const userAnswers = await this.getUserTestAnswers.execute(userId, testId);
-    
+
     if (userAnswers == 'No Answers Found') {
-      throw new NotFoundException(userAnswers)
+      throw new NotFoundException(userAnswers);
     }
 
     const userResult = await this.compareAnswers(userAnswers, correctAnswers);

@@ -25,7 +25,6 @@ export class UserAnswersController {
     private readonly saveUserAnswersService: SaveUserAnswersService,
   ) {}
 
-
   @ApiBearerAuth()
   @ApiCookieAuth()
   @Roles('student')

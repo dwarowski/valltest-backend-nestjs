@@ -25,7 +25,9 @@ export class RegisterService {
     private readonly _emailService: EmailService,
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<{ access_token: string, refresh_token: string}> {
+  async register(
+    registerDto: RegisterDto,
+  ): Promise<{ access_token: string; refresh_token: string }> {
     // Проверяем, что пользователь с таким email еще не существует
     const existingUser = await this.userRepository.findOne({
       where: { email: registerDto.email },

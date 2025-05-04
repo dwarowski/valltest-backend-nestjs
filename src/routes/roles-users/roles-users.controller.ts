@@ -13,7 +13,6 @@ export class RolesUsersController {
     private readonly removeRoleRelation: RemoveRoleService,
   ) {}
 
-
   @ApiBearerAuth()
   @ApiCookieAuth()
   @Roles('admin')

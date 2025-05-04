@@ -20,7 +20,9 @@ export class LoginService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async login(loginDto: LoginDto): Promise<{ access_token: string; refresh_token: string }> {
+  async login(
+    loginDto: LoginDto,
+  ): Promise<{ access_token: string; refresh_token: string }> {
     // Ищем пользователя по email
     const userEntity = await this.userRepository.findOne({
       where: { email: loginDto.email },
@@ -42,7 +44,7 @@ export class LoginService {
     const expirationTime = 30 * 24 * 60 * 60 * 1000;
     await this.userRepository.update(userEntity.id, {
       refreshToken,
-      refreshTokenExpirationDate: new Date(Date.now() + expirationTime)
+      refreshTokenExpirationDate: new Date(Date.now() + expirationTime),
     });
 
     const userPayload: tokenPayload = {
@@ -50,7 +52,7 @@ export class LoginService {
       username: userEntity.username,
     };
 
-    const accessToken = await this.jwtService.signAsync(userPayload)
+    const accessToken = await this.jwtService.signAsync(userPayload);
     return {
       access_token: accessToken,
       refresh_token: refreshToken,

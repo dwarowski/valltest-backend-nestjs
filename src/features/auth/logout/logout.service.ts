@@ -1,33 +1,34 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Request } from "express";
-import { User } from "src/entities/users/user.entity";
-import { extractToken } from "src/shared/utils/functions/extract-token/token-extract";
-import { Repository } from "typeorm";
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
+import { User } from 'src/entities/users/user.entity';
+import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class LogoutService {
-    constructor(
-        @Inject(JwtService)
-        private readonly jwtService: JwtService,
-        @InjectRepository(User)
-        private readonly userRepository: Repository<User>,
-    ) { }
+  constructor(
+    @Inject(JwtService)
+    private readonly jwtService: JwtService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-    async execute(req: Request) {
-        const payload = await extractToken(req)
-        const userId = payload.id
-        const userEntity = await this.userRepository.findOne({ where: { id: userId } })
-        if (!userEntity) {
-            throw new NotFoundException('No user found')
-        }
+  async execute(req: Request) {
+    const payload = await extractToken(req);
+    const userId = payload.id;
+    const userEntity = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    if (!userEntity) {
+      throw new NotFoundException('No user found');
+    }
 
-        await this.userRepository.update(userEntity.id, {
-            refreshToken: '',
-            refreshTokenExpirationDate: undefined
-        })
-        return 'refresh cleared'
-    };
-
+    await this.userRepository.update(userEntity.id, {
+      refreshToken: '',
+      refreshTokenExpirationDate: undefined,
+    });
+    return 'refresh cleared';
+  }
 }

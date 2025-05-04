@@ -13,7 +13,7 @@ export class UserAnswersEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => TestsEntity, (test) => test.id, {onDelete: 'CASCADE'})
+  @ManyToOne(() => TestsEntity, (test) => test.id, { onDelete: 'CASCADE' })
   test: TestsEntity;
 
   @ManyToOne(() => User, (user) => user.id)

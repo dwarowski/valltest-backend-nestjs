@@ -24,7 +24,7 @@ export class TestsEntity {
   @Column()
   testName: string;
 
-  @ManyToOne(() => User, (user) => user.id,  {onDelete: 'CASCADE'})
+  @ManyToOne(() => User, (user) => user.id, { onDelete: 'CASCADE' })
   userAuthor: User;
 
   @Column()
