@@ -48,7 +48,7 @@ export class LoginService {
     });
 
     if (!userEntity.username) {
-      userEntity.username = ''
+      userEntity.username = '';
     }
 
     const userPayload: tokenPayload = {

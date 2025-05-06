@@ -1,5 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request, Response } from 'express';
 import { User } from 'src/entities/users/user.entity';
@@ -42,6 +41,6 @@ export class LogoutService {
       path: '/',
     });
 
-    return { message: 'logout succsesful' }
+    return { message: 'logout succsesful' };
   }
 }

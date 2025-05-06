@@ -25,7 +25,7 @@ export class GetUserService {
     }
 
     if (!user.username) {
-      user.username = ''
+      user.username = '';
     }
     const userCleaned: UserDto = { id: user.id, username: user.username };
     return userCleaned;

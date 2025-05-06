@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/users/user.entity';
 import { Repository } from 'typeorm';
@@ -32,7 +37,7 @@ export class RefreshTokenService {
     }
 
     if (!userEntity.refreshTokenExpirationDate) {
-      throw new NotFoundException('No expiration date')
+      throw new NotFoundException('No expiration date');
     }
 
     if (userEntity.refreshTokenExpirationDate < new Date()) {
@@ -40,7 +45,7 @@ export class RefreshTokenService {
     }
 
     if (!userEntity.username) {
-      userEntity.username = ''
+      userEntity.username = '';
     }
     const userPayload: tokenPayload = {
       id: userEntity.id,
