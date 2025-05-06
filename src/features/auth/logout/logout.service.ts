@@ -9,8 +9,6 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class LogoutService {
   constructor(
-    @Inject(JwtService)
-    private readonly jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
