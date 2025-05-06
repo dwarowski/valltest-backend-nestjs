@@ -65,21 +65,6 @@ export class AuthController {
   @ApiCookieAuth()
   @Post('logout')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
-    this.logoutService.execute(req);
-
-    res.clearCookie('access_token', {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      path: '/',
-    });
-
-    res.clearCookie('refresh_token', {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      path: '/',
-    });
-    return { message: 'Logout successful' };
+    return await this.logoutService.execute(req, res);
   }
 }
