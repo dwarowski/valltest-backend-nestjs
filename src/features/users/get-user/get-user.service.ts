@@ -23,6 +23,10 @@ export class GetUserService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
+    if (!user.username) {
+      user.username = ''
+    }
     const userCleaned: UserDto = { id: user.id, username: user.username };
     return userCleaned;
   }

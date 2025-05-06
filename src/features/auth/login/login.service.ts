@@ -47,6 +47,10 @@ export class LoginService {
       refreshTokenExpirationDate: new Date(Date.now() + expirationTime),
     });
 
+    if (!userEntity.username) {
+      userEntity.username = ''
+    }
+
     const userPayload: tokenPayload = {
       id: userEntity.id,
       username: userEntity.username,

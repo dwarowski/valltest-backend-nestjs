@@ -34,7 +34,10 @@ export class RefreshTokenService {
     if (userEntity.refreshTokenExpirationDate < new Date()) {
       throw new UnauthorizedException('Refresh token expired');
     }
-
+    
+    if (!userEntity.username) {
+      userEntity.username = ''
+    }
     const userPayload: tokenPayload = {
       id: userEntity.id,
       username: userEntity.username,
