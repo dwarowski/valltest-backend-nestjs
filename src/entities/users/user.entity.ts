@@ -12,7 +12,7 @@ export class User {
   id: string;
 
   @Column({ nullable: true })
-  username: string;
+  username: string | null;
 
   @Column({ unique: true })
   email: string;
@@ -22,16 +22,16 @@ export class User {
   hashed_password: string;
 
   @Column({ nullable: true })
-  refreshToken: string;
+  refreshToken: string | null;
 
   @Column({ type: 'timestamp', nullable: true })
-  refreshTokenExpirationDate: Date;
+  refreshTokenExpirationDate: Date | null;
 
   @Column()
   isVerified: boolean;
 
-  @Column()
-  verificationToken: string;
+  @Column({ nullable: true })
+  verificationToken: string | null;
 
   @Column({ nullable: true })
   avatar_location: string;
