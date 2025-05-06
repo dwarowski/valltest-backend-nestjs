@@ -11,7 +11,7 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   username: string | null;
 
   @Column({ unique: true })
@@ -21,7 +21,7 @@ export class User {
   @Exclude()
   hashed_password: string;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   refreshToken: string | null;
 
   @Column({ type: 'timestamp', nullable: true })
@@ -30,11 +30,11 @@ export class User {
   @Column()
   isVerified: boolean;
 
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   verificationToken: string | null;
 
-  @Column({ nullable: true })
-  avatar_location: string;
+  @Column({ type: 'varchar', nullable: true })
+  avatar_location: string | null;
 
   @OneToMany(() => RatingEntity, (rating) => rating.user)
   ratings: RatingEntity[];
