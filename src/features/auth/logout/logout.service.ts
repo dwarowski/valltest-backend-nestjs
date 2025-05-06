@@ -41,6 +41,7 @@ export class LogoutService {
       sameSite: 'none',
       path: '/',
     });
-    return { message: 'logout succsesful'}
+
+    return { message: 'logout succsesful' }
   }
 }
