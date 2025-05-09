@@ -1,8 +1,8 @@
-import { IsString } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 export class RemoveRoleDto {
   @IsString()
   role: string;
-  @IsString()
-  user: string;
+  @IsUUID()
+  userId: string;
 }
