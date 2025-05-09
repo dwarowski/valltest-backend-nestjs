@@ -22,8 +22,6 @@ export class TopicEntity {
   @OneToMany(() => TestsEntity, (test) => test.topic)
   tests: TestsEntity[];
 
-  @ManyToOne(() => SubjectEntity, (subject) => subject.topics, {
-    eager: true,
-  })
+  @ManyToOne(() => SubjectEntity, (subject) => subject.topics)
   subject: SubjectEntity;
 }
