@@ -20,24 +20,23 @@ export class AddRatingService {
   ) {}
 
   // Добавить оценку к тесту
-  async execute(createRatingDto: CreateRatingDto, req: Request) {
+  async execute(
+    createRatingDto: CreateRatingDto,
+    req: Request,
+  ): Promise<boolean> {
     const payload = await extractToken(req);
     const userId = payload.id;
 
     const user = await this.getUser.execute(userId, 'id');
     const test = await this.getTests.execute(createRatingDto.testId, 'entity');
 
-    const newRating = await this.ratingRepository.save({
+    await this.ratingRepository.save({
       user,
       test,
       rating: createRatingDto.rating,
       comment: createRatingDto.comment,
     });
 
-    return {
-      user: newRating.user.username,
-      rating: newRating.rating,
-      comment: newRating.comment,
-    };
+    return true;
   }
 }
