@@ -13,8 +13,8 @@ import {
   ApiBody,
   ApiCookieAuth,
   ApiCreatedResponse,
-  ApiForbiddenResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { VerifyEmailService } from 'src/features/auth/verify-email/verify-email.service';
@@ -32,8 +32,12 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @ApiOperation({
+    summary: 'Authorization in system',
+    description: 'Give access and refresh token for user that registred',
+  })
   @ApiCreatedResponse({
-    description: 'Email registration and token provider',
+    description: 'User registered',
     type: ReturnTokensDto,
   })
   @ApiBody({ type: RegisterDto })
@@ -47,8 +51,12 @@ export class AuthController {
   }
 
   @Get('login')
+  @ApiOperation({
+    summary: 'Authorization in system',
+    description: 'Give access and refresh token for user that registred',
+  })
   @ApiOkResponse({
-    description: 'Email login and token provider',
+    description: 'User logged in',
     type: ReturnTokensDto,
   })
   @ApiBody({ type: LoginDto })
@@ -62,10 +70,14 @@ export class AuthController {
   }
 
   @Get('refresh')
+  @ApiOperation({
+    summary: 'Refresh access token',
+    description: 'Refresh access token if expired',
+  })
   @ApiBearerAuth()
   @ApiCookieAuth()
   @ApiOkResponse({
-    description: 'Access token refreshing',
+    description: 'Access token refreshed',
     type: ReturnTokensDto,
   })
   async resfreshToken(
@@ -78,8 +90,12 @@ export class AuthController {
   }
 
   @Get('verify-email')
+  @ApiOperation({
+    summary: 'Email verification',
+    description: 'User email verification via generated token',
+  })
   @ApiOkResponse({
-    description: 'Email verification',
+    description: 'Email verified',
     type: Boolean,
   })
   async verifyEmail(@Query('token') token: string): Promise<boolean> {
@@ -87,10 +103,14 @@ export class AuthController {
   }
 
   @Get('logout')
+  @ApiOperation({
+    summary: 'Logout',
+    description: 'Logout',
+  })
   @ApiBearerAuth()
   @ApiCookieAuth()
   @ApiOkResponse({
-    description: 'Logout endpoint',
+    description: 'Logged out',
     type: ReturnTokensDto,
   })
   async logout(
