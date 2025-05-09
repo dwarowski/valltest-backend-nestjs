@@ -10,6 +10,7 @@ import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.seriv
 import { LogoutService } from 'src/features/auth/logout/logout.service';
 import { ApiBearerAuth, ApiCookieAuth } from '@nestjs/swagger';
 import { VerifyEmailService } from 'src/features/auth/verify-email/verify-email.service';
+import { ReturnTokensDto } from 'src/shared/utils/dto/return-tokens/return-tokens.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,22 +26,20 @@ export class AuthController {
   async register(
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
-  ) {
-    const { access_token, refresh_token } =
-      await this.registerService.register(registerDto);
-    addTokenToCookie(access_token, refresh_token, res);
-    return { access_token, refresh_token };
+  ): Promise<ReturnTokensDto> {
+    const tokensDto = await this.registerService.register(registerDto);
+    addTokenToCookie(tokensDto, res);
+    return tokensDto;
   }
 
   @Post('login')
   async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
-  ) {
-    const { access_token, refresh_token } =
-      await this.loginService.login(loginDto);
-    addTokenToCookie(access_token, refresh_token, res);
-    return { access_token, refresh_token };
+  ): Promise<ReturnTokensDto> {
+    const tokensDto = await this.loginService.login(loginDto);
+    addTokenToCookie(tokensDto, res);
+    return tokensDto;
   }
 
   @ApiBearerAuth()
@@ -49,22 +48,24 @@ export class AuthController {
   async resfreshToken(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ) {
-    const { access_token, refresh_token } =
-      await this.refreshService.execute(req);
-    addTokenToCookie(access_token, refresh_token, res);
-    return { access_token, refresh_token };
+  ): Promise<ReturnTokensDto> {
+    const tokensDto = await this.refreshService.execute(req);
+    addTokenToCookie(tokensDto, res);
+    return tokensDto;
   }
 
   @Get('verify-email')
-  async verifyEmail(@Query('token') token: string) {
+  async verifyEmail(@Query('token') token: string): Promise<boolean> {
     return await this.verifyEmailService.execute(token);
   }
 
   @ApiBearerAuth()
   @ApiCookieAuth()
   @Post('logout')
-  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<{ message: string }> {
     return await this.logoutService.execute(req, res);
   }
 }
