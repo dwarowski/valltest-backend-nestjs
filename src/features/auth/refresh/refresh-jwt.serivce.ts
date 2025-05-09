@@ -51,14 +51,16 @@ export class RefreshTokenService {
       username: userEntity.username,
     };
 
-    const newRefreshToken = crypto.randomBytes(64).toString('hex');
+    const tokensDto = new ReturnTokensDto();
+
+    tokensDto.refresh_token = crypto.randomBytes(64).toString('hex');
     const expirationTime = 30 * 24 * 60 * 60 * 1000; // 30 дней
     await this.userRepository.update(userEntity.id, {
-      refreshToken: newRefreshToken,
+      refreshToken: tokensDto.refresh_token,
       refreshTokenExpirationDate: new Date(Date.now() + expirationTime),
     });
 
-    const accessToken = await this.jwtService.signAsync(userPayload);
-    return { access_token: accessToken, refresh_token: newRefreshToken };
+    tokensDto.access_token = await this.jwtService.signAsync(userPayload);
+    return tokensDto;
   }
 }
