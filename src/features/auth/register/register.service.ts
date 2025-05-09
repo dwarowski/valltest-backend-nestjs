@@ -11,6 +11,7 @@ import { RegisterDto } from './register.dto';
 import { LoginService } from '../login/login.service';
 import { AddRoleToUsersService } from 'src/features/roles-users/add-role-to-user/add-roles-to-user.service';
 import { EmailService } from 'src/shared/utils/mailer/mailer.service';
+import { ReturnTokensDto } from 'src/shared/utils/dto/return-tokens/return-tokens.dto';
 
 @Injectable()
 export class RegisterService {
@@ -25,9 +26,7 @@ export class RegisterService {
     private readonly _emailService: EmailService,
   ) {}
 
-  async register(
-    registerDto: RegisterDto,
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  async register(registerDto: RegisterDto): Promise<ReturnTokensDto> {
     // Проверяем, что пользователь с таким email еще не существует
     const existingUser = await this.userRepository.findOne({
       where: { email: registerDto.email },

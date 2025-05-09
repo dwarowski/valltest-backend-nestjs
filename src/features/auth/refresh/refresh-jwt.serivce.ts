@@ -11,6 +11,7 @@ import * as crypto from 'crypto';
 import { Request } from 'express';
 import { tokenPayload } from 'src/shared/utils/functions/extract-token/token-payload';
 import { JwtService } from '@nestjs/jwt';
+import { ReturnTokensDto } from 'src/shared/utils/dto/return-tokens/return-tokens.dto';
 
 @Injectable()
 export class RefreshTokenService {
@@ -21,9 +22,7 @@ export class RefreshTokenService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async execute(
-    req: Request,
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  async execute(req: Request): Promise<ReturnTokensDto> {
     const refreshToken = await req.cookies['refresh_token'];
     if (!refreshToken) {
       throw new UnauthorizedException('No refresh token');

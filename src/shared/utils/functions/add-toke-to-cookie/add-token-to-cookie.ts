@@ -1,11 +1,10 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Response } from 'express';
+import { ReturnTokensDto } from '../../dto/return-tokens/return-tokens.dto';
 
-export function addTokenToCookie(
-  access_token: string,
-  refresh_token: string,
-  res: Response,
-) {
+export function addTokenToCookie(tokensDto: ReturnTokensDto, res: Response) {
+  const { access_token, refresh_token } = tokensDto;
+
   if (!access_token) {
     throw new UnauthorizedException();
   }

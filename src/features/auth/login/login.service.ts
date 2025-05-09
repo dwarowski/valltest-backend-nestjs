@@ -10,6 +10,7 @@ import { tokenPayload } from 'src/shared/utils/functions/extract-token/token-pay
 import { User } from 'src/entities/users/user.entity';
 
 import { LoginDto } from './login.dto';
+import { ReturnTokensDto } from 'src/shared/utils/dto/return-tokens/return-tokens.dto';
 
 @Injectable()
 export class LoginService {
@@ -20,9 +21,7 @@ export class LoginService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async login(
-    loginDto: LoginDto,
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  async login(loginDto: LoginDto): Promise<ReturnTokensDto> {
     // Ищем пользователя по email
     const userEntity = await this.userRepository.findOne({
       where: { email: loginDto.email },
