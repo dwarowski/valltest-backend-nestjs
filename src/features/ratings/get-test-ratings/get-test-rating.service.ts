@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { RatingEntity } from '../../../entities/ratings/rating.entity';
+import { TestRatingDto } from './test-rating.dto';
 
 @Injectable()
 export class GetTestRatingService {
@@ -12,28 +13,22 @@ export class GetTestRatingService {
   ) {}
 
   // Получить все оценки для теста
-  async execute(testId: number) {
-    const testRatings = await this.ratingRepository.find({
+  async execute(testId: number): Promise<TestRatingDto[]> {
+    const testRatings: TestRatingDto[] = await this.ratingRepository.find({
       where: { test: { id: testId } },
+      relations: ['user'],
+      select: {
+        user: {
+          username: true,
+          avatar_location: true,
+        },
+      },
     });
 
     if (testRatings.length === 0) {
       throw new NotFoundException('No rating');
     }
 
-    const cleanTestRatings = await Promise.all(
-      testRatings.map((rating) => {
-        const { test: _test, user, ...cleanTestRating } = rating;
-        return {
-          ...cleanTestRating,
-          user: {
-            username: user.username,
-            avatar_location: user.avatar_location,
-          },
-        };
-      }),
-    );
-
-    return cleanTestRatings;
+    return testRatings;
   }
 }
