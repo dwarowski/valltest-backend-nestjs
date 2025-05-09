@@ -44,7 +44,7 @@ export class AuthController {
     return tokensDto;
   }
 
-  @Get('login')
+  @Post('login')
   @ApiOperation({
     summary: 'Authorization in system',
     description: 'Give access and refresh token for user that registred',
