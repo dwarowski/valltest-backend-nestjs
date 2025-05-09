@@ -13,12 +13,12 @@ export class RemoveRoleService {
   ) {}
 
   async execute(dto: RemoveRoleDto) {
-    const { user, role } = dto;
+    const { userId, role } = dto;
 
     const roleRelation = await this.rolesUsersRepository.findOne({
       where: {
         user: {
-          username: user,
+          username: userId,
         },
         role: {
           role: role,
