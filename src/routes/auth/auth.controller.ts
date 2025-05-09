@@ -36,10 +36,6 @@ export class AuthController {
     summary: 'Authorization in system',
     description: 'Give access and refresh token for user that registred',
   })
-  @ApiCreatedResponse({
-    description: 'User registered',
-    type: ReturnTokensDto,
-  })
   @ApiBody({ type: RegisterDto })
   async register(
     @Body() registerDto: RegisterDto,
@@ -54,10 +50,6 @@ export class AuthController {
   @ApiOperation({
     summary: 'Authorization in system',
     description: 'Give access and refresh token for user that registred',
-  })
-  @ApiOkResponse({
-    description: 'User logged in',
-    type: ReturnTokensDto,
   })
   @ApiBody({ type: LoginDto })
   async login(
@@ -76,10 +68,6 @@ export class AuthController {
   })
   @ApiBearerAuth()
   @ApiCookieAuth()
-  @ApiOkResponse({
-    description: 'Access token refreshed',
-    type: ReturnTokensDto,
-  })
   async resfreshToken(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -94,10 +82,6 @@ export class AuthController {
     summary: 'Email verification',
     description: 'User email verification via generated token',
   })
-  @ApiOkResponse({
-    description: 'Email verified',
-    type: Boolean,
-  })
   async verifyEmail(@Query('token') token: string): Promise<boolean> {
     return await this.verifyEmailService.execute(token);
   }
@@ -109,10 +93,6 @@ export class AuthController {
   })
   @ApiBearerAuth()
   @ApiCookieAuth()
-  @ApiOkResponse({
-    description: 'Logged out',
-    type: ReturnTokensDto,
-  })
   async logout(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
