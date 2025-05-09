@@ -8,10 +8,19 @@ import { RegisterService } from 'src/features/auth/register/register.service';
 import { addTokenToCookie } from 'src/shared/utils/functions/add-toke-to-cookie/add-token-to-cookie';
 import { RefreshTokenService } from 'src/features/auth/refresh/refresh-jwt.serivce';
 import { LogoutService } from 'src/features/auth/logout/logout.service';
-import { ApiBearerAuth, ApiCookieAuth } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiCookieAuth,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { VerifyEmailService } from 'src/features/auth/verify-email/verify-email.service';
 import { ReturnTokensDto } from 'src/shared/utils/dto/return-tokens/return-tokens.dto';
 
+@ApiTags('Authorization')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -23,6 +32,11 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @ApiCreatedResponse({
+    description: 'Email registration and token provider',
+    type: ReturnTokensDto,
+  })
+  @ApiBody({ type: RegisterDto })
   async register(
     @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
@@ -32,7 +46,12 @@ export class AuthController {
     return tokensDto;
   }
 
-  @Post('login')
+  @Get('login')
+  @ApiOkResponse({
+    description: 'Email login and token provider',
+    type: ReturnTokensDto,
+  })
+  @ApiBody({ type: LoginDto })
   async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res: Response,
@@ -42,9 +61,13 @@ export class AuthController {
     return tokensDto;
   }
 
+  @Get('refresh')
   @ApiBearerAuth()
   @ApiCookieAuth()
-  @Post('refresh')
+  @ApiOkResponse({
+    description: 'Access token refreshing',
+    type: ReturnTokensDto,
+  })
   async resfreshToken(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
@@ -55,13 +78,21 @@ export class AuthController {
   }
 
   @Get('verify-email')
+  @ApiOkResponse({
+    description: 'Email verification',
+    type: Boolean,
+  })
   async verifyEmail(@Query('token') token: string): Promise<boolean> {
     return await this.verifyEmailService.execute(token);
   }
 
+  @Get('logout')
   @ApiBearerAuth()
   @ApiCookieAuth()
-  @Post('logout')
+  @ApiOkResponse({
+    description: 'Logout endpoint',
+    type: ReturnTokensDto,
+  })
   async logout(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
