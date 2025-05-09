@@ -18,7 +18,7 @@ export class RemoveRoleService {
     const roleRelation = await this.rolesUsersRepository.findOne({
       where: {
         user: {
-          username: userId,
+          id: userId,
         },
         role: {
           role: role,
