@@ -94,7 +94,7 @@ export class AuthController {
   async logout(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<{ message: string }> {
+  ): Promise<boolean> {
     return await this.logoutService.execute(req, res);
   }
 }

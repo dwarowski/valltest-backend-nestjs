@@ -12,7 +12,7 @@ export class LogoutService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async execute(req: Request, res: Response): Promise<{ message: string }> {
+  async execute(req: Request, res: Response): Promise<boolean> {
     const payload = await extractToken(req);
     const userId = payload.id;
     const userEntity = await this.userRepository.findOne({
@@ -41,6 +41,6 @@ export class LogoutService {
       path: '/',
     });
 
-    return { message: 'logout succsesful' };
+    return true;
   }
 }
