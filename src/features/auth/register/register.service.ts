@@ -42,6 +42,7 @@ export class RegisterService {
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     // Сохраняем пользователя в базе данных
     const userEntity = await this.userRepository.save({
+      username: this.generateRandomString(10),
       email: registerDto.email,
       hashed_password: hashedPassword,
       isVerified: false,
@@ -64,5 +65,17 @@ export class RegisterService {
     };
 
     return await this.loginService.login(loginDto);
+  }
+
+  //TODO: Убрать когда появится поле для имени в дизайне
+  private generateRandomString(length: number): string {
+    let result = '';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 }
