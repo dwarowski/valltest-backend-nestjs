@@ -19,7 +19,7 @@ export class TagsController {
     summary: 'Create tag',
     description: 'Create tag',
   })
-  createTag(@Body() dto: CreateTagDto) {
+  createTag(@Body() dto: CreateTagDto): Promise<void> {
     return this.createTagService.execute(dto);
   }
 
@@ -28,7 +28,7 @@ export class TagsController {
     summary: 'Delete tag',
     description: 'Delete tag',
   })
-  deleteTag(@Body() tagDto: DeleteTagDto) {
+  deleteTag(@Body() tagDto: DeleteTagDto): Promise<void> {
     return this.deleteTagService.execute(tagDto);
   }
 }
