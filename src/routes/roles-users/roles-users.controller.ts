@@ -33,7 +33,7 @@ export class RolesUsersController {
   })
   @ApiBearerAuth()
   @ApiCookieAuth()
-  removeRole(@Body() dto: RemoveRoleDto) {
+  removeRole(@Body() dto: RemoveRoleDto): Promise<void> {
     return this.removeRoleRelation.execute(dto);
   }
 }
