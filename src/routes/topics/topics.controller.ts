@@ -1,9 +1,10 @@
-import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Delete } from '@nestjs/common';
 
 import { CreateTopicDto } from '../../features/topics/create-topic/create-topic.dto';
-import { TopicEntity } from '../../entities/topics/topic.entity';
 import { CreateTopicService } from 'src/features/topics/create-topic/create-topics.service';
 import { DeleteTopicService } from 'src/features/topics/delete-topic/delete-topics.service';
+import { DeleteTopicDto } from 'src/features/topics/delete-topic/delete-topic.dto';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('topics')
 export class TopicController {
@@ -14,13 +15,21 @@ export class TopicController {
 
   // Создание темы
   @Post()
-  async create(@Body() createTopicDto: CreateTopicDto): Promise<TopicEntity> {
+  @ApiOperation({
+    summary: 'Topic creation',
+    description: 'Topic creation using topic name and subject name',
+  })
+  async create(@Body() createTopicDto: CreateTopicDto): Promise<void> {
     return this.createTopicService.execute(createTopicDto);
   }
 
   // Удалить тему
-  @Delete(':topic')
-  async delete(@Param('topic') topicName: string): Promise<string> {
-    return await this.deleteTopicService.execute({ topicName });
+  @Delete()
+  @ApiOperation({
+    summary: 'Topic remove',
+    description: 'Topic remove using topic name',
+  })
+  async delete(@Body() deleteTopicDto: DeleteTopicDto): Promise<void> {
+    return await this.deleteTopicService.execute(deleteTopicDto);
   }
 }
