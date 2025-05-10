@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateTagDto {
   @IsString()
@@ -9,6 +9,7 @@ export class CreateTagDto {
     }
     return value;
   })
+  @IsNotEmpty()
   tag: string;
 
   @IsNumber()
