@@ -39,7 +39,7 @@ export class RatingController {
   async addRating(
     @Req() req: Request,
     @Body() createRatingDto: CreateRatingDto,
-  ): Promise<boolean> {
+  ): Promise<void> {
     return this.addRatingService.execute(createRatingDto, req);
   }
 

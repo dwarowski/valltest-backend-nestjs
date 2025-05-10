@@ -21,7 +21,7 @@ export class AddRoleToUsersService {
     private readonly rolesUsersRepository: Repository<RolesUsersEntity>,
   ) {}
 
-  async execute(dto: AddRoleToUserDto): Promise<boolean> {
+  async execute(dto: AddRoleToUserDto): Promise<void> {
     const { role, user } = dto;
     const roleEntity = await this.getRoles.execute(role);
     const userEntity = await this.getUser.execute(user, 'id');
@@ -34,6 +34,5 @@ export class AddRoleToUsersService {
       user: userEntity,
       role: roleEntity,
     });
-    return true;
   }
 }

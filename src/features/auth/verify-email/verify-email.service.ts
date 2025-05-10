@@ -10,7 +10,7 @@ export class VerifyEmailService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async execute(token: string) {
+  async execute(token: string): Promise<void> {
     if (!token) {
       throw new BadRequestException('Токен верификации отсутствует.');
     }
@@ -24,14 +24,13 @@ export class VerifyEmailService {
       throw new BadRequestException('Неверный токен верификации.');
     }
 
-    if (user.isVerified) {
-      return true;
+    if (!user.isVerified) {
+      throw new BadRequestException('Не верифициравно.');
     }
 
     // Обновляем пользователя: устанавливаем isVerified в true и удаляем токен
     user.isVerified = true;
     user.verificationToken = ''; // Очищаем токен
     await this.userRepository.save(user);
-    return true;
   }
 }

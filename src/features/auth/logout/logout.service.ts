@@ -12,7 +12,7 @@ export class LogoutService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async execute(req: Request, res: Response): Promise<boolean> {
+  async execute(req: Request, res: Response): Promise<void> {
     const payload = await extractToken(req);
     const userId = payload.id;
     const userEntity = await this.userRepository.findOne({
@@ -40,7 +40,5 @@ export class LogoutService {
       sameSite: 'none',
       path: '/',
     });
-
-    return true;
   }
 }

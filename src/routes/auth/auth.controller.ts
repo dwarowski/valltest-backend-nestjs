@@ -80,7 +80,7 @@ export class AuthController {
     summary: 'Email verification',
     description: 'User email verification via generated token',
   })
-  async verifyEmail(@Query('token') token: string): Promise<boolean> {
+  async verifyEmail(@Query('token') token: string): Promise<void> {
     return await this.verifyEmailService.execute(token);
   }
 
@@ -94,7 +94,7 @@ export class AuthController {
   async logout(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<boolean> {
+  ): Promise<void> {
     return await this.logoutService.execute(req, res);
   }
 }

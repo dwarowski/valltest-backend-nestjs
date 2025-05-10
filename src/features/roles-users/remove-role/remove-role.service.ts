@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,7 +16,7 @@ export class RemoveRoleService {
     private readonly rolesUsersRepository: Repository<RolesUsersEntity>,
   ) {}
 
-  async execute(dto: RemoveRoleDto) {
+  async execute(dto: RemoveRoleDto): Promise<void> {
     const { userId, role } = dto;
 
     const roleRelation = await this.rolesUsersRepository.findOne({
@@ -30,6 +34,10 @@ export class RemoveRoleService {
       throw new BadRequestException('relation doesn`t exist');
     }
 
-    return this.rolesUsersRepository.delete(roleRelation);
+    const result = await this.rolesUsersRepository.delete(roleRelation);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Role with name: ${dto.role} not found`);
+    }
   }
 }

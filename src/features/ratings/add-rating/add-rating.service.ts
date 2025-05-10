@@ -20,10 +20,7 @@ export class AddRatingService {
   ) {}
 
   // Добавить оценку к тесту
-  async execute(
-    createRatingDto: CreateRatingDto,
-    req: Request,
-  ): Promise<boolean> {
+  async execute(createRatingDto: CreateRatingDto, req: Request): Promise<void> {
     const payload = await extractToken(req);
     const userId = payload.id;
 
@@ -36,7 +33,5 @@ export class AddRatingService {
       rating: createRatingDto.rating,
       comment: createRatingDto.comment,
     });
-
-    return true;
   }
 }

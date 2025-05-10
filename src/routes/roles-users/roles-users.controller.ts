@@ -21,7 +21,7 @@ export class RolesUsersController {
   })
   @ApiBearerAuth()
   @ApiCookieAuth()
-  addRoleToUser(@Body() dto: AddRoleToUserDto): Promise<boolean> {
+  addRoleToUser(@Body() dto: AddRoleToUserDto): Promise<void> {
     return this.addRoleToUsersService.execute(dto);
   }
 
