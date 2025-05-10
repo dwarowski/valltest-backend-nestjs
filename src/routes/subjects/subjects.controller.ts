@@ -3,9 +3,10 @@ import { Controller, Post, Body, Delete } from '@nestjs/common';
 import { CreateSubjectDto } from '../../features/subjects/create-subject/create-subject.dto';
 import { CreateSubjectService } from 'src/features/subjects/create-subject/create-subject.service';
 import { DeleteSubjectService } from 'src/features/subjects/delete-subject/delete-subject.service';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DeleteSubjectDto } from 'src/features/subjects/delete-subject/delete-subject.dto';
 
+@ApiTags('Subjects')
 @Controller('subjects')
 export class SubjectController {
   constructor(

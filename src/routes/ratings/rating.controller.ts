@@ -20,7 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { TestRatingDto } from 'src/features/ratings/get-test-ratings/test-rating.dto';
 
-ApiTags('Ratings');
+@ApiTags('Ratings')
 @Controller('ratings')
 export class RatingController {
   constructor(
