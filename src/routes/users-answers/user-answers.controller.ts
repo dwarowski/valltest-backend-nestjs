@@ -15,7 +15,7 @@ import { SaveUserAnswersService } from 'src/features/user-answers/save-user-answ
 import { UserAnswersDto } from 'src/features/user-answers/save-user-answers/user-answers.dto';
 import { Roles } from 'src/shared/utils/decorators/roles-decorator';
 
-@ApiTags('UsersAnswers')
+@ApiTags('User')
 @Controller('user-answers')
 export class UserAnswersController {
   constructor(
