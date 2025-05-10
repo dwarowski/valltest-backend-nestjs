@@ -2,8 +2,13 @@ import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateSubjectDto {
-  @IsNotEmpty()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value.trim().toLowerCase();
+    }
+    return value;
+  })
   @IsString()
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @IsNotEmpty()
   subjectName: string;
 }
