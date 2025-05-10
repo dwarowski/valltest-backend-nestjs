@@ -4,8 +4,9 @@ import { CreateTopicDto } from '../../features/topics/create-topic/create-topic.
 import { CreateTopicService } from 'src/features/topics/create-topic/create-topics.service';
 import { DeleteTopicService } from 'src/features/topics/delete-topic/delete-topics.service';
 import { DeleteTopicDto } from 'src/features/topics/delete-topic/delete-topic.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Topics')
 @Controller('topics')
 export class TopicController {
   constructor(
