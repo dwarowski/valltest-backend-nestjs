@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -12,11 +12,15 @@ export class DeleteTagService {
     private readonly tagsRepository: Repository<TagsEntity>,
   ) {}
 
-  async execute(dto: DeleteTagDto) {
-    return await this.tagsRepository
+  async execute(dto: DeleteTagDto): Promise<void> {
+    const result = await this.tagsRepository
       .createQueryBuilder('deleteTag')
       .delete()
       .where({ tag: dto.tag })
       .execute();
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`tag with name: ${dto.tag} not found`);
+    }
   }
 }
