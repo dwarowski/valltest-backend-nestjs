@@ -7,7 +7,7 @@ export class TagsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   tag: string;
 
   @OneToMany(() => TestTagEntity, (testTag) => testTag.tag)
