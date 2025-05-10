@@ -1,8 +1,9 @@
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class UserDto {
   @IsString()
-  id: string;
-  @IsString()
+  @IsNotEmpty()
   username: string;
+  @IsString()
+  avatar_location: string | null;
 }
