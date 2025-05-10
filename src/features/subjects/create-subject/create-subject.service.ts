@@ -13,7 +13,7 @@ export class CreateSubjectService {
   ) {}
 
   // Создать предмет
-  async execute(subjectData: CreateSubjectDto): Promise<SubjectEntity> {
-    return await this.subjectRepository.save(subjectData);
+  async execute(subjectData: CreateSubjectDto): Promise<void> {
+    await this.subjectRepository.save(subjectData);
   }
 }

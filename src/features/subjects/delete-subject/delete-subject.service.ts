@@ -13,7 +13,7 @@ export class DeleteSubjectService {
   ) {}
 
   // Удалить предмет
-  async execute(dto: DeleteSubjectDto): Promise<string> {
+  async execute(dto: DeleteSubjectDto): Promise<void> {
     const result = await this.subjectRepository
       .createQueryBuilder('subject')
       .delete()
@@ -25,6 +25,5 @@ export class DeleteSubjectService {
         `Subject with name: ${dto.subjectName} not found`,
       );
     }
-    return `Subject with name: ${dto.subjectName} deleted`;
   }
 }
