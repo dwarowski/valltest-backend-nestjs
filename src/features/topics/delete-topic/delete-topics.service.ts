@@ -13,7 +13,7 @@ export class DeleteTopicService {
   ) {}
 
   // Удалить тему
-  async execute(dto: DeleteTopicDto): Promise<string> {
+  async execute(dto: DeleteTopicDto): Promise<void> {
     const result = await this.topicRepository
       .createQueryBuilder()
       .delete()
@@ -23,6 +23,5 @@ export class DeleteTopicService {
     if (result.affected === 0) {
       throw new NotFoundException(`Topic with ID ${dto.topicName} not found`);
     }
-    return `Topic with name: ${dto.topicName} deleted`;
   }
 }
