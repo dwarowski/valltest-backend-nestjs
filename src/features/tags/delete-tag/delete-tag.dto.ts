@@ -3,6 +3,11 @@ import { IsString } from 'class-validator';
 
 export class DeleteTagDto {
   @IsString()
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value.trim().toLowerCase();
+    }
+    return value;
+  })
   tag: string;
 }

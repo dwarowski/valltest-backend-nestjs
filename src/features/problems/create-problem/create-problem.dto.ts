@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { CreateAnswerDto } from 'src/features/answers/create-answer/create-answer.dto';
 
 export class CreateProblemDto {
@@ -8,6 +8,6 @@ export class CreateProblemDto {
   testId: number;
   @IsString()
   question: string;
-
+  @IsNotEmpty()
   answers: CreateAnswerDto[];
 }

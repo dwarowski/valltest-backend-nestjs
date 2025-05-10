@@ -3,7 +3,12 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class CreateTagDto {
   @IsString()
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value.trim().toLowerCase();
+    }
+    return value;
+  })
   tag: string;
 
   @IsNumber()
