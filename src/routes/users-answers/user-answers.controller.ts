@@ -8,9 +8,15 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCookieAuth,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Request } from 'express';
 import { CheckAnswersService } from 'src/features/user-answers/check-user-answers/check-answers.serivce';
+import { UserResult } from 'src/features/user-answers/check-user-answers/user-result.dto';
 import { SaveUserAnswersService } from 'src/features/user-answers/save-user-answers/save-user-answers.service';
 import { UserAnswersDto } from 'src/features/user-answers/save-user-answers/user-answers.dto';
 import { Roles } from 'src/shared/utils/decorators/roles-decorator';
@@ -25,22 +31,30 @@ export class UserAnswersController {
     private readonly saveUserAnswersService: SaveUserAnswersService,
   ) {}
 
-  @ApiBearerAuth()
-  @ApiCookieAuth()
   @Roles('student')
   @Post()
+  @ApiOperation({
+    summary: 'Save user answers',
+    description: 'Save user answers',
+  })
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   async saveUserAnswers(@Req() req: Request, @Body() dto: UserAnswersDto) {
     return this.saveUserAnswersService.execute(req, dto);
   }
 
-  @ApiBearerAuth()
-  @ApiCookieAuth()
   @Roles('student')
   @Get(':id')
+  @ApiOperation({
+    summary: 'User answers for test',
+    description: 'Check user answers for completed test',
+  })
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   async checkUserAnswers(
     @Req() req: Request,
     @Param('id', ParseIntPipe) id: number,
-  ) {
+  ): Promise<UserResult> {
     return await this.checkUserAnswersService.execute(req, id);
   }
 }

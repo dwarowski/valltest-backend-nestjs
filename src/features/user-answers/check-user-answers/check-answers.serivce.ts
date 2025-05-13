@@ -5,6 +5,7 @@ import { extractToken } from 'src/shared/utils/functions/extract-token/token-ext
 import { GetUserTestAnsweresService } from '../get-user-test-answers/get-user-test-answers.service';
 import { UserAnswersDto } from '../save-user-answers/user-answers.dto';
 import { CorrectAnswersDto } from './correct-answers.dto';
+import { UserResult } from './user-result.dto';
 
 @Injectable()
 export class CheckAnswersService {
@@ -15,7 +16,7 @@ export class CheckAnswersService {
     private readonly getUserTestAnswers: GetUserTestAnsweresService,
   ) {}
 
-  async execute(req: Request, testId: number) {
+  async execute(req: Request, testId: number): Promise<UserResult> {
     const payload = await extractToken(req);
     const userId = payload.id;
     const correctAnswers = await this.getTestCorrectAnswers.execute(testId);
@@ -32,7 +33,7 @@ export class CheckAnswersService {
   private async compareAnswers(
     userAnswersDto: UserAnswersDto,
     correctAnswersDto: CorrectAnswersDto,
-  ) {
+  ): Promise<UserResult> {
     let correctCount = 0;
     for (const correct of correctAnswersDto.correctAnswers) {
       for (const user of userAnswersDto.userAnswers) {
