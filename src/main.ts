@@ -20,7 +20,7 @@ async function bootstrap() {
 
   // Включаем CORS
   app.enableCors({
-    origin: 'http://localhost:3000', // Разрешаем доступ с любого домена (лучше указать конкретный)
+    origin: '*', // Разрешаем доступ с любого домена (лучше указать конкретный)
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
