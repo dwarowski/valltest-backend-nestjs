@@ -28,7 +28,7 @@ export class SaveUserAnswersService {
     private readonly getUserTestAnwers: GetUserTestAnsweresService,
   ) {}
 
-  async execute(req: Request, dto: UserAnswersDto) {
+  async execute(req: Request, dto: UserAnswersDto): Promise<void> {
     const { testId, userAnswers } = dto;
     const payload = await extractToken(req);
     const userId = payload.id;
@@ -41,7 +41,7 @@ export class SaveUserAnswersService {
       testsEntity.id,
     );
     if (checkUserAnswers != 'No Answers Found') {
-      return 'Вы уже проходили этот тест';
+      throw new Error('Вы уже проходили этот тест');
     }
 
     await Promise.all(
@@ -65,6 +65,5 @@ export class SaveUserAnswersService {
         }
       }),
     );
-    return 'answers saved';
   }
 }
