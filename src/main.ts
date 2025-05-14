@@ -23,6 +23,7 @@ async function bootstrap() {
     origin: '*', // Разрешаем доступ с любого домена (лучше указать конкретный)
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
   });
 
   const config = new DocumentBuilder()
