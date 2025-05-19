@@ -1,12 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateAnswerDto {
-  @ApiProperty({ readOnly: true })
-  @IsString()
+  @IsNotEmpty()
+  @IsNumber()
   problemId: number;
+  @IsNotEmpty()
   @IsString()
   value: string;
+  @IsNotEmpty()
   @IsBoolean()
   is_correct: boolean;
 }
