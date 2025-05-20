@@ -37,7 +37,7 @@ export class CreateTestsService {
       ...testDto,
       userAuthor: userEntity,
       topic,
-      timeForTest: 2, // placeholder until design updates
+      timeForTest: 60 * 60, // placeholder until design updates
     });
 
     const testQuestions = await Promise.all(
@@ -48,12 +48,6 @@ export class CreateTestsService {
       }),
     );
 
-    const createdTest = Object.assign(new CreateTestDto(), {
-      testName: testEntity.testName,
-      difficulty: testEntity.difficulty,
-      topicName: testEntity.topic.topicName,
-      testQuestions,
-    }); //TODO unnecessary output can be just 'test created'
-    return createdTest;
+    return testQuestions;
   }
 }

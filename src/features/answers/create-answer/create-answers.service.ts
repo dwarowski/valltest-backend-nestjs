@@ -15,12 +15,12 @@ export class CreateAnswerService {
     private readonly getProblem: GetProblemService,
   ) {}
 
-  async execute(dto: CreateAnswerDto) {
+  async execute(dto: CreateAnswerDto): Promise<AnswersEntity> {
     const problemEntity = await this.getProblem.execute(dto.problemId);
     const answerEntity = await this.answersRepository.save({
       problem: problemEntity,
       ...dto,
     });
-    return { value: answerEntity.value, is_correct: answerEntity.is_correct };
+    return answerEntity;
   }
 }

@@ -18,7 +18,7 @@ export class CreateProblemService {
     private readonly problemsRepository: Repository<ProblemsEntity>,
   ) {}
 
-  async execute(dto: CreateProblemDto) {
+  async execute(dto: CreateProblemDto): Promise<ProblemsEntity> {
     const testEntity = await this.getTest.execute(dto.testId, 'entity');
 
     const problemEntity = await this.problemsRepository.save({
@@ -26,13 +26,12 @@ export class CreateProblemService {
       ...dto,
     });
 
-    const answerEntities = await Promise.all(
+    await Promise.all(
       problemEntity.answers.map(async (answer) => {
         answer.problemId = problemEntity.id;
-        const createdAnswer = await this.createAnswer.execute(answer);
-        return createdAnswer;
+        await this.createAnswer.execute(answer);
       }),
     );
-    return { question: problemEntity.question, answers: answerEntities };
+    return problemEntity;
   }
 }
