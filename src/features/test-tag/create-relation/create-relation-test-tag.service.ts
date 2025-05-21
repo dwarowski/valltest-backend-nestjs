@@ -16,8 +16,8 @@ export class CreateRelationTestTagService {
 
   async execute(test: TestsEntity, tag: TagsEntity) {
     return await this.testTagRepository.save({
-      test: test,
-      tag: tag,
+      test,
+      tag,
     });
   }
 }
