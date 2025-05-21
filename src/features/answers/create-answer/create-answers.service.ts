@@ -16,12 +16,14 @@ export class CreateAnswerService {
   ) {}
 
   async execute(dto: CreateAnswerDto): Promise<void> {
-    const problemEntity = await this.getProblem.execute(dto.problemId);
+    const { problemId, value, is_correct } = dto;
+    const problemEntity = await this.getProblem.execute(problemId);
 
     try {
       await this.answersRepository.save({
         problem: problemEntity,
-        ...dto,
+        value,
+        is_correct,
       });
     } catch (error) {
       throw error;
