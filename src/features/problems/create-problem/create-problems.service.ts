@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -19,16 +19,25 @@ export class CreateProblemService {
   ) {}
 
   async execute(dto: CreateProblemDto): Promise<void> {
-    const testEntity = await this.getTest.execute(dto.testId, 'entity');
+    const { testId, question, answers } = dto;
+    const testEntity = await this.getTest.execute(testId, 'entity');
+
+    const hasCorrectAnswer = answers.some(
+      (answer) => answer.is_correct === true,
+    );
+
+    if (!hasCorrectAnswer) {
+      throw new BadRequestException('At least one answer must be correct.');
+    }
 
     try {
       const problemEntity = await this.problemsRepository.save({
         test: testEntity,
-        ...dto,
+        question,
       });
 
       await Promise.all(
-        problemEntity.answers.map(async (answer) => {
+        answers.map(async (answer) => {
           answer.problemId = problemEntity.id;
           await this.createAnswer.execute(answer);
         }),
