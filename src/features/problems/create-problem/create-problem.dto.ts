@@ -1,3 +1,4 @@
+import { ApiHideProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
@@ -10,6 +11,7 @@ import {
 import { CreateAnswerDto } from 'src/features/answers/create-answer/create-answer.dto';
 
 export class CreateProblemDto {
+  @ApiHideProperty()
   @IsNotEmpty()
   @IsNumber()
   testId: number;
