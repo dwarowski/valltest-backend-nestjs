@@ -1,5 +1,7 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
+  IsArray,
   IsNotEmpty,
   IsNumber,
   IsString,
@@ -16,8 +18,9 @@ export class CreateProblemDto {
   @IsString()
   question: string;
 
+  @IsArray()
+  @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreateAnswerDto)
-  @IsNotEmpty()
   answers: CreateAnswerDto[];
 }

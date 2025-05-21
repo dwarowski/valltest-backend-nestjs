@@ -1,5 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNotEmpty,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { CreateProblemDto } from 'src/features/problems/create-problem/create-problem.dto';
 
 export class CreateTestDto {
@@ -15,7 +21,8 @@ export class CreateTestDto {
   @IsNotEmpty()
   topicName: string;
 
-  @IsNotEmpty()
+  @IsArray()
+  @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreateProblemDto)
   questions: CreateProblemDto[];
