@@ -4,8 +4,8 @@ import { GetTestCorrectAnswersService } from 'src/features/tests/get-test-correc
 import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 import { GetUserTestAnsweresService } from '../get-user-test-answers/get-user-test-answers.service';
 import { UserAnswersDto } from '../save-user-answers/user-answers.dto';
-import { CorrectAnswersDto } from './correct-answers.dto';
 import { UserResult } from './user-result.dto';
+import { TestCorrectAnswersDto } from 'src/features/tests/get-test-correct-answers/test-correct-answers.dto';
 
 @Injectable()
 export class CheckAnswersService {
@@ -32,7 +32,7 @@ export class CheckAnswersService {
 
   private async compareAnswers(
     userAnswersDto: UserAnswersDto,
-    correctAnswersDto: CorrectAnswersDto,
+    correctAnswersDto: TestCorrectAnswersDto,
   ): Promise<UserResult> {
     let correctCount = 0;
     for (const correct of correctAnswersDto.correctAnswers) {
