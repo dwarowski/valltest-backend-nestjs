@@ -9,7 +9,6 @@ import { TestsEntity } from '../../entities/tests/test.entity';
 import { TestsController } from './tests.controller';
 import { ProblemsModule } from 'src/routes/problems/problems.module';
 import { CreateTestsService } from 'src/features/tests/create-test/create-tests.service';
-import { DeleteTestsService } from 'src/features/tests/delete-test/delete-tests.service';
 import { GetTestsIdService } from 'src/features/tests/get-test-id/get-tests-id.service';
 import { GetUsersTestsService } from 'src/features/tests/get-test-user/get-user-tests.service';
 import { GetTestsPageService } from 'src/features/tests/get-tests-page/get-tests-page.service';
@@ -29,7 +28,6 @@ import { UserModule } from '../users/user.module';
   providers: [
     GetTestCorrectAnswersService,
     CreateTestsService,
-    DeleteTestsService,
     GetTestsIdService,
     GetUsersTestsService,
     GetTestsPageService,
