@@ -1,8 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
@@ -52,7 +48,7 @@ export class CreateTestsService {
         }),
       );
     } catch (error) {
-      throw new InternalServerErrorException(`${error}`);
+      throw error;
     }
   }
 }
