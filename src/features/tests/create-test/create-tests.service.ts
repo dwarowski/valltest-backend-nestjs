@@ -1,4 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
@@ -24,7 +28,7 @@ export class CreateTestsService {
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
-  async execute(dto: CreateTestDto, req: Request) {
+  async execute(dto: CreateTestDto, req: Request): Promise<void> {
     const { topicName, questions, ...testDto } = dto;
 
     const payload = await extractToken(req);
@@ -33,21 +37,22 @@ export class CreateTestsService {
     const userEntity = await this.getUser.execute(userId, 'id');
     const topic = await this.getTopic.execute({ topicName });
 
-    const testEntity = await this.testsRepository.save({
-      ...testDto,
-      userAuthor: userEntity,
-      topic,
-      timeForTest: 60 * 60, // placeholder until design updates
-    });
+    try {
+      const testEntity = await this.testsRepository.save({
+        ...testDto,
+        userAuthor: userEntity,
+        topic,
+        timeForTest: 60 * 60, // placeholder until design updates
+      });
 
-    const testQuestions = await Promise.all(
-      questions.map(async (question) => {
-        question.testId = testEntity.id;
-        const createdProblem = await this.createProblem.execute(question);
-        return createdProblem;
-      }),
-    );
-
-    return testQuestions;
+      await Promise.all(
+        questions.map(async (question) => {
+          question.testId = testEntity.id;
+          await this.createProblem.execute(question);
+        }),
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(`${error}`);
+    }
   }
 }

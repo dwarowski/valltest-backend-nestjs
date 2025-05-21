@@ -18,20 +18,23 @@ export class CreateProblemService {
     private readonly problemsRepository: Repository<ProblemsEntity>,
   ) {}
 
-  async execute(dto: CreateProblemDto): Promise<ProblemsEntity> {
+  async execute(dto: CreateProblemDto): Promise<void> {
     const testEntity = await this.getTest.execute(dto.testId, 'entity');
 
-    const problemEntity = await this.problemsRepository.save({
-      test: testEntity,
-      ...dto,
-    });
+    try {
+      const problemEntity = await this.problemsRepository.save({
+        test: testEntity,
+        ...dto,
+      });
 
-    await Promise.all(
-      problemEntity.answers.map(async (answer) => {
-        answer.problemId = problemEntity.id;
-        await this.createAnswer.execute(answer);
-      }),
-    );
-    return problemEntity;
+      await Promise.all(
+        problemEntity.answers.map(async (answer) => {
+          answer.problemId = problemEntity.id;
+          await this.createAnswer.execute(answer);
+        }),
+      );
+    } catch (error) {
+      throw error;
+    }
   }
 }
