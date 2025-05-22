@@ -16,9 +16,6 @@ export class ProblemsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => TestsEntity, (test) => test.id, { onDelete: 'CASCADE' })
-  test: TestsEntity;
-
   @Column()
   question: string;
 
@@ -26,4 +23,7 @@ export class ProblemsEntity {
     onDelete: 'CASCADE',
   })
   answers?: AnswersEntity[];
+
+  @ManyToOne(() => TestsEntity, (test) => test.id, { onDelete: 'CASCADE' })
+  test?: TestsEntity;
 }
