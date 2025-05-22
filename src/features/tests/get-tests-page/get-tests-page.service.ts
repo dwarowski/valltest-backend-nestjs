@@ -7,14 +7,14 @@ import { PageDto } from '../../../shared/utils/dto/get-page/page.dto';
 
 import { PageTestDto } from './page-test.dto';
 import { TestsEntity } from '../../../entities/tests/test.entity';
-import { GetTestAverageRatingService } from 'src/features/ratings/get-test-average-rating/get-test-average-rating.service';
+import { GetTestsAverageRatingService } from 'src/features/ratings/get-tests-average-rating/get-tests-average-rating.service';
 import { TestWithRatingDto } from 'src/shared/utils/dto/test-with-rating/test-with-rating.dto';
 
 @Injectable()
 export class GetTestsPageService {
   constructor(
-    @Inject(GetTestAverageRatingService)
-    private readonly getTestAverageRating: GetTestAverageRatingService,
+    @Inject(GetTestsAverageRatingService)
+    private readonly getTestAverageRating: GetTestsAverageRatingService,
     @InjectRepository(TestsEntity)
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
@@ -45,19 +45,24 @@ export class GetTestsPageService {
 
     const [tests, total] = await testsQuery.getManyAndCount();
 
-    const testsWRating = await Promise.all(
-      tests.map(async (test) => {
-        const averageRating = await this.getTestAverageRating.execute(test.id);
-        return { ...test, averageRating: averageRating };
-      }),
-    );
+    // Собираем все id тестов
+    const testIds = tests.map((test) => test.id);
+
+    // Получаем все рейтинги для этих тестов за один запрос
+    const ratingsMap = await this.getTestAverageRating.execute(testIds);
+
+    // Добавляем к тестам рейтинги
+    const testsWithRatings: TestWithRatingDto[] = tests.map((test) => ({
+      ...test,
+      averageRating: ratingsMap[test.id] ?? null, // или 0, если рейтинг отсутствует
+    }));
 
     const pageMetaDto = new PageMetaDto({
       pageOptionsDto: { page, take },
       itemCount: total,
     });
 
-    const pageDto = new PageDto(testsWRating, pageMetaDto);
+    const pageDto = new PageDto(testsWithRatings, pageMetaDto);
 
     return pageDto;
   }
