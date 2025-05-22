@@ -19,8 +19,8 @@ export class AnswersEntity {
   @Column()
   value: string;
 
-  @Column()
-  is_correct: boolean;
+  @Column({ select: false })
+  is_correct?: boolean;
 
   @OneToOne(() => UserAnswersEntity, (userAnswers) => userAnswers.answer)
   userAnswer: UserAnswersEntity;
