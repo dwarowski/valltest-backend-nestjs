@@ -1,6 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { TestsEntity } from 'src/entities/tests/test.entity';
-
-export class TestWithRatingDto extends PartialType(TestsEntity) {
+export class TestWithRatingDto {
+  id: number;
+  testName: string;
+  difficulty: string;
+  timeForTest: number;
+  createdAt: Date;
+  tags: string[];
   averageRating: number;
 }
