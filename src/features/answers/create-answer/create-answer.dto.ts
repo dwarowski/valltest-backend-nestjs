@@ -1,10 +1,9 @@
 import { ApiHideProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsEmpty, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateAnswerDto {
   @ApiHideProperty()
-  @IsNotEmpty()
-  @IsNumber()
+  @IsEmpty()
   problemId: number;
 
   @IsNotEmpty()

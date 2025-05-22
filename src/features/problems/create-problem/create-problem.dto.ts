@@ -3,8 +3,8 @@ import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
+  IsEmpty,
   IsNotEmpty,
-  IsNumber,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -12,8 +12,7 @@ import { CreateAnswerDto } from 'src/features/answers/create-answer/create-answe
 
 export class CreateProblemDto {
   @ApiHideProperty()
-  @IsNotEmpty()
-  @IsNumber()
+  @IsEmpty()
   testId: number;
 
   @IsNotEmpty()
