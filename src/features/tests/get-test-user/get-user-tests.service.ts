@@ -6,14 +6,14 @@ import { Repository } from 'typeorm';
 import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 
 import { TestsEntity } from '../../../entities/tests/test.entity';
-import { GetTestAverageRatingService } from 'src/features/ratings/get-test-average-rating/get-test-average-rating.service';
+import { GetTestsAverageRatingService } from 'src/features/ratings/get-tests-average-rating/get-tests-average-rating.service';
 import { TestWithRatingDto } from 'src/shared/utils/dto/test-with-rating/test-with-rating.dto';
 
 @Injectable()
 export class GetUsersTestsService {
   constructor(
-    @Inject(GetTestAverageRatingService)
-    private readonly getTestAverageRating: GetTestAverageRatingService,
+    @Inject(GetTestsAverageRatingService)
+    private readonly getTestsAverageRating: GetTestsAverageRatingService,
     @InjectRepository(TestsEntity)
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
@@ -29,12 +29,18 @@ export class GetUsersTestsService {
       .where('userTests.userAuthorId = :userId', { userId })
       .getMany();
 
-    const userTestsCleaned = await Promise.all(
-      userTests.map(async (test) => {
-        const averageRating = await this.getTestAverageRating.execute(test.id);
-        return { ...test, averageRating: averageRating };
-      }),
-    );
-    return userTestsCleaned;
+    // Collecting test Ids
+    const testIds = userTests.map((test) => test.id);
+
+    // Geting all ratings at once
+    const ratingsMap = await this.getTestsAverageRating.execute(testIds);
+
+    // Adding ratings to tests
+    const userTestsWithRatings: TestWithRatingDto[] = userTests.map((test) => ({
+      ...test,
+      averageRating: ratingsMap[test.id],
+    }));
+
+    return userTestsWithRatings;
   }
 }
