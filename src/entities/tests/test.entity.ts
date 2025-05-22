@@ -25,13 +25,13 @@ export class TestsEntity {
   testName: string;
 
   @ManyToOne(() => User, (user) => user.id, { onDelete: 'CASCADE' })
-  userAuthor: User;
+  userAuthor?: User;
 
   @Column()
   difficulty: string;
 
   @ManyToOne(() => TopicEntity, (topic) => topic.id, { nullable: false })
-  topic: TopicEntity;
+  topic?: TopicEntity;
 
   @Column()
   timeForTest: number;
@@ -40,11 +40,11 @@ export class TestsEntity {
   createdAt: Date;
 
   @OneToMany(() => RatingEntity, (rating) => rating.user)
-  ratings: RatingEntity[];
+  ratings?: RatingEntity[];
 
   @OneToMany(() => TestTagEntity, (testTag) => testTag.test)
-  testTag: TestTagEntity[];
+  testTag?: TestTagEntity[];
 
   @OneToMany(() => ProblemsEntity, (problems) => problems.test)
-  problems: ProblemsEntity[];
+  problems?: ProblemsEntity[];
 }
