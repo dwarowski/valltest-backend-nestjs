@@ -14,13 +14,13 @@ export class PageTestDto {
 
   @IsString()
   @IsOptional()
-  subject: string;
+  subject?: string;
 
   @IsOptional()
   @IsString()
-  topic: string;
+  topic?: string;
 
   @IsOptional()
   @IsString()
-  tag: string;
+  tag?: string;
 }
