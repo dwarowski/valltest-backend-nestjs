@@ -1,9 +1,5 @@
-export class TestWithRatingDto {
-  id: number;
-  testName: string;
-  difficulty: string;
-  timeForTest: number;
-  createdAt: Date;
-  tags: string[];
+import { GetTestDto } from '../get-test/get-test.dto';
+
+export class TestWithRatingDto extends GetTestDto {
   averageRating: number;
 }
