@@ -36,15 +36,17 @@ export class GetUsersTestsService {
     const ratingsMap = await this.getTestsAverageRating.execute(testIds);
 
     // Adding ratings to tests
-    const userTestsWithRatings: TestWithRatingAndTagsDto[] = userTests.map((test) => ({
-      id: test.id,
-      testName: test.testName,
-      difficulty: test.difficulty,
-      createdAt: test.createdAt,
-      timeForTest: test.timeForTest,
-      tags: test.testTag?.map((tags) => tags.tag.tag) || [],
-      averageRating: ratingsMap[test.id],
-    }));
+    const userTestsWithRatings: TestWithRatingAndTagsDto[] = userTests.map(
+      (test) => ({
+        id: test.id,
+        testName: test.testName,
+        difficulty: test.difficulty,
+        createdAt: test.createdAt,
+        timeForTest: test.timeForTest,
+        tags: test.testTag?.map((tags) => tags.tag.tag) || [],
+        averageRating: ratingsMap[test.id],
+      }),
+    );
     return userTestsWithRatings;
   }
 }
