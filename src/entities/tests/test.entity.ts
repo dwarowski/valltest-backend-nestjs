@@ -24,20 +24,20 @@ export class TestsEntity {
   @Column()
   testName: string;
 
-  @ManyToOne(() => User, (user) => user.id, { onDelete: 'CASCADE' })
-  userAuthor?: User;
-
   @Column()
   difficulty: string;
-
-  @ManyToOne(() => TopicEntity, (topic) => topic.id, { nullable: false })
-  topic?: TopicEntity;
 
   @Column()
   timeForTest: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
+
+  @ManyToOne(() => TopicEntity, (topic) => topic.id, { nullable: false })
+  topic?: TopicEntity;
+
+  @ManyToOne(() => User, (user) => user.id, { onDelete: 'CASCADE' })
+  userAuthor?: User;
 
   @OneToMany(() => RatingEntity, (rating) => rating.user)
   ratings?: RatingEntity[];
