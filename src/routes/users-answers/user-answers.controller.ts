@@ -18,7 +18,7 @@ import { Request } from 'express';
 import { CheckAnswersService } from 'src/features/user-answers/check-user-answers/check-answers.serivce';
 import { UserResult } from 'src/features/user-answers/check-user-answers/user-result.dto';
 import { SaveUserAnswersService } from 'src/features/user-answers/save-user-answers/save-user-answers.service';
-import { UserAnswersDto } from 'src/features/user-answers/save-user-answers/user-answers.dto';
+import { UserAnswersDto } from 'src/features/user-answers/get-user-test-answers/user-answers.dto';
 import { Roles } from 'src/shared/utils/decorators/roles-decorator';
 
 @ApiTags('User')
