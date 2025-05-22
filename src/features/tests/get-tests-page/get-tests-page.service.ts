@@ -54,7 +54,7 @@ export class GetTestsPageService {
     // Добавляем к тестам рейтинги
     const testsWithRatings: TestWithRatingDto[] = tests.map((test) => ({
       ...test,
-      averageRating: ratingsMap[test.id] ?? null, // или 0, если рейтинг отсутствует
+      averageRating: ratingsMap[test.id],
     }));
 
     const pageMetaDto = new PageMetaDto({
