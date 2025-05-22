@@ -8,7 +8,12 @@ import {
   Param,
   Req,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCookieAuth,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Request } from 'express';
 
 import { Roles } from 'src/shared/utils/decorators/roles-decorator';
@@ -30,27 +35,43 @@ export class TestsController {
     private readonly getTestByUser: GetUsersTestsService,
   ) {}
 
+  @ApiOperation({
+    summary: 'Tests page',
+    description: 'Get tests by page defining page, take, subject, topic, tag',
+  })
   @Get()
   getTests(@Query() dto: PageTestDto) {
     return this.getTestsByPageService.execute(dto);
   }
 
+  @ApiOperation({
+    summary: 'Get test by id',
+    description: 'Get test by id for user to complete it',
+  })
   @Get('test/:id')
   getTestById(@Param('id', ParseIntPipe) testId: number) {
     return this.getTestByIdService.execute(testId);
   }
 
+  @ApiOperation({
+    summary: 'Create test',
+    description: 'Create test and there should be at least one correct answer',
+  })
+  @Post('test')
   @ApiBearerAuth()
   @ApiCookieAuth()
-  @Post('test')
   createTest(@Body() dto: CreateTestDto, @Req() req: Request) {
     return this.createTestService.execute(dto, req);
   }
 
-  @ApiBearerAuth()
-  @ApiCookieAuth()
+  @ApiOperation({
+    summary: 'Get tests created by user',
+    description: 'Get tests created by user',
+  })
   @Roles('teacher')
   @Get('user')
+  @ApiBearerAuth()
+  @ApiCookieAuth()
   getUserTests(@Req() req: Request) {
     return this.getTestByUser.execute(req);
   }
