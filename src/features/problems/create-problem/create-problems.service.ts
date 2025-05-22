@@ -20,7 +20,7 @@ export class CreateProblemService {
 
   async execute(dto: CreateProblemDto): Promise<void> {
     const { testId, question, answers } = dto;
-    const testEntity = await this.getTest.execute(testId, 'entity');
+    const testEntity = await this.getTest.execute(testId);
 
     const hasCorrectAnswer = answers.some(
       (answer) => answer.is_correct === true,
