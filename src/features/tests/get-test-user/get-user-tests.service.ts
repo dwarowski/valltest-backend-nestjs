@@ -7,7 +7,7 @@ import { extractToken } from 'src/shared/utils/functions/extract-token/token-ext
 
 import { TestsEntity } from '../../../entities/tests/test.entity';
 import { GetTestsAverageRatingService } from 'src/features/ratings/get-tests-average-rating/get-tests-average-rating.service';
-import { TestWithRatingDto } from 'src/shared/utils/dto/test-with-rating/test-with-rating.dto';
+import { TestWithRatingAndTagsDto } from 'src/shared/utils/dto/test-with-rating-tags/test-with-rating-tags.dto';
 
 @Injectable()
 export class GetUsersTestsService {
@@ -18,7 +18,7 @@ export class GetUsersTestsService {
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
-  async execute(req: Request): Promise<TestWithRatingDto[]> {
+  async execute(req: Request): Promise<TestWithRatingAndTagsDto[]> {
     const payload = await extractToken(req);
     const userId = payload.id;
 
@@ -36,7 +36,7 @@ export class GetUsersTestsService {
     const ratingsMap = await this.getTestsAverageRating.execute(testIds);
 
     // Adding ratings to tests
-    const userTestsWithRatings: TestWithRatingDto[] = userTests.map((test) => ({
+    const userTestsWithRatings: TestWithRatingAndTagsDto[] = userTests.map((test) => ({
       id: test.id,
       testName: test.testName,
       difficulty: test.difficulty,
