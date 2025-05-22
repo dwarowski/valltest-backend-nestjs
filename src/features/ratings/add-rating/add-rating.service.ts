@@ -25,7 +25,7 @@ export class AddRatingService {
     const userId = payload.id;
 
     const user = await this.getUser.execute(userId, 'id');
-    const test = await this.getTests.execute(createRatingDto.testId, 'entity');
+    const test = await this.getTests.execute(createRatingDto.testId);
 
     await this.ratingRepository.save({
       user,
