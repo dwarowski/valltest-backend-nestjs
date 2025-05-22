@@ -37,7 +37,7 @@ export class TestsController {
 
   @Get('test/:id')
   getTestById(@Param('id', ParseIntPipe) testId: number) {
-    return this.getTestByIdService.execute(testId, 'test');
+    return this.getTestByIdService.execute(testId);
   }
 
   @ApiBearerAuth()
