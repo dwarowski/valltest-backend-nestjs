@@ -34,7 +34,7 @@ export class SaveUserAnswersService {
     const userId = payload.id;
 
     const userEntity = await this.getUser.execute(userId, 'id');
-    const testsEntity = await this.getTest.execute(testId, 'entity');
+    const testsEntity = await this.getTest.execute(testId);
 
     const checkUserAnswers = await this.getUserTestAnwers.execute(
       userEntity.id,
