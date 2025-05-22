@@ -4,5 +4,4 @@ export class GetTestDto {
   difficulty: string;
   timeForTest: number;
   createdAt: Date;
-  tags: string[];
 }
