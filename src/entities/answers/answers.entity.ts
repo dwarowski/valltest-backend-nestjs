@@ -23,7 +23,7 @@ export class AnswersEntity {
   is_correct?: boolean;
 
   @OneToOne(() => UserAnswersEntity, (userAnswers) => userAnswers.answer)
-  userAnswer: UserAnswersEntity;
+  userAnswer?: UserAnswersEntity;
 
   @ManyToOne(() => ProblemsEntity, (problem) => problem.id, {
     onDelete: 'CASCADE',
