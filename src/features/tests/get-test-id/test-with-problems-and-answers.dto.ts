@@ -1,9 +1,6 @@
-export class TestWithProblemsAndAnswers {
-  id: number;
-  testName: string;
-  difficulty: string;
-  timeForTest: number;
-  createdAt: Date;
+import { GetTestDto } from 'src/shared/utils/dto/get-test/get-test.dto';
+
+export class TestWithProblemsAndAnswers extends GetTestDto {
   problems: {
     id: number;
     question: string;
