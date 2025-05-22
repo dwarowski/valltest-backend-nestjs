@@ -19,14 +19,14 @@ export class AnswersEntity {
   @Column()
   value: string;
 
-  @ManyToOne(() => ProblemsEntity, (problem) => problem.id, {
-    onDelete: 'CASCADE',
-  })
-  problem?: ProblemsEntity;
-
   @Column()
   is_correct: boolean;
 
   @OneToOne(() => UserAnswersEntity, (userAnswers) => userAnswers.answer)
   userAnswer: UserAnswersEntity;
+
+  @ManyToOne(() => ProblemsEntity, (problem) => problem.id, {
+    onDelete: 'CASCADE',
+  })
+  problem?: ProblemsEntity;
 }
