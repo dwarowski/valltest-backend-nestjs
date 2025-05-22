@@ -1,5 +1,6 @@
 import { GetTestDto } from '../get-test/get-test.dto';
 
-export class TestWithRatingDto extends GetTestDto {
+export class TestWithRatingAndTagsDto extends GetTestDto {
+  tags: string[];
   averageRating: number;
 }
