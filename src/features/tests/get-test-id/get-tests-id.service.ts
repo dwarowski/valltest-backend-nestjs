@@ -11,9 +11,7 @@ export class GetTestsIdService {
     private readonly testsRepository: Repository<TestsEntity>,
   ) {}
 
-  async execute(id: number, type: 'entity'): Promise<TestsEntity>;
-  async execute(id: number, type: 'test');
-  async execute(id: number, type: 'entity' | 'test') {
+  async execute(id: number): Promise<TestsEntity> {
     const testEntity = await this.testsRepository
       .createQueryBuilder('test')
       .where({ id: id })
@@ -24,22 +22,6 @@ export class GetTestsIdService {
     if (!testEntity) {
       throw new NotFoundException('Test doesn`t exsit');
     }
-
-    if (type === 'entity') {
-      return testEntity;
-    }
-    const { problems, ratings: _ratings, ...test } = testEntity;
-
-    const cleanTest = await Promise.all(
-      problems.map(async (question) => {
-        const { test: _test, answers, ...cleanProblem } = question;
-
-        const cleanAnswers = answers.map(({ id, value }) => ({ id, value }));
-
-        return { ...cleanProblem, answers: cleanAnswers };
-      }),
-    );
-
-    return { ...test, problems: cleanTest };
+    return testEntity;
   }
 }
