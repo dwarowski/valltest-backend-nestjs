@@ -37,10 +37,14 @@ export class GetUsersTestsService {
 
     // Adding ratings to tests
     const userTestsWithRatings: TestWithRatingDto[] = userTests.map((test) => ({
-      ...test,
+      id: test.id,
+      testName: test.testName,
+      difficulty: test.difficulty,
+      createdAt: test.createdAt,
+      timeForTest: test.timeForTest,
+      tags: test.testTag?.map((tags) => tags.tag.tag) || [],
       averageRating: ratingsMap[test.id],
     }));
-
     return userTestsWithRatings;
   }
 }
