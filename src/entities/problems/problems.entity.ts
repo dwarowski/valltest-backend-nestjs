@@ -25,5 +25,5 @@ export class ProblemsEntity {
   @OneToMany(() => AnswersEntity, (answer) => answer.problem, {
     onDelete: 'CASCADE',
   })
-  answers: AnswersEntity[];
+  answers?: AnswersEntity[];
 }
