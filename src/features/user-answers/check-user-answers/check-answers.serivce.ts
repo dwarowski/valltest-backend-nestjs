@@ -1,9 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { GetTestCorrectAnswersService } from 'src/features/tests/get-test-correct-answers/get-test-corect-answers.service';
 import { extractToken } from 'src/shared/utils/functions/extract-token/token-extract';
 import { GetUserTestAnsweresService } from '../get-user-test-answers/get-user-test-answers.service';
-import { UserAnswersDto } from '../save-user-answers/user-answers.dto';
+import { UserAnswersDto } from '../get-user-test-answers/user-answers.dto';
 import { UserResult } from './user-result.dto';
 import { TestCorrectAnswersDto } from 'src/features/tests/get-test-correct-answers/test-correct-answers.dto';
 
@@ -19,33 +19,38 @@ export class CheckAnswersService {
   async execute(req: Request, testId: number): Promise<UserResult> {
     const payload = await extractToken(req);
     const userId = payload.id;
-    const correctAnswers = await this.getTestCorrectAnswers.execute(testId);
-    const userAnswers = await this.getUserTestAnswers.execute(userId, testId);
-
-    if (userAnswers == 'No Answers Found') {
-      throw new NotFoundException(userAnswers);
-    }
-
-    const userResult = await this.compareAnswers(userAnswers, correctAnswers);
+    const [correctAnswers, userAnswers] = await Promise.all([
+      this.getTestCorrectAnswers.execute(testId),
+      this.getUserTestAnswers.execute(userId, testId),
+    ]);
+    const userResult = this.compareAnswers(userAnswers, correctAnswers);
     return userResult;
   }
 
-  private async compareAnswers(
+  private compareAnswers(
     userAnswersDto: UserAnswersDto,
     correctAnswersDto: TestCorrectAnswersDto,
-  ): Promise<UserResult> {
-    let correctCount = 0;
+  ): UserResult {
+    // Создаем Map для правильных ответов: ключ — problemId, значение — answerId
+    const correctAnswersMap = new Map<number, number>();
     for (const correct of correctAnswersDto.correctAnswers) {
-      for (const user of userAnswersDto.userAnswers) {
-        if (
-          correct.problemId === user.problemId &&
-          correct.answerId === user.answerId
-        ) {
-          correctCount++;
-          break;
-        }
+      correctAnswersMap.set(correct.problemId, correct.answerId);
+    }
+
+    // Создаем Map для ответов пользователя: ключ — problemId, значение — answerId
+    const userAnswersMap = new Map<number, number>();
+    for (const user of userAnswersDto.userAnswers) {
+      userAnswersMap.set(user.problemId, user.answerId);
+    }
+
+    // Подсчет правильных ответов
+    let correctCount = 0;
+    for (const [problemId, answerId] of correctAnswersMap.entries()) {
+      if (userAnswersMap.get(problemId) === answerId) {
+        correctCount++;
       }
     }
+
     return {
       score: correctCount,
       total: correctAnswersDto.correctAnswers.length,
